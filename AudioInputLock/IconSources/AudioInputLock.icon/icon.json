@@ -20,8 +20,8 @@
               "srgb:1.00000,0.98731,0.69690,1.00000"
             ]
           },
-          "image-name" : "AppIconForeground 2.svg",
-          "name" : "AppIconForeground 2",
+          "image-name" : "AppIconForeground.svg",
+          "name" : "AppIconForeground",
           "position" : {
             "scale" : 0.8,
             "translation-in-points" : [

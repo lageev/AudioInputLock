@@ -87,16 +87,16 @@ final class PreferredInputDeviceKeeper {
         devices = service.getInputDevices()
     }
 
-    /// 用户选择首选设备：保存偏好并立即切换一次（守护开关是否开启不影响这一次切换）。
+    /// 用户选择锁定设备：保存偏好并立即切换一次（守护开关是否开启不影响这一次切换）。
     func selectPreferred(_ device: AudioInputDevice) {
         PreferredInputDeviceSettings.preferredUID = device.uid
         PreferredInputDeviceSettings.preferredName = device.name
 
         do {
             try service.setDefaultInputDevice(device.id)
-            addLog("已选择首选设备并切换：\(device.name)")
+            addLog("已选择锁定设备并切换：\(device.name)")
         } catch {
-            addLog("切换到首选设备失败：\(device.name) error=\(error)")
+            addLog("切换到锁定设备失败：\(device.name) error=\(error)")
         }
         refreshDevices()
     }
@@ -121,7 +121,7 @@ final class PreferredInputDeviceKeeper {
 
         guard let uid = preferredUID else { return }
         guard let target = findPreferred(uid: uid, name: PreferredInputDeviceSettings.preferredName) else {
-            addLog("首选设备不可用，暂不切换。reason=\(reason)")
+            addLog("锁定设备不可用，暂不切换。reason=\(reason)")
             return
         }
         // 目标已经是默认输入：直接返回，避免因自身设置回调造成的循环。
@@ -129,10 +129,10 @@ final class PreferredInputDeviceKeeper {
 
         do {
             try service.setDefaultInputDevice(target.id)
-            addLog("已切回首选设备：\(target.name)。reason=\(reason)")
+            addLog("已切回锁定设备：\(target.name)。reason=\(reason)")
             refreshDevices()
         } catch {
-            addLog("切回首选设备失败：\(target.name) error=\(error)。reason=\(reason)")
+            addLog("切回锁定设备失败：\(target.name) error=\(error)。reason=\(reason)")
         }
     }
 

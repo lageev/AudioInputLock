@@ -11,24 +11,20 @@ struct MainView: View {
 
         Form {
             Section("状态") {
-                LabeledContent("当前默认输入") {
-                    Text(keeper.currentDefaultDevice?.name ?? "无")
-                        .foregroundStyle(.secondary)
-                }
-                LabeledContent("首选设备") {
+                LabeledContent("锁定设备") {
                     HStack(spacing: 6) {
                         Circle()
-                            .fill(availabilityColor)
+                            .fill(lockStateColor)
                             .frame(width: 8, height: 8)
-                        Text(availabilityText)
+                        Text(lockStatusText)
                             .foregroundStyle(.secondary)
                     }
                 }
             }
 
             Section("守护") {
-                Toggle("保持首选输入设备为默认", isOn: $keeper.isEnabled)
-                Text("开启后，只要首选输入设备可用，系统默认输入会自动保持为该设备；用户或系统切走后会自动切回。")
+                Toggle("守护输入设备", isOn: $keeper.isEnabled)
+                Text("开启后，只要锁定设备在线，系统输入会自动保持为该设备；被切走后会自动切回。")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -87,16 +83,31 @@ struct MainView: View {
         }
     }
 
-    private var availabilityText: String {
+    private var lockStatusText: String {
         guard keeper.preferredUID != nil else { return "尚未选择" }
-        let name = keeper.devices.first { $0.uid == keeper.preferredUID }?.name
+        let name = lockedDevice?.name
             ?? PreferredInputDeviceSettings.preferredName
-            ?? "首选设备"
-        return keeper.isPreferredAvailable ? "\(name)（在线）" : "\(name)（离线）"
+            ?? "锁定设备"
+
+        guard let lockedDevice else { return "\(name)（离线）" }
+        return lockedDevice.isDefaultInput ? "\(name)（已锁定）" : "\(name)（已选择）"
     }
 
-    private var availabilityColor: Color {
-        keeper.preferredUID == nil ? .secondary : (keeper.isPreferredAvailable ? .green : .orange)
+    private var lockStateColor: Color {
+        guard keeper.preferredUID != nil else { return .secondary }
+        guard let lockedDevice else { return .orange }
+        return lockedDevice.isDefaultInput ? .green : .blue
+    }
+
+    private var lockedDevice: AudioInputDevice? {
+        guard let uid = keeper.preferredUID else { return nil }
+        if let device = keeper.devices.first(where: { $0.uid == uid }) {
+            return device
+        }
+        if let name = PreferredInputDeviceSettings.preferredName {
+            return keeper.devices.first { $0.name == name }
+        }
+        return nil
     }
 
     private func updateLoginItem(_ enabled: Bool) {

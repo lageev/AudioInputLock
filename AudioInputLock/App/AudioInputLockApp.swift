@@ -11,11 +11,13 @@ struct AudioInputLockApp: App {
             MenuBarContentView()
                 .environment(keeper)
         } label: {
-            Image(systemName: menuBarSymbol)
+            Image("StatusBarIcon")
+                .renderingMode(.template)
+                .opacity(menuBarIconOpacity)
         }
         .menuBarExtraStyle(.window)
 
-        Window("AudioInputLock", id: WindowID.main) {
+        Window("AudioInputLock 设置", id: WindowID.main) {
             MainView()
                 .environment(keeper)
         }
@@ -23,9 +25,9 @@ struct AudioInputLockApp: App {
         .defaultLaunchBehavior(.suppressed)
     }
 
-    /// 菜单栏图标随守护状态变化：开启且目标在线用实心，否则用斜杠。
-    private var menuBarSymbol: String {
-        keeper.isEnabled && keeper.isPreferredAvailable ? "mic.fill" : "mic.slash"
+    /// 守护可用时完整显示；关闭或目标离线时降低不透明度。
+    private var menuBarIconOpacity: Double {
+        keeper.isEnabled && keeper.isPreferredAvailable ? 1 : 0.45
     }
 }
 

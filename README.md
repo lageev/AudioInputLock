@@ -1,10 +1,12 @@
-# AudioInputLock
+# FocusMic
 
-A lightweight macOS menu bar app that locks your system's default audio input to a preferred device. Whenever macOS or another app tries to switch the input, AudioInputLock switches it right back.
+Never lose your mic while vibecoding
+
+A lightweight macOS menu bar app that locks your system's default audio input to a preferred device. Whenever macOS or another app tries to switch the input, FocusMic switches it right back.
 
 ## Why
 
-macOS tends to change the default input device when you plug in a new USB mic, connect a Bluetooth headset, or wake from sleep. If you rely on a specific microphone (e.g., a studio mic for calls), this is frustrating. AudioInputLock watches for these changes and immediately reverts to your chosen device.
+macOS tends to change the default input device when you plug in a new USB mic, connect a Bluetooth headset, or wake from sleep. If you rely on a specific microphone (e.g., a studio mic for calls), this is frustrating. FocusMic watches for these changes and immediately reverts to your chosen device.
 
 ## Features
 

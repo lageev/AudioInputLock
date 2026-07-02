@@ -81,7 +81,7 @@ struct MenuBarContentView: View {
                 }
                 .keyboardShortcut(",", modifiers: .command)
 
-                menuActionButton("关于 AudioInputLock", symbol: "info.circle") {
+                menuActionButton("关于 \(AppBrand.name)", symbol: "info.circle") {
                     showAbout()
                 }
 
@@ -175,15 +175,25 @@ struct MenuBarContentView: View {
     private func showAbout() {
         NSApp.activate()
         NSApp.orderFrontStandardAboutPanel(options: [
-            .credits: moreWorksLink()
+            .applicationName: AppBrand.name,
+            .credits: aboutCredits()
         ])
     }
 
-    private func moreWorksLink() -> NSAttributedString {
+    private func aboutCredits() -> NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
 
-        return NSAttributedString(
+        let credits = NSMutableAttributedString(
+            string: "\(AppBrand.slogan)\n\n",
+            attributes: [
+                .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize),
+                .foregroundColor: NSColor.secondaryLabelColor,
+                .paragraphStyle: paragraphStyle
+            ]
+        )
+
+        credits.append(NSAttributedString(
             string: "更多作品",
             attributes: [
                 .link: URL(string: "https://pastehub.yayalu.top")!,
@@ -191,7 +201,9 @@ struct MenuBarContentView: View {
                 .underlineStyle: NSUnderlineStyle.single.rawValue,
                 .paragraphStyle: paragraphStyle
             ]
-        )
+        ))
+
+        return credits
     }
 }
 

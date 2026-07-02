@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="terms.metaTitle">用户协议 — FocusMic</title>
+<meta name="description" data-i18n-content="terms.metaDesc" content="FocusMic 用户协议：使用条款、许可授权与免责声明。">
+<link rel="icon" type="image/png" href="assets/app-icon.png">
+<style>
+  :root {
+    --accent: #FF5E2F;
+    --accent-deep: #EE4A1C;
+    --ink: #1E1913;
+    --ink-2: #5C544A;
+    --ink-3: #8D857A;
+    --bg: #FDFBF7;
+    --card: #FFFFFF;
+    --line: rgba(30, 25, 19, 0.08);
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC",
+            "Helvetica Neue", "Segoe UI", "Microsoft YaHei", sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: rgba(255, 94, 47, 0.22); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(18px) saturate(1.6);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    background: rgba(253, 251, 247, 0.72);
+    border-bottom: 1px solid var(--line);
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 650;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .brand img { width: 30px; height: 30px; border-radius: 7px; }
+  .back {
+    font-size: 14px;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: color .18s ease;
+  }
+  .back:hover { color: var(--accent); }
+
+  main { padding: 64px 0 80px; }
+  .doc-tag {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-size: clamp(28px, 3.6vw, 38px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .meta { font-size: 13.5px; color: var(--ink-3); margin-bottom: 36px; }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    margin: 40px 0 12px;
+  }
+  p { font-size: 15px; color: var(--ink-2); margin-bottom: 12px; }
+  ul { padding-left: 22px; margin-bottom: 12px; }
+  li { font-size: 15px; color: var(--ink-2); margin-bottom: 6px; }
+  li strong, p strong { color: var(--ink); font-weight: 600; }
+  a { color: var(--accent-deep); }
+
+  footer { padding: 36px 0 48px; border-top: 1px solid var(--line); }
+  .foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+  .foot a { color: var(--ink-2); text-decoration: none; }
+  .foot a:hover { color: var(--accent); }
+  .foot .links { display: flex; gap: 20px; }
+
+  .lang-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--ink-2);
+    transition: border-color .18s ease;
+  }
+  .lang-wrap:hover { border-color: rgba(30, 25, 19, 0.2); }
+  .lang-wrap svg { width: 14px; height: 14px; flex: none; }
+  .lang-select {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    background: transparent;
+    font-family: var(--font);
+    font-size: 13px;
+    color: var(--ink-2);
+    cursor: pointer;
+    outline: none;
+    padding-right: 2px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="index.html">
+        <img src="assets/app-icon.png" alt="FocusMic 图标">
+        FocusMic
+      </a>
+      <a class="back" href="index.html" data-i18n="back.home">返回首页</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="doc-tag" data-i18n="legal.tag">法律条款</div>
+    <h1 data-i18n="terms.title">用户协议</h1>
+    <p class="meta" data-i18n="terms.date">生效日期：2026 年 7 月 3 日</p>
+
+    <h2 data-i18n="terms.s1.h">1. 协议的接受</h2>
+    <p data-i18n="terms.s1.p">欢迎使用 FocusMic（以下简称「本软件」）。下载、安装或使用本软件即表示你已阅读、理解并同意接受本协议的全部条款。如果你不同意本协议的任何内容，请不要使用本软件。</p>
+
+    <h2 data-i18n="terms.s2.h">2. 软件说明</h2>
+    <p data-i18n="terms.s2.p">本软件是一款运行于 macOS 的菜单栏工具，用于将系统默认音频输入设备锁定为你选定的设备。本软件免费提供，无任何付费功能或应用内购买。</p>
+
+    <h2 data-i18n="terms.s3.h">3. 许可授权</h2>
+    <p data-i18n-html="terms.s3.p">本软件基于 MIT 许可证开源发布。在遵守该许可证条款的前提下，你可以自由地使用、复制、修改和分发本软件及其源代码。完整源代码托管于 <a href="https://github.com/lageev/AudioInputLock" target="_blank" rel="noopener">GitHub</a>。</p>
+
+    <h2 data-i18n="terms.s4.h">4. 使用规范</h2>
+    <p data-i18n="terms.s4.p">你在使用本软件时应当：</p>
+    <ul>
+      <li data-i18n="terms.s4.l1">遵守你所在地区适用的法律法规；</li>
+      <li data-i18n="terms.s4.l2">不得利用本软件从事任何违法或侵犯他人合法权益的活动；</li>
+      <li data-i18n="terms.s4.l3">自行确认本软件与你的设备及其他软件的兼容性。</li>
+    </ul>
+
+    <h2 data-i18n="terms.s5.h">5. 免责声明</h2>
+    <p data-i18n-html="terms.s5.p">本软件按「现状」提供，<strong>不附带任何形式的明示或默示担保</strong>，包括但不限于对适销性、特定用途适用性的担保。在适用法律允许的最大范围内：</p>
+    <ul>
+      <li data-i18n="terms.s5.l1">我们不保证本软件不间断运行、没有错误，或能满足你的全部需求；</li>
+      <li data-i18n="terms.s5.l2">对于因使用或无法使用本软件而产生的任何直接或间接损失（包括但不限于会议、录音或直播中的音频输入异常），我们不承担责任；</li>
+      <li data-i18n="terms.s5.l3">本软件会修改「系统默认输入设备」这一系统设置，该行为由你开启守护功能时主动授权。</li>
+    </ul>
+
+    <h2 data-i18n="terms.s6.h">6. 知识产权</h2>
+    <p data-i18n="terms.s6.p">本软件的名称、图标及本网站内容的相关权利归开发者所有。源代码的使用以 MIT 许可证为准。</p>
+
+    <h2 data-i18n="terms.s7.h">7. 协议的变更与终止</h2>
+    <p data-i18n="terms.s7.p">我们可能不时更新本协议，更新后的协议将在本页面公布并调整生效日期。你可以随时停止使用并卸载本软件以终止本协议；卸载后本软件在本地保存的设置将一并删除。</p>
+
+    <h2 data-i18n="terms.s8.h">8. 联系我们</h2>
+    <p data-i18n-html="terms.s8.p">如对本协议有任何疑问，欢迎通过 <a href="https://github.com/lageev/AudioInputLock/issues" target="_blank" rel="noopener">GitHub Issues</a> 与我们联系。</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>© <span id="year">2026</span> FocusMic</div>
+      <div class="links">
+        <a href="terms.html" data-i18n="foot.terms">用户协议</a>
+        <a href="privacy.html" data-i18n="foot.privacy">隐私政策</a>
+        <a href="https://github.com/lageev/AudioInputLock" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <div class="lang-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <select class="lang-select" aria-label="Language">
+          <option value="zh-CN">简体中文</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="en">English</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/i18n.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

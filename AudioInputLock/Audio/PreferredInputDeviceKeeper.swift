@@ -89,6 +89,9 @@ final class PreferredInputDeviceKeeper {
 
     /// 用户选择锁定设备：保存偏好并立即切换一次（守护开关是否开启不影响这一次切换）。
     func selectPreferred(_ device: AudioInputDevice) {
+        // 已是锁定设备且正在使用：重复点击不做任何事，也不记日志。
+        guard device.uid != preferredUID || !device.isDefaultInput else { return }
+
         PreferredInputDeviceSettings.preferredUID = device.uid
         PreferredInputDeviceSettings.preferredName = device.name
 

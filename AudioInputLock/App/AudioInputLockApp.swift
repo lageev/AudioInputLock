@@ -17,7 +17,7 @@ struct AudioInputLockApp: App {
         }
         .menuBarExtraStyle(.window)
 
-        Window("\(AppBrand.name) 设置", id: WindowID.main) {
+        Window(AppBrand.name, id: WindowID.main) {
             MainView()
                 .environment(keeper)
         }

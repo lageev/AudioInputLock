@@ -43,12 +43,12 @@ struct LockStatus {
             } else {
                 symbol = "mic.fill"
                 color = .warmAccent
-                detail = "正在使用，未开启守护"
+                detail = "已切换，未开启守护"
             }
         } else {
             symbol = "arrow.triangle.2.circlepath"
             color = .warmAccent
-            detail = keeper.isEnabled ? "已选择，即将切回" : "已选择，当前未使用"
+            detail = keeper.isEnabled ? "已选择，即将切回" : "被抢占，未开启守护"
         }
     }
 }

@@ -58,7 +58,15 @@ struct MainView: View {
                     .padding(.vertical, 12)
                 } else {
                     ForEach(keeper.devices) { device in
-                        DeviceRow(device: device, isPreferred: device.uid == keeper.preferredUID) {
+                        DeviceRow(
+                            device: device,
+                            status: DeviceRowStatus(
+                                device: device,
+                                isPreferred: device.uid == keeper.preferredUID,
+                                hasPreferredDevice: keeper.preferredUID != nil,
+                                isGuardEnabled: keeper.isEnabled
+                            )
+                        ) {
                             keeper.selectPreferred(device)
                         }
                     }

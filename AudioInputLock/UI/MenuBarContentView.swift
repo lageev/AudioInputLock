@@ -1,7 +1,7 @@
 import AppKit
 import SwiftUI
 
-/// 菜单栏弹出面板：快速查看状态、开关守护、切换锁定设备、进入设置、关于或退出。
+/// 菜单栏弹出面板：快速查看状态、开关守护、切换锁定设备、进入主窗口、关于或退出。
 struct MenuBarContentView: View {
     @Environment(PreferredInputDeviceKeeper.self) private var keeper
     @Environment(\.openWindow) private var openWindow
@@ -60,7 +60,15 @@ struct MenuBarContentView: View {
                 ScrollView {
                     VStack(spacing: 1) {
                         ForEach(keeper.devices) { device in
-                            DeviceRow(device: device, isPreferred: device.uid == keeper.preferredUID) {
+                            DeviceRow(
+                                device: device,
+                                status: DeviceRowStatus(
+                                    device: device,
+                                    isPreferred: device.uid == keeper.preferredUID,
+                                    hasPreferredDevice: keeper.preferredUID != nil,
+                                    isGuardEnabled: keeper.isEnabled
+                                )
+                            ) {
                                 keeper.selectPreferred(device)
                             }
                         }
@@ -76,10 +84,9 @@ struct MenuBarContentView: View {
                 .padding(.horizontal, 10)
 
             VStack(spacing: 1) {
-                menuActionButton("设置", symbol: "gearshape", shortcut: "⌘,") {
-                    openSettings()
+                menuActionButton("主窗口", symbol: "macwindow") {
+                    openMainWindow()
                 }
-                .keyboardShortcut(",", modifiers: .command)
 
                 menuActionButton("关于 \(AppBrand.name)", symbol: "info.circle") {
                     showAbout()
@@ -157,7 +164,7 @@ struct MenuBarContentView: View {
         min(CGFloat(keeper.devices.count) * 48 + 8, 240)
     }
 
-    private func openSettings() {
+    private func openMainWindow() {
         closeMenuBarPanel()
         openWindow(id: WindowID.main)
         NSApp.activate()
@@ -193,17 +200,45 @@ struct MenuBarContentView: View {
             ]
         )
 
-        credits.append(NSAttributedString(
-            string: "更多作品",
-            attributes: [
-                .link: URL(string: "https://pastehub.yayalu.top")!,
-                .foregroundColor: NSColor.linkColor,
-                .underlineStyle: NSUnderlineStyle.single.rawValue,
-                .paragraphStyle: paragraphStyle
-            ]
-        ))
+        appendAboutLinks(
+            [
+                ("官网", "https://focusmic.yayalu.top/"),
+                ("服务条款", "https://focusmic.yayalu.top/terms"),
+                ("隐私政策", "https://focusmic.yayalu.top/privacy"),
+                ("更多作品", "https://pastehub.yayalu.top")
+            ],
+            to: credits,
+            paragraphStyle: paragraphStyle
+        )
 
         return credits
+    }
+
+    private func appendAboutLinks(
+        _ links: [(title: String, url: String)],
+        to credits: NSMutableAttributedString,
+        paragraphStyle: NSParagraphStyle
+    ) {
+        let linkAttributes: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize, weight: .medium),
+            .foregroundColor: NSColor.linkColor,
+            .paragraphStyle: paragraphStyle
+        ]
+        let separatorAttributes: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize),
+            .foregroundColor: NSColor.tertiaryLabelColor,
+            .paragraphStyle: paragraphStyle
+        ]
+
+        for (index, item) in links.enumerated() {
+            if index > 0 {
+                credits.append(NSAttributedString(string: "  ·  ", attributes: separatorAttributes))
+            }
+            guard let link = URL(string: item.url) else { continue }
+            var attributes = linkAttributes
+            attributes[.link] = link
+            credits.append(NSAttributedString(string: item.title, attributes: attributes))
+        }
     }
 }
 

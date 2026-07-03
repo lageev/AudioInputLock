@@ -23,6 +23,13 @@ struct AudioInputLockApp: App {
         }
         .windowResizability(.contentSize)
         .defaultLaunchBehavior(.suppressed)
+
+        Window("活动日志", id: WindowID.activityLog) {
+            ActivityLogView()
+                .environment(keeper)
+        }
+        .defaultSize(width: 640, height: 520)
+        .defaultLaunchBehavior(.suppressed)
     }
 
     /// 守护可用时完整显示；关闭或目标离线时降低不透明度。
@@ -33,4 +40,5 @@ struct AudioInputLockApp: App {
 
 enum WindowID {
     static let main = "main"
+    static let activityLog = "activity-log"
 }

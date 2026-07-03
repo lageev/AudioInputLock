@@ -179,14 +179,15 @@
     <p data-i18n-html="privacy.s1.p"><strong>不收集任何信息。</strong>FocusMic 没有账号系统，不采集设备信息、使用数据或任何形式的个人身份信息，也不包含任何统计、埋点或崩溃上报组件。</p>
 
     <h2 data-i18n="privacy.s2.h">2. 本地存储的数据</h2>
-    <p data-i18n-html="privacy.s2.p1">为了记住你的偏好，FocusMic 仅在你的 Mac 本地（macOS 标准的 <code>UserDefaults</code>）保存以下三项设置：</p>
+    <p data-i18n-html="privacy.s2.p1">为了记住你的偏好和最近活动，FocusMic 仅在你的 Mac 本地（macOS 标准的 <code>UserDefaults</code>）保存以下数据：</p>
     <ul>
       <li data-i18n="privacy.s2.l1">首选输入设备的标识符（UID）；</li>
       <li data-i18n="privacy.s2.l2">首选输入设备的名称（用于设备标识符变化时的匹配）；</li>
       <li data-i18n="privacy.s2.l3">「守护输入设备」开关的状态。</li>
+      <li data-i18n="privacy.s2.l4">最近的活动日志（最多 50 条）。</li>
     </ul>
     <p data-i18n="privacy.s2.p2">这些数据仅存在于你的设备上，不会被上传到任何服务器。卸载应用后即随之删除。</p>
-    <p data-i18n="privacy.s2.p3">设置窗口中的「活动日志」仅保存在内存中（最多 50 条），应用退出后自动清空，不写入磁盘。</p>
+    <p data-i18n="privacy.s2.p3">设置窗口中的「活动日志」会保存在你的 Mac 本地（最多 50 条），用于在应用重启后继续查看最近的设备切换记录。</p>
 
     <h2 data-i18n="privacy.s3.h">3. 麦克风与音频</h2>
     <p data-i18n-html="privacy.s3.p">FocusMic <strong>不访问、不录制、不监听任何音频内容</strong>。它仅通过 macOS 的 Core Audio 框架读取和设置「系统默认输入设备」这一项系统配置，从不接触麦克风采集的声音数据，因此也不需要麦克风权限。</p>

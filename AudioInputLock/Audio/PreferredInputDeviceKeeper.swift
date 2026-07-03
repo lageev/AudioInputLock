@@ -1,4 +1,5 @@
 import CoreAudio
+import Foundation
 import Observation
 
 /// 首选输入设备守护器，同时作为 SwiftUI 的可观察状态源。
@@ -14,10 +15,16 @@ final class PreferredInputDeviceKeeper {
 
     static let shared = PreferredInputDeviceKeeper()
 
-    struct LogEntry: Identifiable {
-        let id = UUID()
+    struct LogEntry: Codable, Identifiable {
+        let id: UUID
         let date: Date
         let message: String
+
+        init(id: UUID = UUID(), date: Date, message: String) {
+            self.id = id
+            self.date = date
+            self.message = message
+        }
     }
 
     // MARK: - UI 可观察状态
@@ -50,6 +57,8 @@ final class PreferredInputDeviceKeeper {
 
     private let service = AudioHardwareService.shared
     private let systemObject = AudioObjectID(kAudioObjectSystemObject)
+    private let logLimit = 50
+    private let logsStorageKey = "activityLogs"
 
     private var deviceListListener: AudioObjectPropertyListenerBlock?
     private var defaultInputListener: AudioObjectPropertyListenerBlock?
@@ -58,6 +67,7 @@ final class PreferredInputDeviceKeeper {
     private var isEnforcing = false
 
     private init() {
+        logs = loadPersistedLogs()
         refreshDevices()
     }
 
@@ -97,9 +107,17 @@ final class PreferredInputDeviceKeeper {
 
         do {
             try service.setDefaultInputDevice(device.id)
-            addLog("已选择锁定设备并切换：\(device.name)")
+            if isEnabled {
+                addLog("已选择锁定设备并切换：\(device.name)")
+            } else {
+                addLog("已切换输入设备：\(device.name)")
+            }
         } catch {
-            addLog("切换到锁定设备失败：\(device.name) error=\(error)")
+            if isEnabled {
+                addLog("切换到锁定设备失败：\(device.name) error=\(error)")
+            } else {
+                addLog("切换输入设备失败：\(device.name) error=\(error)")
+            }
         }
         refreshDevices()
     }
@@ -203,11 +221,39 @@ final class PreferredInputDeviceKeeper {
 
     private func addLog(_ message: String) {
         logs.insert(LogEntry(date: Date(), message: message), at: 0)
-        if logs.count > 50 {
-            logs.removeLast(logs.count - 50)
+        if logs.count > logLimit {
+            logs.removeLast(logs.count - logLimit)
         }
+        persistLogs()
         #if DEBUG
         print("[PreferredInputDeviceKeeper] \(message)")
         #endif
+    }
+
+    private func loadPersistedLogs() -> [LogEntry] {
+        guard let data = UserDefaults.standard.data(forKey: logsStorageKey) else {
+            return []
+        }
+
+        do {
+            return Array(try JSONDecoder().decode([LogEntry].self, from: data).prefix(logLimit))
+        } catch {
+            UserDefaults.standard.removeObject(forKey: logsStorageKey)
+            #if DEBUG
+            print("[PreferredInputDeviceKeeper] 读取活动日志失败，已清空持久化日志：\(error)")
+            #endif
+            return []
+        }
+    }
+
+    private func persistLogs() {
+        do {
+            let data = try JSONEncoder().encode(Array(logs.prefix(logLimit)))
+            UserDefaults.standard.set(data, forKey: logsStorageKey)
+        } catch {
+            #if DEBUG
+            print("[PreferredInputDeviceKeeper] 保存活动日志失败：\(error)")
+            #endif
+        }
     }
 }

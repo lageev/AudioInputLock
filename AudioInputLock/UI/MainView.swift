@@ -1,14 +1,19 @@
+import AppKit
 import SwiftUI
 
 /// 主界面：状态总览、守护开关、设备选择、开机启动与活动日志。
 struct MainView: View {
     @Environment(PreferredInputDeviceKeeper.self) private var keeper
+    @Environment(\.openWindow) private var openWindow
     @State private var launchAtLogin = LoginItemManager.isEnabled
     @State private var loginError: String?
+
+    private let visibleLogCount = 5
 
     var body: some View {
         @Bindable var keeper = keeper
         let status = LockStatus(keeper: keeper)
+        let recentLogs = Array(keeper.logs.prefix(visibleLogCount))
 
         Form {
             Section {
@@ -93,14 +98,38 @@ struct MainView: View {
                     Text("暂无活动")
                         .foregroundStyle(.secondary)
                 } else {
-                    ForEach(keeper.logs.prefix(20)) { entry in
-                        HStack(alignment: .top, spacing: 10) {
-                            Text(entry.date, format: .dateTime.hour().minute().second())
-                                .font(.caption.monospacedDigit())
-                                .foregroundStyle(.secondary)
-                            Text(entry.message)
-                                .font(.caption)
-                            Spacer(minLength: 0)
+                    VStack(alignment: .leading, spacing: 8) {
+                        ForEach(recentLogs) { entry in
+                            ActivityLogRow(entry: entry)
+                        }
+
+                        Divider()
+                            .opacity(0.55)
+                            .padding(.top, 2)
+
+                        Button {
+                            openWindow(id: WindowID.activityLog)
+                            NSApp.activate()
+                        } label: {
+                            HStack(spacing: 4) {
+                                Image(systemName: "chevron.down.circle")
+                                    .font(.caption2)
+                                Text("查看全部日志")
+                            }
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .help("打开完整活动日志")
+                        .accessibilityLabel("查看全部日志")
+                        .overlay(alignment: .leading) {
+                            if keeper.logs.count > recentLogs.count {
+                                Text("最新 \(recentLogs.count) / \(keeper.logs.count)")
+                                    .font(.caption2)
+                                    .foregroundStyle(.tertiary)
+                            }
                         }
                     }
                 }

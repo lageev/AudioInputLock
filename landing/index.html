@@ -103,7 +103,7 @@
     text-decoration: none;
   }
   .brand img { width: 30px; height: 30px; border-radius: 7px; }
-  .nav-links { display: flex; align-items: center; gap: 26px; }
+  .nav-links { display: flex; align-items: center; gap: 22px; }
   .nav-links a {
     font-size: 14px;
     color: var(--ink-2);
@@ -111,6 +111,7 @@
     transition: color .18s ease;
   }
   .nav-links a:hover { color: var(--ink); }
+  .nav-donate { color: var(--accent) !important; font-weight: 650; }
   .nav-gh {
     display: inline-flex;
     align-items: center;
@@ -139,6 +140,7 @@
     gap: 56px;
     align-items: center;
   }
+  .hero .wrap > * { min-width: 0; }
   .eyebrow {
     display: inline-flex;
     align-items: center;
@@ -507,7 +509,7 @@
     gap: 48px;
     align-items: start;
   }
-  .how-steps { display: flex; flex-direction: column; }
+  .how-steps { display: flex; flex-direction: column; min-width: 0; }
   .how-step { display: flex; gap: 18px; }
   .how-step .rail {
     display: flex;
@@ -536,7 +538,7 @@
     background: linear-gradient(rgba(255, 94, 47, 0.35), rgba(255, 94, 47, 0.06));
   }
   .how-step:last-child .rail .line { display: none; }
-  .how-step .body { padding-bottom: 30px; }
+  .how-step .body { min-width: 0; padding-bottom: 30px; }
   .how-step h3 { font-size: 16.5px; font-weight: 650; margin-bottom: 5px; padding-top: 5px; }
   .how-step p { font-size: 14px; color: var(--ink-2); }
   .how-step code {
@@ -546,10 +548,12 @@
     border-radius: 6px;
     background: rgba(255, 94, 47, 0.08);
     color: var(--accent-deep);
+    overflow-wrap: anywhere;
   }
   .how-card {
     position: sticky;
     top: 96px;
+    min-width: 0;
     padding: 28px;
     border-radius: var(--radius-lg);
     background: var(--card);
@@ -659,19 +663,26 @@
   /* ---------- 页脚 ---------- */
   footer { padding: 44px 0 52px; }
   .foot {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
-    justify-content: space-between;
     gap: 18px;
-    flex-wrap: wrap;
     font-size: 13px;
     color: var(--ink-3);
+  }
+  .foot-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
   }
   .foot .f-brand { display: flex; align-items: center; gap: 9px; color: var(--ink-2); font-weight: 600; }
   .foot .f-brand img { width: 22px; height: 22px; border-radius: 5px; }
   .foot a { color: var(--ink-2); text-decoration: none; }
   .foot a:hover { color: var(--accent); }
-  .foot .links { display: flex; gap: 20px; }
+  .foot .links { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
+  .foot .copyright { justify-self: end; }
 
   /* ---------- 语言选择器 ---------- */
   .lang-wrap {
@@ -712,7 +723,15 @@
     .features, .usage, .pain-strip { grid-template-columns: 1fr 1fr; }
     .how { grid-template-columns: 1fr; }
     .how-card { position: static; }
-    .nav-links a:not(.nav-gh) { display: none; }
+    .nav-links a:not(.nav-keep) { display: none; }
+  }
+  @media (max-width: 720px) {
+    .foot {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+    }
+    .foot .copyright { justify-self: center; }
   }
   @media (max-width: 560px) {
     .features, .usage, .pain-strip { grid-template-columns: 1fr; }
@@ -738,7 +757,8 @@
         <a href="#features" data-i18n="nav.features">特性</a>
         <a href="#how" data-i18n="nav.how">工作原理</a>
         <a href="#usage" data-i18n="nav.usage">快速上手</a>
-        <a class="nav-gh" href="https://github.com/lageev/AudioInputLock" target="_blank" rel="noopener">
+        <a class="nav-donate nav-keep" href="https://donation.yayalu.top/" target="_blank" rel="noopener" data-i18n="nav.donate">捐赠</a>
+        <a class="nav-gh nav-keep" href="https://github.com/lageev/AudioInputLock" target="_blank" rel="noopener">
           <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
           GitHub
         </a>
@@ -1029,23 +1049,25 @@
         <img src="assets/app-icon.png" alt="">
         FocusMic
       </div>
-      <div class="links">
-        <a href="terms.html" data-i18n="foot.terms">用户协议</a>
-        <a href="privacy.html" data-i18n="foot.privacy">隐私政策</a>
-        <a href="https://github.com/lageev/AudioInputLock" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://pastehub.yayalu.top" target="_blank" rel="noopener" data-i18n="foot.more">更多作品</a>
+      <div class="foot-center">
+        <div class="links">
+          <a href="terms.html" data-i18n="foot.terms">用户协议</a>
+          <a href="privacy.html" data-i18n="foot.privacy">隐私政策</a>
+          <a href="https://github.com/lageev/AudioInputLock" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://pastehub.yayalu.top" target="_blank" rel="noopener" data-i18n="foot.more">更多作品</a>
+        </div>
+        <div class="lang-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <select class="lang-select" aria-label="Language">
+            <option value="zh-CN">简体中文</option>
+            <option value="zh-TW">繁體中文</option>
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+          </select>
+        </div>
       </div>
-      <div class="lang-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <select class="lang-select" aria-label="Language">
-          <option value="zh-CN">简体中文</option>
-          <option value="zh-TW">繁體中文</option>
-          <option value="en">English</option>
-          <option value="ja">日本語</option>
-          <option value="ko">한국어</option>
-        </select>
-      </div>
-      <div>© <span id="year">2026</span> FocusMic</div>
+      <div class="copyright">© <span id="year">2026</span> FocusMic</div>
     </div>
   </div>
 </footer>

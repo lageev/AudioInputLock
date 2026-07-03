@@ -55,6 +55,11 @@
     text-decoration: none;
   }
   .brand img { width: 30px; height: 30px; border-radius: 7px; }
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
   .back {
     font-size: 14px;
     color: var(--ink-2);
@@ -62,6 +67,7 @@
     transition: color .18s ease;
   }
   .back:hover { color: var(--accent); }
+  .donate { color: var(--accent); font-weight: 650; }
 
   main { padding: 64px 0 80px; }
   .doc-tag {
@@ -160,7 +166,10 @@
         <img src="assets/app-icon.png" alt="FocusMic 图标">
         FocusMic
       </a>
-      <a class="back" href="index.html" data-i18n="back.home">返回首页</a>
+      <div class="nav-actions">
+        <a class="back donate" href="https://donation.yayalu.top/" target="_blank" rel="noopener" data-i18n="nav.donate">捐赠</a>
+        <a class="back" href="index.html" data-i18n="back.home">返回首页</a>
+      </div>
     </nav>
   </div>
 </header>

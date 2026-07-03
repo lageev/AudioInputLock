@@ -203,7 +203,7 @@ struct MenuBarContentView: View {
         appendAboutLinks(
             [
                 ("官网", "https://focusmic.yayalu.top/"),
-                ("捐赠", "https://donation.yayalu.top/"),
+                ("打赏", "https://donation.yayalu.top/"),
                 ("服务条款", "https://focusmic.yayalu.top/terms"),
                 ("隐私政策", "https://focusmic.yayalu.top/privacy"),
                 ("更多作品", "https://pastehub.yayalu.top")

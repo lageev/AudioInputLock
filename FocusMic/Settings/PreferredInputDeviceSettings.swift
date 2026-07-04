@@ -7,6 +7,9 @@ enum PreferredInputDeviceSettings {
     private static let preferredUIDKey = "preferredInputDeviceUID"
     private static let preferredNameKey = "preferredInputDeviceName"
     private static let enabledKey = "keepPreferredInputEnabled"
+    private static let volumeLockEnabledKey = "inputVolumeLockEnabled"
+    private static let lockedVolumeKey = "lockedInputVolume"
+    private static let levelMeterEnabledKey = "inputLevelMeterEnabled"
 
     static var preferredUID: String? {
         get { UserDefaults.standard.string(forKey: preferredUIDKey) }
@@ -22,5 +25,33 @@ enum PreferredInputDeviceSettings {
     static var isEnabled: Bool {
         get { UserDefaults.standard.bool(forKey: enabledKey) }
         set { UserDefaults.standard.set(newValue, forKey: enabledKey) }
+    }
+
+    /// 是否锁定锁定设备的输入音量。
+    static var isVolumeLockEnabled: Bool {
+        get { UserDefaults.standard.bool(forKey: volumeLockEnabledKey) }
+        set { UserDefaults.standard.set(newValue, forKey: volumeLockEnabledKey) }
+    }
+
+    /// 锁定的输入音量（0.0-1.0），未设置过返回 nil。
+    static var lockedVolume: Float? {
+        get {
+            UserDefaults.standard.object(forKey: lockedVolumeKey) == nil
+                ? nil
+                : UserDefaults.standard.float(forKey: lockedVolumeKey)
+        }
+        set {
+            if let newValue {
+                UserDefaults.standard.set(newValue, forKey: lockedVolumeKey)
+            } else {
+                UserDefaults.standard.removeObject(forKey: lockedVolumeKey)
+            }
+        }
+    }
+
+    /// 是否在界面上显示实时输入电平。
+    static var isLevelMeterEnabled: Bool {
+        get { UserDefaults.standard.bool(forKey: levelMeterEnabledKey) }
+        set { UserDefaults.standard.set(newValue, forKey: levelMeterEnabledKey) }
     }
 }

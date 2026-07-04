@@ -1,9 +1,18 @@
 import SwiftUI
 
 /// 单个输入设备行：类型图标 + 名称，右侧为使用中的波形动画与锁定徽章，点击即设为锁定设备。
+///
+/// 两种信息密度：菜单栏用 `.compact`（传输类型 + 采样率），
+/// 主窗口用 `.detailed`（追加通道、位深、输入音量与 UID）。
 struct DeviceRow: View {
+    enum Density {
+        case compact
+        case detailed
+    }
+
     let device: AudioInputDevice
     let status: DeviceRowStatus
+    var density: Density = .compact
     let action: () -> Void
 
     @State private var isHovering = false
@@ -19,12 +28,21 @@ struct DeviceRow: View {
                         (status.isPreferred ? status.tint : Color.secondary).opacity(0.12),
                         in: RoundedRectangle(cornerRadius: 7, style: .continuous)
                     )
+                    .overlay(alignment: .topTrailing) {
+                        if device.isRunningSomewhere {
+                            Circle()
+                                .fill(.green)
+                                .frame(width: 7, height: 7)
+                                .offset(x: 2, y: -2)
+                                .help("有应用正在使用此设备")
+                        }
+                    }
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(device.name)
                         .fontWeight(status.isPreferred ? .medium : .regular)
                         .lineLimit(1)
-                    Text("\(device.inputChannelCount) 通道 · \(device.shortUID)")
+                    Text(subtitle)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
@@ -76,7 +94,31 @@ struct DeviceRow: View {
         .animation(.easeOut(duration: 0.15), value: isHovering)
     }
 
-    /// 根据设备名称猜测类型图标，仅用于展示。
+    /// 按密度组装副标题：compact 求短，detailed 尽量给全。
+    private var subtitle: String {
+        var parts: [String] = []
+        if let transport = device.transport.label {
+            parts.append(transport)
+        }
+        if let sampleRate = device.sampleRateText {
+            parts.append(sampleRate)
+        }
+        if density == .detailed {
+            if let bitDepth = device.bitDepthText {
+                parts.append(bitDepth)
+            }
+            parts.append("\(device.inputChannelCount) 通道")
+            if let volume = device.inputVolume {
+                parts.append("音量 \(Int(volume * 100))%")
+            }
+            parts.append(device.shortUID)
+        } else if parts.isEmpty {
+            parts.append("\(device.inputChannelCount) 通道")
+        }
+        return parts.joined(separator: " · ")
+    }
+
+    /// 根据设备名称猜测类型图标，猜不出时回退到传输类型，仅用于展示。
     private var deviceSymbol: String {
         let name = device.name.lowercased()
         if name.contains("airpods") { return "airpods" }
@@ -85,7 +127,7 @@ struct DeviceRow: View {
         if name.contains("iphone") || name.contains("ipad") { return "iphone" }
         if name.contains("built-in") || name.contains("内置") || name.contains("macbook") { return "laptopcomputer" }
         if name.contains("usb") { return "cable.connector" }
-        return "mic.fill"
+        return device.transport.symbol ?? "mic.fill"
     }
 
     private var statusAccessoryHeight: CGFloat { 22 }

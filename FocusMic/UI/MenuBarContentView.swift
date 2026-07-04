@@ -15,6 +15,12 @@ struct MenuBarContentView: View {
                 .padding(.horizontal, 10)
                 .padding(.top, 10)
 
+            if keeper.isLevelMeterEnabled {
+                InputLevelMeterView()
+                    .padding(.horizontal, 14)
+                    .padding(.top, 8)
+            }
+
             HStack(alignment: .center, spacing: 12) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("守护输入设备")
@@ -90,6 +96,13 @@ struct MenuBarContentView: View {
 
                 menuActionButton("关于 \(AppBrand.name)", symbol: "info.circle") {
                     showAbout()
+                }
+
+                if UpdaterService.shared.supportsInAppUpdate {
+                    menuActionButton("检查更新…", symbol: "arrow.down.circle") {
+                        NSApp.activate()
+                        UpdaterService.shared.checkForUpdates()
+                    }
                 }
 
                 menuActionButton("退出", symbol: "power", shortcut: "⌘Q") {

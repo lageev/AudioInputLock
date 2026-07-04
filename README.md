@@ -16,12 +16,16 @@ FocusMic watches Core Audio device changes, remembers your preferred input devic
 
 - **Menu bar workflow**: check status, toggle guard mode, refresh devices, and switch inputs from the menu bar.
 - **Preferred input lock**: pick a microphone once and keep it as the system default input.
+- **Input volume lock**: optionally pin the input gain of your locked device and restore it when another app changes it.
+- **Rich device info**: transport type (USB/Bluetooth/built-in/…), sample rate, bit depth, channels, input volume, and an in-use indicator.
+- **Live input level meter**: optional local level metering so you can confirm the mic is picking up sound (no recording, no storage).
 - **Hot-plug aware**: detects input device list changes and re-applies your preference when the device returns.
 - **Event-driven monitoring**: listens to Core Audio hardware events instead of polling in the background.
 - **Debounced enforcement**: waits briefly after noisy system events to avoid repeated switching.
 - **Activity log**: keeps the latest device switch and guard actions in the app.
 - **Launch at login**: optionally starts FocusMic when you sign in.
-- **Privacy-friendly**: no account, no analytics, no network requests, and no audio capture.
+- **In-app updates**: the direct-download build updates itself via Sparkle; the App Store build is updated by the App Store.
+- **Privacy-friendly**: no account, no analytics, and no audio recording.
 
 ## Requirements
 
@@ -82,10 +86,10 @@ When a change is detected, FocusMic refreshes the input device list, waits for a
 
 FocusMic runs locally on your Mac.
 
-- It does not record, listen to, upload, or analyze audio.
-- It does not make network requests.
+- It does not record, upload, or analyze audio. The optional level meter samples loudness locally and keeps nothing.
+- The only network request is the Sparkle update check in the direct-download build (against the appcast on the official site). The App Store build makes no network requests.
 - It does not include analytics, ads, tracking, or crash reporting.
-- It stores only local preferences in `UserDefaults`: preferred device UID/name, guard switch state, and the recent activity log.
+- It stores only local preferences in `UserDefaults`: preferred device UID/name, guard switch state, volume lock, level meter switch, and the recent activity log.
 
 See the [Privacy Policy](https://focusmic.yayalu.top/privacy) for the full text.
 
@@ -101,7 +105,8 @@ See the [Privacy Policy](https://focusmic.yayalu.top/privacy) for the full text.
 │   ├── UI/                 # SwiftUI menu bar, settings, rows, and log views
 │   ├── Assets.xcassets/    # App icons and colors
 │   └── IconSources/        # Source SVG/icon assets
-├── landing/                # Static product site, terms, privacy, and i18n
+├── SupportFiles/           # Entitlements and Sparkle Info.plist for both targets
+├── landing/                # Static product site, terms, privacy, appcast, and i18n
 ├── README.md
 └── README.zh-CN.md
 ```

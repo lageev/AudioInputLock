@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1A000000000000000000001C /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 1A000000000000000000001B /* Sparkle */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		1A0000000000000000000006 /* FocusMic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusMic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A0000000000000000000013 /* FocusMic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusMic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -20,6 +25,15 @@
 			);
 			target = 1A0000000000000000000005 /* FocusMic */;
 		};
+		1A0000000000000000000011 /* Exceptions for "FocusMic" folder in "FocusMic-AppStore" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				IconSources/AppIcon.icon,
+				IconSources/AppIconForeground.svg,
+				IconSources/StatusBarIcon.svg,
+			);
+			target = 1A0000000000000000000012 /* FocusMic-AppStore */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -27,14 +41,28 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				1A0000000000000000000010 /* Exceptions for "FocusMic" folder in "FocusMic" target */,
+				1A0000000000000000000011 /* Exceptions for "FocusMic" folder in "FocusMic-AppStore" target */,
 			);
 			path = FocusMic;
+			sourceTree = "<group>";
+		};
+		1A000000000000000000001D /* SupportFiles */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SupportFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		1A0000000000000000000008 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A000000000000000000001C /* Sparkle in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A0000000000000000000015 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -48,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				1A0000000000000000000004 /* FocusMic */,
+				1A000000000000000000001D /* SupportFiles */,
 				1A0000000000000000000003 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				1A0000000000000000000006 /* FocusMic.app */,
+				1A0000000000000000000013 /* FocusMic.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -79,8 +109,31 @@
 				1A0000000000000000000004 /* FocusMic */,
 			);
 			name = FocusMic;
+			packageProductDependencies = (
+				1A000000000000000000001B /* Sparkle */,
+			);
 			productName = FocusMic;
 			productReference = 1A0000000000000000000006 /* FocusMic.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1A0000000000000000000012 /* FocusMic-AppStore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A0000000000000000000017 /* Build configuration list for PBXNativeTarget "FocusMic-AppStore" */;
+			buildPhases = (
+				1A0000000000000000000014 /* Sources */,
+				1A0000000000000000000015 /* Frameworks */,
+				1A0000000000000000000016 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				1A0000000000000000000004 /* FocusMic */,
+			);
+			name = "FocusMic-AppStore";
+			productName = FocusMic;
+			productReference = 1A0000000000000000000013 /* FocusMic.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -96,6 +149,9 @@
 					1A0000000000000000000005 = {
 						CreatedOnToolsVersion = 26.6;
 					};
+					1A0000000000000000000012 = {
+						CreatedOnToolsVersion = 26.6;
+					};
 				};
 			};
 			buildConfigurationList = 1A000000000000000000000A /* Build configuration list for PBXProject "FocusMic" */;
@@ -107,12 +163,16 @@
 			);
 			mainGroup = 1A0000000000000000000002;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1A000000000000000000001A /* XCRemoteSwiftPackageReference "Sparkle" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1A0000000000000000000003 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				1A0000000000000000000005 /* FocusMic */,
+				1A0000000000000000000012 /* FocusMic-AppStore */,
 			);
 		};
 /* End PBXProject section */
@@ -125,10 +185,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1A0000000000000000000016 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1A0000000000000000000007 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A0000000000000000000014 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -191,6 +265,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = SupportFiles/FocusMic.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -199,11 +274,12 @@
 				DEVELOPMENT_TEAM = C6H9D46LA6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SupportFiles/FocusMic-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = FocusMic;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "需要访问音频设备信息以管理默认输入设备。";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "需要访问麦克风以显示实时输入电平；不会录制或保存任何音频。";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = top.yayalu.FocusMic;
@@ -219,6 +295,37 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = SupportFiles/FocusMic.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = C6H9D46LA6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SupportFiles/FocusMic-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = FocusMic;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "需要访问麦克风以显示实时输入电平；不会录制或保存任何音频。";
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = top.yayalu.FocusMic;
+				PRODUCT_NAME = FocusMic;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		1A0000000000000000000018 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = "SupportFiles/FocusMic-AppStore.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -231,11 +338,42 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "需要访问音频设备信息以管理默认输入设备。";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "需要访问麦克风以显示实时输入电平；不会录制或保存任何音频。";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = top.yayalu.FocusMic;
 				PRODUCT_NAME = FocusMic;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "APPSTORE $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		1A0000000000000000000019 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = "SupportFiles/FocusMic-AppStore.entitlements";
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = C6H9D46LA6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = FocusMic;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "需要访问麦克风以显示实时输入电平；不会录制或保存任何音频。";
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = top.yayalu.FocusMic;
+				PRODUCT_NAME = FocusMic;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "APPSTORE $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -262,7 +400,35 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		1A0000000000000000000017 /* Build configuration list for PBXNativeTarget "FocusMic-AppStore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A0000000000000000000018 /* Debug */,
+				1A0000000000000000000019 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1A000000000000000000001A /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1A000000000000000000001B /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A000000000000000000001A /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1A0000000000000000000001 /* Project object */;
 }

@@ -45,6 +45,41 @@ struct MainView: View {
                     Text("守护输入设备")
                     Text("只要锁定设备在线，系统输入会自动保持为该设备；被切走后自动切回。")
                 }
+
+                Toggle(isOn: $keeper.isVolumeLockEnabled) {
+                    Text("锁定输入音量")
+                    Text("有些应用会偷偷改麦克风增益；开启后音量被改动时自动恢复。")
+                }
+                .disabled(keeper.preferredUID == nil)
+
+                if keeper.isVolumeLockEnabled, let volume = keeper.lockedVolume {
+                    HStack(spacing: 10) {
+                        Image(systemName: "speaker.wave.1")
+                            .foregroundStyle(.secondary)
+                        Slider(
+                            value: Binding(
+                                get: { Double(volume) },
+                                set: { keeper.updateLockedVolume(Float($0)) }
+                            ),
+                            in: 0...1
+                        )
+                        Text("\(Int(volume * 100))%")
+                            .font(.caption.monospacedDigit())
+                            .foregroundStyle(.secondary)
+                            .frame(width: 40, alignment: .trailing)
+                    }
+                }
+            }
+
+            Section("输入电平") {
+                Toggle(isOn: $keeper.isLevelMeterEnabled) {
+                    Text("显示实时输入电平")
+                    Text("本地实时采样计算响度，不录制、不保存任何音频；首次开启需要麦克风权限。")
+                }
+                if keeper.isLevelMeterEnabled {
+                    InputLevelMeterView()
+                        .padding(.vertical, 2)
+                }
             }
 
             Section("输入设备") {
@@ -70,7 +105,8 @@ struct MainView: View {
                                 isPreferred: device.uid == keeper.preferredUID,
                                 hasPreferredDevice: keeper.preferredUID != nil,
                                 isGuardEnabled: keeper.isEnabled
-                            )
+                            ),
+                            density: .detailed
                         ) {
                             keeper.selectPreferred(device)
                         }
@@ -90,6 +126,21 @@ struct MainView: View {
                     Label(loginError, systemImage: "exclamationmark.triangle.fill")
                         .font(.caption)
                         .foregroundStyle(.red)
+                }
+
+                HStack {
+                    Text("版本 \(UpdaterService.currentVersion)")
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    if UpdaterService.shared.supportsInAppUpdate {
+                        Button("检查更新…") {
+                            UpdaterService.shared.checkForUpdates()
+                        }
+                    } else {
+                        Text("更新由 App Store 管理")
+                            .font(.caption)
+                            .foregroundStyle(.tertiary)
+                    }
                 }
             }
 
@@ -136,7 +187,7 @@ struct MainView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 520, height: 640)
+        .frame(width: 520, height: 720)
         .onAppear {
             keeper.refreshDevices()
             launchAtLogin = LoginItemManager.isEnabled

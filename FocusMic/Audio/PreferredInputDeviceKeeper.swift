@@ -41,6 +41,28 @@ final class PreferredInputDeviceKeeper {
         }
     }
 
+    /// 是否锁定输入音量。开启时以当前音量为基准；独立于设备守护开关生效。
+    var isVolumeLockEnabled: Bool = PreferredInputDeviceSettings.isVolumeLockEnabled {
+        didSet {
+            PreferredInputDeviceSettings.isVolumeLockEnabled = isVolumeLockEnabled
+            guard isVolumeLockEnabled else { return }
+            if lockedVolume == nil, let device = preferredDevice(), let volume = service.getInputVolume(device.id) {
+                lockedVolume = volume
+            }
+            enforceVolume(reason: "volume-lock-enabled")
+        }
+    }
+
+    /// 锁定的输入音量（0.0-1.0）。
+    var lockedVolume: Float? = PreferredInputDeviceSettings.lockedVolume {
+        didSet { PreferredInputDeviceSettings.lockedVolume = lockedVolume }
+    }
+
+    /// 是否在界面上显示实时输入电平。
+    var isLevelMeterEnabled: Bool = PreferredInputDeviceSettings.isLevelMeterEnabled {
+        didSet { PreferredInputDeviceSettings.isLevelMeterEnabled = isLevelMeterEnabled }
+    }
+
     var preferredUID: String? { PreferredInputDeviceSettings.preferredUID }
 
     /// 目标设备当前是否在线可用。
@@ -62,9 +84,12 @@ final class PreferredInputDeviceKeeper {
 
     private var deviceListListener: AudioObjectPropertyListenerBlock?
     private var defaultInputListener: AudioObjectPropertyListenerBlock?
+    private var volumeListener: AudioObjectPropertyListenerBlock?
+    private var volumeListenerDeviceID: AudioObjectID?
     private var pendingEnforce: DispatchWorkItem?
     private var isStarted = false
     private var isEnforcing = false
+    private var isEnforcingVolume = false
 
     private init() {
         logs = loadPersistedLogs()
@@ -95,6 +120,7 @@ final class PreferredInputDeviceKeeper {
 
     func refreshDevices() {
         devices = service.getInputDevices()
+        updateVolumeListener()
     }
 
     /// 用户选择锁定设备：保存偏好并立即切换一次（守护开关是否开启不影响这一次切换）。
@@ -111,6 +137,10 @@ final class PreferredInputDeviceKeeper {
                 addLog("已选择锁定设备并切换：\(device.name)")
             } else {
                 addLog("已切换输入设备：\(device.name)")
+            }
+            // 音量锁定跟随锁定设备：换设备后以新设备当前音量为基准。
+            if isVolumeLockEnabled {
+                lockedVolume = service.getInputVolume(device.id)
             }
         } catch {
             if isEnabled {
@@ -152,6 +182,7 @@ final class PreferredInputDeviceKeeper {
             try service.setDefaultInputDevice(target.id)
             addLog("已切回锁定设备：\(target.name)。reason=\(reason)")
             refreshDevices()
+            enforceVolume(reason: reason)
         } catch {
             addLog("切回锁定设备失败：\(target.name) error=\(error)。reason=\(reason)")
         }
@@ -168,53 +199,124 @@ final class PreferredInputDeviceKeeper {
         return nil
     }
 
+    private func preferredDevice() -> AudioInputDevice? {
+        guard let uid = preferredUID else { return nil }
+        return findPreferred(uid: uid, name: PreferredInputDeviceSettings.preferredName)
+    }
+
+    // MARK: - 输入音量锁定
+
+    /// 用户拖动音量滑块：更新锁定值并立即写入设备。
+    func updateLockedVolume(_ volume: Float) {
+        lockedVolume = volume
+        guard let device = preferredDevice() else { return }
+        try? service.setInputVolume(device.id, volume: volume)
+        refreshDevices()
+    }
+
+    private func enforceVolume(reason: String) {
+        guard isVolumeLockEnabled, !isEnforcingVolume,
+              let target = lockedVolume,
+              let device = preferredDevice(),
+              let current = service.getInputVolume(device.id),
+              abs(current - target) > 0.01 else { return }
+
+        isEnforcingVolume = true
+        defer { isEnforcingVolume = false }
+
+        do {
+            try service.setInputVolume(device.id, volume: target)
+            addLog("已恢复输入音量：\(device.name) \(Int(current * 100))% → \(Int(target * 100))%。reason=\(reason)")
+            refreshDevices()
+        } catch {
+            addLog("恢复输入音量失败：\(device.name) error=\(error)。reason=\(reason)")
+        }
+    }
+
     // MARK: - 监听
 
     private func addDeviceListListener() {
-        deviceListListener = addListener(for: kAudioHardwarePropertyDevices) { [weak self] in
+        deviceListListener = addListener(on: systemObject, address: globalAddress(kAudioHardwarePropertyDevices)) { [weak self] in
             self?.refreshDevices()
             self?.scheduleEnforce(reason: "device-list-changed", delay: 0.3)
         }
     }
 
     private func addDefaultInputDeviceListener() {
-        defaultInputListener = addListener(for: kAudioHardwarePropertyDefaultInputDevice) { [weak self] in
+        defaultInputListener = addListener(on: systemObject, address: globalAddress(kAudioHardwarePropertyDefaultInputDevice)) { [weak self] in
             self?.refreshDevices()
             self?.scheduleEnforce(reason: "default-input-changed", delay: 0.15)
         }
     }
 
-    private func addListener(
-        for selector: AudioObjectPropertySelector,
-        handler: @escaping @MainActor () -> Void
-    ) -> AudioObjectPropertyListenerBlock? {
-        var address = AudioObjectPropertyAddress(
+    /// 让音量监听始终跟随当前锁定设备：设备变化时先移除旧监听再挂到新设备上。
+    private func updateVolumeListener() {
+        guard isStarted else { return }
+        let targetID = preferredDevice()?.id
+        guard targetID != volumeListenerDeviceID else { return }
+
+        removeVolumeListener()
+        guard let targetID else { return }
+
+        volumeListener = addListener(on: targetID, address: inputVolumeAddress()) { [weak self] in
+            self?.enforceVolume(reason: "volume-changed")
+        }
+        volumeListenerDeviceID = volumeListener != nil ? targetID : nil
+    }
+
+    private func removeVolumeListener() {
+        if let volumeListener, let volumeListenerDeviceID {
+            removeListener(volumeListener, on: volumeListenerDeviceID, address: inputVolumeAddress())
+        }
+        volumeListener = nil
+        volumeListenerDeviceID = nil
+    }
+
+    private func globalAddress(_ selector: AudioObjectPropertySelector) -> AudioObjectPropertyAddress {
+        AudioObjectPropertyAddress(
             mSelector: selector,
             mScope: kAudioObjectPropertyScopeGlobal,
             mElement: kAudioObjectPropertyElementMain
         )
+    }
+
+    private func inputVolumeAddress() -> AudioObjectPropertyAddress {
+        AudioObjectPropertyAddress(
+            mSelector: kAudioDevicePropertyVolumeScalar,
+            mScope: kAudioDevicePropertyScopeInput,
+            mElement: kAudioObjectPropertyElementWildcard
+        )
+    }
+
+    private func addListener(
+        on objectID: AudioObjectID,
+        address: AudioObjectPropertyAddress,
+        handler: @escaping @MainActor () -> Void
+    ) -> AudioObjectPropertyListenerBlock? {
+        var address = address
         let block: AudioObjectPropertyListenerBlock = { _, _ in
             MainActor.assumeIsolated { handler() }
         }
-        let status = AudioObjectAddPropertyListenerBlock(systemObject, &address, DispatchQueue.main, block)
+        let status = AudioObjectAddPropertyListenerBlock(objectID, &address, DispatchQueue.main, block)
         return status == noErr ? block : nil
     }
 
     private func removeListeners() {
-        removeListener(deviceListListener, for: kAudioHardwarePropertyDevices)
-        removeListener(defaultInputListener, for: kAudioHardwarePropertyDefaultInputDevice)
+        removeListener(deviceListListener, on: systemObject, address: globalAddress(kAudioHardwarePropertyDevices))
+        removeListener(defaultInputListener, on: systemObject, address: globalAddress(kAudioHardwarePropertyDefaultInputDevice))
         deviceListListener = nil
         defaultInputListener = nil
+        removeVolumeListener()
     }
 
-    private func removeListener(_ block: AudioObjectPropertyListenerBlock?, for selector: AudioObjectPropertySelector) {
+    private func removeListener(
+        _ block: AudioObjectPropertyListenerBlock?,
+        on objectID: AudioObjectID,
+        address: AudioObjectPropertyAddress
+    ) {
         guard let block else { return }
-        var address = AudioObjectPropertyAddress(
-            mSelector: selector,
-            mScope: kAudioObjectPropertyScopeGlobal,
-            mElement: kAudioObjectPropertyElementMain
-        )
-        AudioObjectRemovePropertyListenerBlock(systemObject, &address, DispatchQueue.main, block)
+        var address = address
+        AudioObjectRemovePropertyListenerBlock(objectID, &address, DispatchQueue.main, block)
     }
 
     // MARK: - 日志

@@ -491,7 +491,7 @@ SUMMARY
 Next steps:
   1. Review the diff, especially ${APPCAST_PATH}.
   2. Upload ${ZIP_PATH} to GitHub Release ${RELEASE_TAG}, or rerun with --ship.
-  3. Deploy the updated appcast to https://focusmic.yayalu.top/appcast.xml.
+  3. Confirm the updated appcast is available from the configured SUFeedURL.
 NEXT
   elif [[ "$PUBLISH" -eq 0 ]]; then
     cat <<NEXT
@@ -501,7 +501,7 @@ NEXT
   else
     cat <<NEXT
 
-GitHub release published. Make sure the updated appcast is deployed.
+GitHub release published. Make sure the updated appcast is available from the configured SUFeedURL.
 NEXT
   fi
 }

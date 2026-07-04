@@ -4,7 +4,7 @@
 <dict>
 	<!-- Sparkle：直发版自更新配置。发布前用 Sparkle 的 generate_keys 生成密钥并替换 SUPublicEDKey。 -->
 	<key>SUFeedURL</key>
-	<string>https://focusmic.yayalu.top/appcast.xml</string>
+	<string>https://raw.githubusercontent.com/lageev/FocusMic/main/landing/appcast.xml</string>
 	<key>SUPublicEDKey</key>
 	<string>hvMc+zTMVfz8Mlf6dBU1htzHkWSATK/ZfF6+UBvC2bA=</string>
 	<key>SUEnableAutomaticChecks</key>

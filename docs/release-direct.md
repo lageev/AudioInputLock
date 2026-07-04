@@ -78,5 +78,5 @@ scripts/release-direct.sh 0.0.2 6 --allow-dirty
 2. 决定新的用户版本号和 build 号，例如 `0.0.3 7`。
 3. 运行 `scripts/release-direct.sh 0.0.3 7 --ship --notarize`。
 4. 检查 GitHub draft release 的 zip、签名和说明。
-5. 确认 `landing/appcast.xml` 已部署到 `https://focusmic.yayalu.top/appcast.xml`。
+5. 确认 `landing/appcast.xml` 已推送到 `main`，并可通过 `https://raw.githubusercontent.com/lageev/FocusMic/main/landing/appcast.xml` 访问。
 6. 发布 GitHub Release。

@@ -8,7 +8,7 @@
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
   <channel>
     <title>FocusMic</title>
-    <link>https://focusmic.yayalu.top/appcast.xml</link>
+    <link>https://raw.githubusercontent.com/lageev/FocusMic/main/landing/appcast.xml</link>
     <description>FocusMic 更新源</description>
     <language>zh-CN</language>
 <item>
@@ -19,8 +19,8 @@
   <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
   <enclosure
     url="https://github.com/lageev/FocusMic/releases/download/v0.0.2/FocusMic-0.0.2.zip"
-    sparkle:edSignature="wLBfAfPiLa0cH+Msd3DInLbrCAScSXkhrcwXIF9Yx9Ibae7R1FK//SAMSA9QlMUd7Ex56PzB3Dv30B8ivSeVAg=="
-    length="1518679"
+    sparkle:edSignature="ckVSL4I61ieu6QK1puEyGBy0dpIfQ90aY1Q2+f7HVPjQEpUzlkdg1iNp/0LLjJ0dcmOGx9A+DKBQ5KbtuiBxDQ=="
+    length="1518685"
     type="application/octet-stream"/>
 </item>
     <!--

@@ -1,4 +1,5 @@
 import CoreAudio
+import Foundation
 
 /// 输入设备信息模型。
 ///
@@ -19,11 +20,8 @@ struct AudioInputDevice: Identifiable, Equatable {
     let isRunningSomewhere: Bool
     /// 输入音量（0.0-1.0），设备不支持音量控制时为 nil。
     let inputVolume: Float?
-
-    /// 便于 UI 展示的简短 UID（区分多个同名设备）。
-    var shortUID: String {
-        uid.count > 28 ? "…" + uid.suffix(26) : uid
-    }
+    /// 电量百分比（0-100），仅部分蓝牙 / USB 无线设备能读到，读不到为 nil。
+    let batteryPercent: Int?
 
     /// 「48 kHz」形式的采样率文案。
     var sampleRateText: String? {
@@ -74,18 +72,18 @@ extension AudioInputDevice {
 
         var label: String? {
             switch self {
-            case .builtIn: "内置"
+            case .builtIn: String(localized: "内置")
             case .usb: "USB"
-            case .bluetooth: "蓝牙"
+            case .bluetooth: String(localized: "蓝牙")
             case .hdmi: "HDMI"
             case .displayPort: "DisplayPort"
             case .airPlay: "AirPlay"
-            case .aggregate: "聚合设备"
-            case .virtual: "虚拟设备"
-            case .thunderbolt: "雷雳"
+            case .aggregate: String(localized: "聚合设备")
+            case .virtual: String(localized: "虚拟设备")
+            case .thunderbolt: String(localized: "雷雳")
             case .fireWire: "FireWire"
             case .pci: "PCI"
-            case .continuity: "连续互通"
+            case .continuity: String(localized: "连续互通")
             case .unknown: nil
             }
         }

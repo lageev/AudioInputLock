@@ -25,7 +25,7 @@ struct MenuBarContentView: View {
             HStack(alignment: .center, spacing: 12) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("守护输入设备")
-                    Text(keeper.isEnabled ? "自动保持锁定设备" : "仅手动切换输入设备")
+                    Text(keeper.isEnabled ? String(localized: "自动保持锁定设备") : String(localized: "仅手动切换输入设备"))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .contentTransition(.opacity)
@@ -91,11 +91,11 @@ struct MenuBarContentView: View {
                 .padding(.horizontal, 10)
 
             VStack(spacing: 1) {
-                menuActionButton("主窗口", symbol: "macwindow") {
+                menuActionButton(String(localized: "主窗口"), symbol: "macwindow") {
                     openMainWindow()
                 }
 
-                menuActionButton("关于 \(AppBrand.name)", symbol: "info.circle") {
+                menuActionButton(String(localized: "关于 \(AppBrand.name)"), symbol: "info.circle") {
                     showAbout()
                 }
 
@@ -111,7 +111,7 @@ struct MenuBarContentView: View {
                     }
                 }
 
-                menuActionButton("退出", symbol: "power", shortcut: "⌘Q") {
+                menuActionButton(String(localized: "退出"), symbol: "power", shortcut: "⌘Q") {
                     NSApp.terminate(nil)
                 }
                 .keyboardShortcut("q", modifiers: .command)
@@ -230,11 +230,11 @@ struct MenuBarContentView: View {
 
         appendAboutLinks(
             [
-                ("官网", "https://focusmic.yayalu.top/"),
-                ("打赏", "https://donation.yayalu.top/"),
-                ("服务条款", "https://focusmic.yayalu.top/terms"),
-                ("隐私政策", "https://focusmic.yayalu.top/privacy"),
-                ("更多作品", "https://pastehub.yayalu.top")
+                (String(localized: "官网"), "https://focusmic.yayalu.top/"),
+                (String(localized: "打赏"), "https://donation.yayalu.top/"),
+                (String(localized: "服务条款"), "https://focusmic.yayalu.top/terms"),
+                (String(localized: "隐私政策"), "https://focusmic.yayalu.top/privacy"),
+                (String(localized: "更多作品"), "https://pastehub.yayalu.top")
             ],
             to: credits,
             paragraphStyle: paragraphStyle

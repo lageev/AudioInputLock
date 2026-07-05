@@ -18,20 +18,22 @@ struct LockStatus {
         guard let uid = keeper.preferredUID else {
             symbol = "mic.badge.plus"
             color = .secondary
-            deviceName = "未选择锁定设备"
-            detail = "在设备列表中点选一个设备即可锁定"
+            deviceName = String(localized: "未选择锁定设备")
+            detail = String(localized: "在设备列表中点选一个设备即可锁定")
             return
         }
 
         let savedName = PreferredInputDeviceSettings.preferredName
         let device = keeper.devices.first { $0.uid == uid }
             ?? savedName.flatMap { name in keeper.devices.first { $0.name == name } }
-        deviceName = device?.name ?? savedName ?? "锁定设备"
+        deviceName = device?.name ?? savedName ?? String(localized: "锁定设备")
 
         guard let device else {
             symbol = "mic.slash.fill"
             color = .warmAccent
-            detail = keeper.isEnabled ? "设备离线，重新接入后自动锁定" : "设备离线"
+            detail = keeper.isEnabled
+                ? String(localized: "设备离线，重新接入后自动锁定")
+                : String(localized: "设备离线")
             return
         }
 
@@ -39,16 +41,18 @@ struct LockStatus {
             if keeper.isEnabled {
                 symbol = "lock.fill"
                 color = .accentColor
-                detail = "已锁定，守护中"
+                detail = String(localized: "已锁定，守护中")
             } else {
                 symbol = "mic.fill"
                 color = .warmAccent
-                detail = "已切换，未开启守护"
+                detail = String(localized: "已切换，未开启守护")
             }
         } else {
             symbol = "arrow.triangle.2.circlepath"
             color = .warmAccent
-            detail = keeper.isEnabled ? "已选择，即将切回" : "被抢占，未开启守护"
+            detail = keeper.isEnabled
+                ? String(localized: "已选择，即将切回")
+                : String(localized: "被抢占，未开启守护")
         }
     }
 }

@@ -42,8 +42,8 @@ final class UpdaterService: NSObject, ObservableObject {
     }
 
     var checkButtonTitle: String {
-        if configurationError != nil { return "检查更新不可用" }
-        return isChecking ? "正在检查更新…" : "检查更新…"
+        if configurationError != nil { return String(localized: "检查更新不可用") }
+        return isChecking ? String(localized: "正在检查更新…") : String(localized: "检查更新…")
     }
 
     var checkButtonSystemImage: String {
@@ -59,7 +59,7 @@ final class UpdaterService: NSObject, ObservableObject {
         super.init()
 
         #if APPSTORE
-        statusMessage = "更新由 App Store 管理"
+        statusMessage = String(localized: "更新由 App Store 管理")
         #else
         configureSparkle()
         #endif
@@ -74,7 +74,7 @@ final class UpdaterService: NSObject, ObservableObject {
             isStarted = true
             syncUpdateState(from: updater)
         } catch {
-            setConfigurationError("Sparkle 启动失败：\(error.localizedDescription)")
+            setConfigurationError(String(localized: "Sparkle 启动失败：\(error.localizedDescription)"))
         }
         #endif
     }
@@ -89,18 +89,20 @@ final class UpdaterService: NSObject, ObservableObject {
         start()
 
         guard let updater else {
-            setConfigurationError("Sparkle 更新器未初始化")
+            setConfigurationError(String(localized: "Sparkle 更新器未初始化"))
             return
         }
 
         syncUpdateState(from: updater)
         guard updater.canCheckForUpdates else {
-            statusMessage = updater.sessionInProgress ? "正在检查更新…" : "暂时不能检查更新"
+            statusMessage = updater.sessionInProgress
+                ? String(localized: "正在检查更新…")
+                : String(localized: "暂时不能检查更新")
             return
         }
 
         isChecking = true
-        statusMessage = "正在检查更新…"
+        statusMessage = String(localized: "正在检查更新…")
         updater.checkForUpdates()
         #endif
     }
@@ -130,19 +132,19 @@ final class UpdaterService: NSObject, ObservableObject {
               let feedURL = URL(string: feedURLString),
               feedURL.scheme?.lowercased() == "https",
               feedURL.host?.isEmpty == false else {
-            return "更新源 URL 缺失或不是 HTTPS 地址"
+            return String(localized: "更新源 URL 缺失或不是 HTTPS 地址")
         }
 
         guard let publicKey = infoString(for: "SUPublicEDKey") else {
-            return "缺少 Sparkle 公钥"
+            return String(localized: "缺少 Sparkle 公钥")
         }
 
         guard publicKey != sparklePublicKeyPlaceholder else {
-            return "发布前需要替换 Sparkle 公钥占位符"
+            return String(localized: "发布前需要替换 Sparkle 公钥占位符")
         }
 
         guard let decodedKey = Data(base64Encoded: publicKey), decodedKey.count == 32 else {
-            return "Sparkle 公钥格式无效"
+            return String(localized: "Sparkle 公钥格式无效")
         }
 
         return nil
@@ -155,7 +157,7 @@ final class UpdaterService: NSObject, ObservableObject {
     }
 
     private func setConfigurationError(_ message: String) {
-        configurationError = "检查更新不可用：\(message)"
+        configurationError = String(localized: "检查更新不可用：\(message)")
         statusMessage = configurationError
         canCheckForUpdates = false
         isChecking = false
@@ -185,24 +187,24 @@ final class UpdaterService: NSObject, ObservableObject {
         let nsError = error as NSError
         guard let reasonValue = nsError.userInfo[SPUNoUpdateFoundReasonKey] as? NSNumber,
               let reason = SPUNoUpdateFoundReason(rawValue: reasonValue.int32Value) else {
-            return "当前已是最新版本"
+            return String(localized: "当前已是最新版本")
         }
 
         switch reason {
         case .onLatestVersion:
-            return "当前已是最新版本"
+            return String(localized: "当前已是最新版本")
         case .onNewerThanLatestVersion:
-            return "当前版本高于更新源中的最新版本"
+            return String(localized: "当前版本高于更新源中的最新版本")
         case .systemIsTooOld:
-            return "有新版本，但当前系统版本过低"
+            return String(localized: "有新版本，但当前系统版本过低")
         case .systemIsTooNew:
-            return "有新版本，但当前系统版本过高"
+            return String(localized: "有新版本，但当前系统版本过高")
         case .hardwareDoesNotSupportARM64:
-            return "有新版本，但当前设备硬件不支持"
+            return String(localized: "有新版本，但当前设备硬件不支持")
         case .unknown:
             fallthrough
         @unknown default:
-            return "未发现可用更新"
+            return String(localized: "未发现可用更新")
         }
     }
 
@@ -216,7 +218,7 @@ final class UpdaterService: NSObject, ObservableObject {
 #if !APPSTORE
 extension UpdaterService: SPUUpdaterDelegate {
     func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
-        statusMessage = "发现新版本 \(item.displayVersionString)"
+        statusMessage = String(localized: "发现新版本 \(item.displayVersionString)")
         syncUpdateState(from: updater)
     }
 
@@ -227,7 +229,7 @@ extension UpdaterService: SPUUpdaterDelegate {
 
     func updater(_ updater: SPUUpdater, didAbortWithError error: Error) {
         guard !isNoUpdateError(error) else { return }
-        statusMessage = "检查更新失败：\(error.localizedDescription)"
+        statusMessage = String(localized: "检查更新失败：\(error.localizedDescription)")
         syncUpdateState(from: updater)
     }
 
@@ -235,8 +237,9 @@ extension UpdaterService: SPUUpdaterDelegate {
         syncUpdateState(from: updater)
         isChecking = false
 
-        guard let error, !isNoUpdateError(error), statusMessage == "正在检查更新…" else { return }
-        statusMessage = "检查更新失败：\(error.localizedDescription)"
+        guard let error, !isNoUpdateError(error),
+              statusMessage == String(localized: "正在检查更新…") else { return }
+        statusMessage = String(localized: "检查更新失败：\(error.localizedDescription)")
     }
 }
 #endif

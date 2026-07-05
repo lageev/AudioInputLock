@@ -134,9 +134,9 @@ final class PreferredInputDeviceKeeper {
         do {
             try service.setDefaultInputDevice(device.id)
             if isEnabled {
-                addLog("已选择锁定设备并切换：\(device.name)")
+                addLog(String(localized: "已选择锁定设备并切换：\(device.name)"))
             } else {
-                addLog("已切换输入设备：\(device.name)")
+                addLog(String(localized: "已切换输入设备：\(device.name)"))
             }
             // 音量锁定跟随锁定设备：换设备后以新设备当前音量为基准。
             if isVolumeLockEnabled {
@@ -144,9 +144,9 @@ final class PreferredInputDeviceKeeper {
             }
         } catch {
             if isEnabled {
-                addLog("切换到锁定设备失败：\(device.name) error=\(error)")
+                addLog(String(localized: "切换到锁定设备失败：\(device.name) error=\(String(describing: error))"))
             } else {
-                addLog("切换输入设备失败：\(device.name) error=\(error)")
+                addLog(String(localized: "切换输入设备失败：\(device.name) error=\(String(describing: error))"))
             }
         }
         refreshDevices()
@@ -172,7 +172,7 @@ final class PreferredInputDeviceKeeper {
 
         guard let uid = preferredUID else { return }
         guard let target = findPreferred(uid: uid, name: PreferredInputDeviceSettings.preferredName) else {
-            addLog("锁定设备不可用，暂不切换。reason=\(reason)")
+            addLog(String(localized: "锁定设备不可用，暂不切换。reason=\(reason)"))
             return
         }
         // 目标已经是默认输入：直接返回，避免因自身设置回调造成的循环。
@@ -180,11 +180,11 @@ final class PreferredInputDeviceKeeper {
 
         do {
             try service.setDefaultInputDevice(target.id)
-            addLog("已切回锁定设备：\(target.name)。reason=\(reason)")
+            addLog(String(localized: "已切回锁定设备：\(target.name)。reason=\(reason)"))
             refreshDevices()
             enforceVolume(reason: reason)
         } catch {
-            addLog("切回锁定设备失败：\(target.name) error=\(error)。reason=\(reason)")
+            addLog(String(localized: "切回锁定设备失败：\(target.name) error=\(String(describing: error))。reason=\(reason)"))
         }
     }
 
@@ -226,10 +226,10 @@ final class PreferredInputDeviceKeeper {
 
         do {
             try service.setInputVolume(device.id, volume: target)
-            addLog("已恢复输入音量：\(device.name) \(Int(current * 100))% → \(Int(target * 100))%。reason=\(reason)")
+            addLog(String(localized: "已恢复输入音量：\(device.name) \(Int(current * 100))% → \(Int(target * 100))%。reason=\(reason)"))
             refreshDevices()
         } catch {
-            addLog("恢复输入音量失败：\(device.name) error=\(error)。reason=\(reason)")
+            addLog(String(localized: "恢复输入音量失败：\(device.name) error=\(String(describing: error))。reason=\(reason)"))
         }
     }
 

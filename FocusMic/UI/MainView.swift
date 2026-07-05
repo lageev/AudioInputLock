@@ -1,7 +1,7 @@
 import AppKit
 import SwiftUI
 
-/// 主界面：状态总览、守护开关、设备选择、开机启动与活动日志。
+/// 主界面：多标签页排版，分为「状态 / 设备 / 日志 / 设置」四页。
 struct MainView: View {
     @Environment(PreferredInputDeviceKeeper.self) private var keeper
     @Environment(\.openWindow) private var openWindow
@@ -9,14 +9,37 @@ struct MainView: View {
     @State private var launchAtLogin = LoginItemManager.isEnabled
     @State private var loginError: String?
 
-    private let visibleLogCount = 5
+    private let visibleLogCount = 10
 
     var body: some View {
+        TabView {
+            Tab("状态", systemImage: "lock.shield") {
+                statusTab
+            }
+            Tab("设备", systemImage: "mic") {
+                devicesTab
+            }
+            Tab("日志", systemImage: "list.bullet.rectangle") {
+                logsTab
+            }
+            Tab("设置", systemImage: "gearshape") {
+                settingsTab
+            }
+        }
+        .frame(width: 520, height: 480)
+        .onAppear {
+            keeper.refreshDevices()
+            launchAtLogin = LoginItemManager.isEnabled
+        }
+    }
+
+    // MARK: - 状态页
+
+    private var statusTab: some View {
         @Bindable var keeper = keeper
         let status = LockStatus(keeper: keeper)
-        let recentLogs = Array(keeper.logs.prefix(visibleLogCount))
 
-        Form {
+        return Form {
             Section {
                 HStack(spacing: 12) {
                     Image(systemName: status.symbol)
@@ -82,7 +105,14 @@ struct MainView: View {
                         .padding(.vertical, 2)
                 }
             }
+        }
+        .formStyle(.grouped)
+    }
 
+    // MARK: - 设备页
+
+    private var devicesTab: some View {
+        Form {
             Section("输入设备") {
                 if keeper.devices.isEmpty {
                     HStack {
@@ -117,50 +147,16 @@ struct MainView: View {
                     keeper.refreshDevices()
                 }
             }
+        }
+        .formStyle(.grouped)
+    }
 
-            Section("通用") {
-                Toggle("开机自动启动", isOn: $launchAtLogin)
-                    .onChange(of: launchAtLogin) { _, newValue in
-                        updateLoginItem(newValue)
-                    }
-                if let loginError {
-                    Label(loginError, systemImage: "exclamationmark.triangle.fill")
-                        .font(.caption)
-                        .foregroundStyle(.red)
-                }
+    // MARK: - 日志页
 
-                VStack(alignment: .leading, spacing: 6) {
-                    HStack {
-                        Text("版本 \(UpdaterService.currentVersion)")
-                            .foregroundStyle(.secondary)
-                        Spacer()
-                        if updater.supportsInAppUpdate {
-                            Button(updater.checkButtonTitle, systemImage: updater.checkButtonSystemImage) {
-                                updater.checkForUpdates()
-                            }
-                            .disabled(!updater.canInitiateCheck)
-                            .help(updater.visibleStatusMessage ?? "检查是否有新版本")
-                        } else {
-                            Text("更新由 App Store 管理")
-                                .font(.caption)
-                                .foregroundStyle(.tertiary)
-                        }
-                    }
+    private var logsTab: some View {
+        let recentLogs = Array(keeper.logs.prefix(visibleLogCount))
 
-                    if updater.supportsInAppUpdate, let message = updater.visibleStatusMessage {
-                        if updater.configurationError == nil {
-                            Text(message)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        } else {
-                            Label(message, systemImage: "exclamationmark.triangle.fill")
-                                .font(.caption)
-                                .foregroundStyle(.red)
-                        }
-                    }
-                }
-            }
-
+        return Form {
             Section("活动日志") {
                 if keeper.logs.isEmpty {
                     Text("暂无活动")
@@ -204,11 +200,58 @@ struct MainView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 520, height: 720)
-        .onAppear {
-            keeper.refreshDevices()
-            launchAtLogin = LoginItemManager.isEnabled
+    }
+
+    // MARK: - 设置页
+
+    private var settingsTab: some View {
+        Form {
+            Section("通用") {
+                Toggle("开机自动启动", isOn: $launchAtLogin)
+                    .onChange(of: launchAtLogin) { _, newValue in
+                        updateLoginItem(newValue)
+                    }
+                if let loginError {
+                    Label(loginError, systemImage: "exclamationmark.triangle.fill")
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                }
+            }
+
+            Section("更新") {
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack {
+                        Text("版本 \(UpdaterService.currentVersion)")
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        if updater.supportsInAppUpdate {
+                            Button(updater.checkButtonTitle, systemImage: updater.checkButtonSystemImage) {
+                                updater.checkForUpdates()
+                            }
+                            .disabled(!updater.canInitiateCheck)
+                            .help(updater.visibleStatusMessage ?? String(localized: "检查是否有新版本"))
+                        } else {
+                            Text("更新由 App Store 管理")
+                                .font(.caption)
+                                .foregroundStyle(.tertiary)
+                        }
+                    }
+
+                    if updater.supportsInAppUpdate, let message = updater.visibleStatusMessage {
+                        if updater.configurationError == nil {
+                            Text(message)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        } else {
+                            Label(message, systemImage: "exclamationmark.triangle.fill")
+                                .font(.caption)
+                                .foregroundStyle(.red)
+                        }
+                    }
+                }
+            }
         }
+        .formStyle(.grouped)
     }
 
     private func updateLoginItem(_ enabled: Bool) {
@@ -216,7 +259,7 @@ struct MainView: View {
             try LoginItemManager.setEnabled(enabled)
             loginError = nil
         } catch {
-            loginError = "设置开机启动失败：\(error.localizedDescription)"
+            loginError = String(localized: "设置开机启动失败：\(error.localizedDescription)")
             launchAtLogin = LoginItemManager.isEnabled
         }
     }

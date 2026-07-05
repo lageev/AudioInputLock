@@ -1,9 +1,9 @@
 import SwiftUI
 
-/// 单个输入设备行：类型图标 + 名称，右侧为使用中的波形动画与锁定徽章，点击即设为锁定设备。
+/// 单个输入设备行：类型图标 + 名称 + 信息徽标，右侧为使用中的波形动画与锁定徽章，点击即设为锁定设备。
 ///
-/// 两种信息密度：菜单栏用 `.compact`（传输类型 + 采样率），
-/// 主窗口用 `.detailed`（追加通道、位深、输入音量与 UID）。
+/// 两种信息密度：菜单栏用 `.compact`（传输类型 + 采样率 + 电量），
+/// 主窗口用 `.detailed`（追加位深、通道与输入音量），UID 放在名称的悬停提示里。
 struct DeviceRow: View {
     enum Density {
         case compact
@@ -38,14 +38,16 @@ struct DeviceRow: View {
                         }
                     }
 
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: 3) {
                     Text(device.name)
                         .fontWeight(status.isPreferred ? .medium : .regular)
                         .lineLimit(1)
-                    Text(subtitle)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
+                        .help(device.uid)
+                    HStack(spacing: 4) {
+                        ForEach(badges) { badge in
+                            InfoBadge(badge: badge)
+                        }
+                    }
                 }
 
                 Spacer(minLength: 0)
@@ -94,28 +96,50 @@ struct DeviceRow: View {
         .animation(.easeOut(duration: 0.15), value: isHovering)
     }
 
-    /// 按密度组装副标题：compact 求短，detailed 尽量给全。
-    private var subtitle: String {
-        var parts: [String] = []
+    /// 按密度组装徽标：compact 求短，detailed 尽量给全；电量读到了就展示。
+    private var badges: [DeviceInfoBadge] {
+        var result: [DeviceInfoBadge] = []
         if let transport = device.transport.label {
-            parts.append(transport)
+            result.append(DeviceInfoBadge(id: "transport", text: transport))
         }
         if let sampleRate = device.sampleRateText {
-            parts.append(sampleRate)
+            result.append(DeviceInfoBadge(id: "rate", text: sampleRate))
         }
         if density == .detailed {
             if let bitDepth = device.bitDepthText {
-                parts.append(bitDepth)
+                result.append(DeviceInfoBadge(id: "depth", text: bitDepth))
             }
-            parts.append("\(device.inputChannelCount) 通道")
+            result.append(DeviceInfoBadge(id: "channels", text: "\(device.inputChannelCount)ch"))
             if let volume = device.inputVolume {
-                parts.append("音量 \(Int(volume * 100))%")
+                result.append(DeviceInfoBadge(
+                    id: "volume",
+                    text: "\(Int(volume * 100))%",
+                    symbol: "speaker.wave.1.fill"
+                ))
             }
-            parts.append(device.shortUID)
-        } else if parts.isEmpty {
-            parts.append("\(device.inputChannelCount) 通道")
+        } else if result.isEmpty {
+            result.append(DeviceInfoBadge(id: "channels", text: "\(device.inputChannelCount)ch"))
         }
-        return parts.joined(separator: " · ")
+        if let battery = device.batteryPercent {
+            result.append(DeviceInfoBadge(
+                id: "battery",
+                text: "\(battery)%",
+                symbol: batterySymbol(battery),
+                tint: battery <= 20 ? .red : .green,
+                help: String(localized: "设备电量 \(battery)%")
+            ))
+        }
+        return result
+    }
+
+    private func batterySymbol(_ percent: Int) -> String {
+        switch percent {
+        case 88...: "battery.100percent"
+        case 63...: "battery.75percent"
+        case 38...: "battery.50percent"
+        case 13...: "battery.25percent"
+        default: "battery.0percent"
+        }
     }
 
     /// 根据设备名称猜测类型图标，猜不出时回退到传输类型，仅用于展示。
@@ -131,6 +155,37 @@ struct DeviceRow: View {
     }
 
     private var statusAccessoryHeight: CGFloat { 22 }
+}
+
+/// 设备行里的一枚信息徽标（传输类型、采样率、电量等短信息）。
+struct DeviceInfoBadge: Identifiable {
+    let id: String
+    let text: String
+    var symbol: String?
+    var tint: Color = .secondary
+    var help: String?
+}
+
+private struct InfoBadge: View {
+    let badge: DeviceInfoBadge
+
+    var body: some View {
+        HStack(spacing: 2) {
+            if let symbol = badge.symbol {
+                Image(systemName: symbol)
+                    .font(.system(size: 8))
+            }
+            Text(badge.text)
+        }
+        .font(.system(size: 9, weight: .medium).monospacedDigit())
+        .foregroundStyle(badge.tint)
+        .padding(.horizontal, 5)
+        .padding(.vertical, 1.5)
+        .background(badge.tint.opacity(0.12), in: Capsule())
+        .lineLimit(1)
+        .fixedSize()
+        .help(badge.help ?? badge.text)
+    }
 }
 
 /// 设备列表中单行的右侧状态。菜单栏和主窗口共用这一套判断，避免文案不一致。
@@ -180,15 +235,15 @@ enum DeviceRowStatus: Equatable {
     var label: String? {
         switch self {
         case .locked:
-            "已锁定"
+            String(localized: "已锁定")
         case .selected:
-            "已选择"
+            String(localized: "已选择")
         case .switched:
-            "已切换"
+            String(localized: "已切换")
         case .preempted:
-            "被抢占"
+            String(localized: "被抢占")
         case .unattendedTransfer:
-            "未守护自动转移"
+            String(localized: "未守护自动转移")
         case .idle, .idleSwitch, .currentInput:
             nil
         }
@@ -225,30 +280,30 @@ enum DeviceRowStatus: Equatable {
     var help: String {
         switch self {
         case .locked:
-            "当前系统输入，守护中"
+            String(localized: "当前系统输入，守护中")
         case .selected:
-            "锁定设备已选择，守护会自动切回"
+            String(localized: "锁定设备已选择，守护会自动切回")
         case .switched:
-            "已手动切换为当前系统输入，未开启守护"
+            String(localized: "已手动切换为当前系统输入，未开启守护")
         case .preempted:
-            "已选择的设备被其他默认输入抢占"
+            String(localized: "已选择的设备被其他默认输入抢占")
         case .unattendedTransfer:
-            "关闭守护时系统自动转移到此输入设备"
+            String(localized: "关闭守护时系统自动转移到此输入设备")
         case .currentInput:
-            "当前系统输入"
+            String(localized: "当前系统输入")
         case .idle:
-            "点击锁定此输入设备"
+            String(localized: "点击锁定此输入设备")
         case .idleSwitch:
-            "点击切换到此输入设备"
+            String(localized: "点击切换到此输入设备")
         }
     }
 
     var hoverLabel: String {
         switch self {
         case .idle:
-            "点击锁定"
+            String(localized: "点击锁定")
         case .idleSwitch:
-            "点击切换"
+            String(localized: "点击切换")
         case .currentInput, .locked, .selected, .switched, .preempted, .unattendedTransfer:
             help
         }

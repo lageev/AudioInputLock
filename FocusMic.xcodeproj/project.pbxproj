@@ -155,10 +155,14 @@
 				};
 			};
 			buildConfigurationList = 1A000000000000000000000A /* Build configuration list for PBXProject "FocusMic" */;
-			developmentRegion = en;
+			developmentRegion = "zh-Hans";
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				"zh-Hans",
+				"zh-Hant",
 				en,
+				ja,
+				ko,
 				Base,
 			);
 			mainGroup = 1A0000000000000000000002;

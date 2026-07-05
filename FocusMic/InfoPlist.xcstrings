@@ -1,0 +1,16 @@
+{
+  "sourceLanguage" : "zh-Hans",
+  "strings" : {
+    "NSMicrophoneUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "需要访问麦克风以显示实时输入电平；不会录制或保存任何音频。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "需要存取麥克風以顯示即時輸入電平；不會錄製或儲存任何音訊。" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Microphone access is needed to show the live input level; no audio is recorded or saved." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リアルタイム入力レベルの表示のためにマイクへのアクセスが必要です。録音や保存は行いません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "실시간 입력 레벨을 표시하려면 마이크 접근이 필요합니다. 오디오를 녹음하거나 저장하지 않습니다." } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

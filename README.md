@@ -93,6 +93,10 @@ Main technologies: SwiftUI, Core Audio, Observation, ServiceManagement, and Spar
 - [Privacy](https://focusmic.yayalu.top/privacy)
 - [Issues](https://github.com/lageev/FocusMic/issues)
 
+## Acknowledgments
+
+Thanks to the [linux.do](https://linux.do/) community for the support and feedback.
+
 ## License
 
 MIT

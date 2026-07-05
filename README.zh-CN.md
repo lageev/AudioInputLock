@@ -93,6 +93,10 @@ FocusMic 完全在你的 Mac 本地运行。
 - [隐私政策](https://focusmic.yayalu.top/privacy)
 - [问题反馈](https://github.com/lageev/FocusMic/issues)
 
+## 致谢
+
+感谢 [linux.do](https://linux.do/) 社区的支持和反馈。
+
 ## 许可证
 
 MIT

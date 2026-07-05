@@ -70,7 +70,7 @@ final class AudioHardwareService {
                 bitDepth: getInputBitDepth(deviceID),
                 isRunningSomewhere: isRunningSomewhere(deviceID),
                 inputVolume: getInputVolume(deviceID),
-                batteryPercent: DeviceBatteryService.shared.battery(for: name, transport: transport)
+                batteryPercent: DeviceBatteryService.shared.battery(uid: uid, name: name, transport: transport)
             )
         }
     }

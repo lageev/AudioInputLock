@@ -3,3 +3,5 @@ xcuserdata/
 *.xcuserstate
 build/
 DerivedData/
+
+*.xcstrings

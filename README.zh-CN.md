@@ -86,6 +86,12 @@ FocusMic 完全在你的 Mac 本地运行。
 └── README.zh-CN.md
 ```
 
+## 用户群
+
+微信扫码加入 FocusMic 用户群。二维码 2026-07-12 前有效。
+
+<img src="docs/assets/focusmic-wechat-group.png" alt="FocusMic 微信用户群二维码" width="260">
+
 ## 链接
 
 - [官网](https://focusmic.yayalu.top/)

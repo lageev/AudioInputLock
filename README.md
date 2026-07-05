@@ -86,6 +86,12 @@ Main technologies: SwiftUI, Core Audio, Observation, ServiceManagement, and Spar
 └── README.zh-CN.md
 ```
 
+## Community
+
+Scan with WeChat to join the FocusMic user group. QR code valid before 2026-07-12.
+
+<img src="docs/assets/focusmic-wechat-group.png" alt="FocusMic WeChat user group QR code" width="260">
+
 ## Links
 
 - [Website](https://focusmic.yayalu.top/)

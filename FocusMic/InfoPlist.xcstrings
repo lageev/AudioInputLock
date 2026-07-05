@@ -1,6 +1,16 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
+    "NSBluetoothAlwaysUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "需要访问蓝牙以读取耳机等无线设备的电量。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "需要存取藍牙以讀取耳機等無線裝置的電量。" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bluetooth access is needed to read the battery level of headphones and other wireless devices." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ヘッドフォンなどのワイヤレスデバイスのバッテリー残量を読み取るために Bluetooth へのアクセスが必要です。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "헤드폰 등 무선 장치의 배터리 잔량을 읽으려면 블루투스 접근이 필요합니다." } }
+      }
+    },
     "NSMicrophoneUsageDescription" : {
       "extractionState" : "manual",
       "localizations" : {

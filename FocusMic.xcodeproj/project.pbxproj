@@ -283,6 +283,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "需要访问蓝牙以读取耳机等无线设备的电量。";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "需要访问麦克风以显示实时输入电平；不会录制或保存任何音频。";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -317,6 +318,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "需要访问蓝牙以读取耳机等无线设备的电量。";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "需要访问麦克风以显示实时输入电平；不会录制或保存任何音频。";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -350,6 +352,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "需要访问蓝牙以读取耳机等无线设备的电量。";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "需要访问麦克风以显示实时输入电平；不会录制或保存任何音频。";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 0.0.1;
@@ -380,6 +383,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "需要访问蓝牙以读取耳机等无线设备的电量。";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "需要访问麦克风以显示实时输入电平；不会录制或保存任何音频。";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 0.0.1;

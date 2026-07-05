@@ -48,7 +48,6 @@ final class AudioHardwareService {
     func getInputDevices() -> [AudioInputDevice] {
         let defaultInputID = getDefaultInputDeviceID()
         guard let allDeviceIDs = try? getAllAudioDeviceIDs() else { return [] }
-        let batteryLevels = DeviceBatteryService.shared.batteryLevels()
 
         return allDeviceIDs.compactMap { deviceID in
             let channelCount = getInputChannelCount(deviceID)
@@ -59,10 +58,6 @@ final class AudioHardwareService {
 
             let name = getDeviceName(deviceID) ?? "Unknown Input Device"
             let transport = AudioInputDevice.TransportType(rawValue: getTransportType(deviceID))
-            // 只对蓝牙 / USB（含 2.4G 接收器）设备尝试电量匹配，避免误配内置电池。
-            let battery = (transport == .bluetooth || transport == .usb)
-                ? DeviceBatteryService.shared.battery(for: name, in: batteryLevels)
-                : nil
 
             return AudioInputDevice(
                 id: deviceID,
@@ -75,7 +70,7 @@ final class AudioHardwareService {
                 bitDepth: getInputBitDepth(deviceID),
                 isRunningSomewhere: isRunningSomewhere(deviceID),
                 inputVolume: getInputVolume(deviceID),
-                batteryPercent: battery
+                batteryPercent: DeviceBatteryService.shared.battery(for: name, transport: transport)
             )
         }
     }

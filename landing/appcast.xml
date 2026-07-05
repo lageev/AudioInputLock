@@ -13,6 +13,18 @@
     <language>zh-CN</language>
 <item>
   <title>0.0.3</title>
+  <pubDate>Sun, 05 Jul 2026 15:58:16 +0800</pubDate>
+  <sparkle:version>10</sparkle:version>
+  <sparkle:shortVersionString>0.0.3</sparkle:shortVersionString>
+  <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
+  <enclosure
+    url="https://github.com/lageev/FocusMic/releases/download/v0.0.3/FocusMic-0.0.3.zip"
+    sparkle:edSignature="vFJmsownu2HS7fs9vGpLKebcFq7S0ITHZQ8bJmjNKvUtn0KAoz3a2q9fv7/qs9uau8O6Rpn0m2XUL7OH7bikBw=="
+    length="1578215"
+    type="application/octet-stream"/>
+</item>
+<item>
+  <title>0.0.3</title>
   <pubDate>Sun, 05 Jul 2026 13:14:32 +0800</pubDate>
   <sparkle:version>9</sparkle:version>
   <sparkle:shortVersionString>0.0.3</sparkle:shortVersionString>

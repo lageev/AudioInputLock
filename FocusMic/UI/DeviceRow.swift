@@ -86,8 +86,12 @@ struct DeviceRow: View {
             .padding(.vertical, 6)
             .contentShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .background(
-                Color.primary.opacity(isHovering && !status.isPreferred ? 0.06 : 0),
+                rowBackgroundColor,
                 in: RoundedRectangle(cornerRadius: 8, style: .continuous)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .stroke(rowBorderColor, lineWidth: status.usesStateBackground ? 1 : 0)
             )
         }
         .buttonStyle(.plain)
@@ -155,6 +159,18 @@ struct DeviceRow: View {
     }
 
     private var statusAccessoryHeight: CGFloat { 22 }
+
+    private var rowBackgroundColor: Color {
+        if status.usesStateBackground {
+            return status.tint.opacity(isHovering ? 0.16 : 0.10)
+        }
+        return Color.primary.opacity(isHovering ? 0.06 : 0)
+    }
+
+    private var rowBorderColor: Color {
+        guard status.usesStateBackground else { return .clear }
+        return status.tint.opacity(isHovering ? 0.28 : 0.18)
+    }
 }
 
 /// 设备行里的一枚信息徽标（传输类型、采样率、电量等短信息）。
@@ -275,6 +291,15 @@ enum DeviceRowStatus: Equatable {
 
     var showsCurrentInputSymbol: Bool {
         self == .currentInput
+    }
+
+    var usesStateBackground: Bool {
+        switch self {
+        case .locked, .selected, .switched, .preempted, .unattendedTransfer:
+            true
+        case .idle, .idleSwitch, .currentInput:
+            false
+        }
     }
 
     var help: String {

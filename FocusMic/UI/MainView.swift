@@ -50,7 +50,7 @@ struct MainView: View {
             }
 
             Section("输入设备") {
-                if keeper.devices.isEmpty {
+                if keeper.devices.isEmpty, offlinePreferredInputName == nil {
                     HStack {
                         Spacer()
                         VStack(spacing: 6) {
@@ -64,6 +64,14 @@ struct MainView: View {
                     }
                     .padding(.vertical, 12)
                 } else {
+                    if let offlinePreferredInputName {
+                        OfflineGuardedDeviceRow(
+                            name: offlinePreferredInputName,
+                            direction: .input
+                        ) {
+                            keeper.isEnabled = false
+                        }
+                    }
                     ForEach(keeper.devices) { device in
                         DeviceRow(
                             device: device,
@@ -125,6 +133,13 @@ struct MainView: View {
             }
         }
         .formStyle(.grouped)
+    }
+
+    private var offlinePreferredInputName: String? {
+        guard keeper.isEnabled,
+              keeper.preferredUID != nil,
+              !keeper.isPreferredAvailable else { return nil }
+        return PreferredInputDeviceSettings.preferredName ?? String(localized: "锁定设备")
     }
 
     // MARK: - 输出页

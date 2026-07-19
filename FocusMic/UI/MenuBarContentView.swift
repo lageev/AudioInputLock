@@ -22,9 +22,6 @@ struct MenuBarContentView: View {
                     .padding(.top, 8)
             }
 
-            Divider()
-                .padding(.horizontal, 10)
-
             HStack(alignment: .center, spacing: 12) {
                 Text("输入设备")
                     .font(.caption.weight(.semibold))
@@ -43,11 +40,19 @@ struct MenuBarContentView: View {
             .padding(.top, 8)
             .padding(.bottom, 2)
 
-            if keeper.devices.isEmpty {
+            if keeper.devices.isEmpty, offlinePreferredInputName == nil {
                 emptyDeviceView(direction: .input)
             } else {
                 ScrollView {
                     VStack(spacing: 1) {
+                        if let offlinePreferredInputName {
+                            OfflineGuardedDeviceRow(
+                                name: offlinePreferredInputName,
+                                direction: .input
+                            ) {
+                                keeper.isEnabled = false
+                            }
+                        }
                         ForEach(keeper.devices) { device in
                             DeviceRow(
                                 device: device,
@@ -158,50 +163,83 @@ struct MenuBarContentView: View {
 
     // MARK: - 子视图
 
-    /// 顶部只保留方向图标、设备名和锁状态，详细说明放在悬停提示中。
+    /// 输入与输出并排展示；正在守护的设备使用强调色背景。
     private func guardOverview(inputStatus: LockStatus, outputStatus: LockStatus) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            overviewDeviceRow(
+        HStack(alignment: .center, spacing: 6) {
+            overviewDeviceCard(
                 status: inputStatus,
                 direction: .input,
-                isGuarded: keeper.isEnabled && keeper.preferredUID != nil
+                isGuarded: keeper.isEnabled && keeper.preferredUID != nil,
+                isAvailable: keeper.isPreferredAvailable
             )
             if keeper.isOutputFeatureEnabled {
-                overviewDeviceRow(
+                overviewDeviceCard(
                     status: outputStatus,
                     direction: .output,
-                    isGuarded: keeper.isOutputEnabled && keeper.preferredOutputUID != nil
+                    isGuarded: keeper.isOutputEnabled && keeper.preferredOutputUID != nil,
+                    isAvailable: keeper.isPreferredOutputAvailable
                 )
             }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 9)
-        .padding(.vertical, 6)
-        .background(Color.primary.opacity(0.045), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+        .frame(maxWidth: .infinity)
     }
 
-    private func overviewDeviceRow(
+    private func overviewDeviceCard(
         status: LockStatus,
         direction: AudioDevice.Direction,
-        isGuarded: Bool
+        isGuarded: Bool,
+        isAvailable: Bool
     ) -> some View {
-        HStack(spacing: 7) {
-            Image(systemName: direction == .input ? "mic.fill" : "speaker.wave.2.fill")
-                .font(.system(size: 10, weight: .medium))
-                .foregroundStyle(.secondary)
-                .frame(width: 14)
+        let isOffline = isGuarded && !isAvailable
+
+        return VStack(alignment: .leading, spacing: 6) {
             Text(status.deviceName)
-                .font(.system(size: 13, weight: .medium))
-                .lineLimit(1)
-                .truncationMode(.middle)
-            Spacer(minLength: 4)
+                .font(.system(size: 12, weight: .medium))
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.trailing, 18)
+
+            Spacer(minLength: 0)
+
+            Image(systemName: directionSymbol(direction, isOffline: isOffline))
+                .font(.system(size: 12, weight: .medium))
+                .foregroundStyle(overviewTint(isGuarded: isGuarded, isOffline: isOffline))
+                .frame(width: 16, height: 16)
+        }
+        .overlay(alignment: .topTrailing) {
             Image(systemName: isGuarded ? "lock.fill" : "lock.open")
-                .font(.system(size: 9, weight: .semibold))
-                .foregroundStyle(isGuarded ? Color.accentColor : Color.secondary.opacity(0.65))
+                .font(.system(size: 10, weight: .semibold))
+                .foregroundStyle(overviewTint(isGuarded: isGuarded, isOffline: isOffline))
                 .contentTransition(.symbolEffect(.replace))
                 .help(status.detail)
         }
-        .frame(height: 18)
+        .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 7)
+        .background(
+            overviewBackground(isGuarded: isGuarded, isOffline: isOffline),
+            in: RoundedRectangle(cornerRadius: 8, style: .continuous)
+        )
+    }
+
+    private func directionSymbol(_ direction: AudioDevice.Direction, isOffline: Bool) -> String {
+        switch (direction, isOffline) {
+        case (.input, true): "mic.slash.fill"
+        case (.input, false): "mic.fill"
+        case (.output, true): "speaker.slash.fill"
+        case (.output, false): "speaker.wave.2.fill"
+        }
+    }
+
+    private func overviewTint(isGuarded: Bool, isOffline: Bool) -> Color {
+        if isOffline { return .warmAccent }
+        return isGuarded ? .accentColor : Color.secondary.opacity(0.55)
+    }
+
+    private func overviewBackground(isGuarded: Bool, isOffline: Bool) -> Color {
+        if isOffline { return Color.warmAccent.opacity(0.12) }
+        return isGuarded ? Color.accentColor.opacity(0.14) : Color.primary.opacity(0.045)
     }
 
     private func emptyDeviceView(direction: AudioDevice.Direction) -> some View {
@@ -237,8 +275,16 @@ struct MenuBarContentView: View {
 
     // MARK: - 状态与操作
 
+    private var offlinePreferredInputName: String? {
+        guard keeper.isEnabled,
+              keeper.preferredUID != nil,
+              !keeper.isPreferredAvailable else { return nil }
+        return PreferredInputDeviceSettings.preferredName ?? String(localized: "锁定设备")
+    }
+
     private var inputDeviceListHeight: CGFloat {
-        min(CGFloat(keeper.devices.count) * 42 + 8, 152)
+        let rowCount = keeper.devices.count + (offlinePreferredInputName == nil ? 0 : 1)
+        return min(CGFloat(rowCount) * 42 + 8, 152)
     }
 
     private var outputDeviceListHeight: CGFloat {

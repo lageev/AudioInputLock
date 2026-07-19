@@ -73,21 +73,23 @@ struct DeviceRow: View {
             }
             .buttonStyle(.plain)
 
-            Button(action: lockAction) {
-                Image(systemName: status.isGuarded ? "lock.fill" : "lock.open")
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(status.isGuarded ? Color.accentColor : Color.secondary)
-                    .frame(width: 26, height: 26)
-                    .background(
-                        lockBackgroundColor,
-                        in: RoundedRectangle(cornerRadius: 6, style: .continuous)
-                    )
-                    .contentTransition(.symbolEffect(.replace))
+            if device.isDefault {
+                Button(action: lockAction) {
+                    Image(systemName: status.isGuarded ? "lock.fill" : "lock.open")
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundStyle(status.isGuarded ? Color.accentColor : Color.secondary)
+                        .frame(width: 26, height: 26)
+                        .background(
+                            lockBackgroundColor,
+                            in: RoundedRectangle(cornerRadius: 6, style: .continuous)
+                        )
+                        .contentTransition(.symbolEffect(.replace))
+                }
+                .buttonStyle(.plain)
+                .help(status.isGuarded ? String(localized: "解除设备守护") : String(localized: "守护此设备"))
+                .accessibilityLabel(status.isGuarded ? String(localized: "解除设备守护") : String(localized: "守护此设备"))
+                .onHover { isLockHovering = $0 }
             }
-            .buttonStyle(.plain)
-            .help(status.isGuarded ? String(localized: "解除设备守护") : String(localized: "守护此设备"))
-            .accessibilityLabel(status.isGuarded ? String(localized: "解除设备守护") : String(localized: "守护此设备"))
-            .onHover { isLockHovering = $0 }
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 4)
@@ -173,6 +175,61 @@ struct DeviceRow: View {
             return Color.accentColor.opacity(isLockHovering ? 0.18 : 0.11)
         }
         return Color.primary.opacity(isLockHovering ? 0.08 : 0)
+    }
+}
+
+/// 已锁定但当前不在线的设备行：保留守护目标，并允许用户解除守护。
+struct OfflineGuardedDeviceRow: View {
+    let name: String
+    let direction: AudioDevice.Direction
+    let unlockAction: () -> Void
+
+    @State private var isHoveringLock = false
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: direction == .input ? "mic.slash.fill" : "speaker.slash.fill")
+                .font(.system(size: 13, weight: .medium))
+                .foregroundStyle(Color.warmAccent)
+                .frame(width: 26, height: 26)
+                .background(
+                    Color.warmAccent.opacity(0.10),
+                    in: RoundedRectangle(cornerRadius: 6, style: .continuous)
+                )
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(name)
+                    .font(.system(size: 13, weight: .medium))
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                Text("离线 · 重连后恢复")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer(minLength: 0)
+
+            Button(action: unlockAction) {
+                Image(systemName: "lock.fill")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(Color.warmAccent)
+                    .frame(width: 26, height: 26)
+                    .background(
+                        Color.warmAccent.opacity(isHoveringLock ? 0.18 : 0.10),
+                        in: RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    )
+            }
+            .buttonStyle(.plain)
+            .help("解除设备守护")
+            .accessibilityLabel("解除设备守护")
+            .onHover { isHoveringLock = $0 }
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(
+            Color.warmAccent.opacity(0.065),
+            in: RoundedRectangle(cornerRadius: 8, style: .continuous)
+        )
     }
 }
 

@@ -28,6 +28,21 @@ struct LockStatus {
         let devices = isInput ? keeper.devices : keeper.outputDevices
         let isEnabled = isInput ? keeper.isEnabled : keeper.isOutputEnabled
 
+        if !isEnabled {
+            if let currentDevice = devices.first(where: \.isDefault) {
+                symbol = isInput ? "mic.fill" : "speaker.wave.2.fill"
+                color = .secondary
+                deviceName = currentDevice.name
+                detail = String(localized: "当前设备 · 未守护")
+            } else {
+                symbol = isInput ? "mic.slash" : "speaker.slash"
+                color = .secondary
+                deviceName = String(localized: "未检测到设备")
+                detail = String(localized: "点击设备行进行切换")
+            }
+            return
+        }
+
         guard let uid = preferredUID else {
             symbol = isInput ? "mic.badge.plus" : "speaker.badge.plus"
             color = .secondary
@@ -50,21 +65,13 @@ struct LockStatus {
         }
 
         if device.isDefault {
-            if isEnabled {
-                symbol = "lock.fill"
-                color = .accentColor
-                detail = String(localized: "已锁定 · 守护中")
-            } else {
-                symbol = isInput ? "mic.fill" : "speaker.wave.2.fill"
-                color = .warmAccent
-                detail = String(localized: "已切换 · 未守护")
-            }
+            symbol = "lock.fill"
+            color = .accentColor
+            detail = String(localized: "已锁定 · 守护中")
         } else {
             symbol = "arrow.triangle.2.circlepath"
             color = .warmAccent
-            detail = isEnabled
-                ? String(localized: "等待自动切回")
-                : String(localized: "被抢占 · 未守护")
+            detail = String(localized: "等待自动切回")
         }
     }
 }

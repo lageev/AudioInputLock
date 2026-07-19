@@ -1,26 +1,20 @@
 import AppKit
 import SwiftUI
 
-/// 菜单栏弹出面板：快速查看状态、开关守护、切换锁定设备、进入主窗口、关于或退出。
+/// 菜单栏弹出面板：快速查看状态、切换或守护设备、进入主窗口、关于或退出。
 struct MenuBarContentView: View {
     @Environment(PreferredInputDeviceKeeper.self) private var keeper
     @Environment(\.openWindow) private var openWindow
     @ObservedObject private var updater = UpdaterService.shared
 
     var body: some View {
-        @Bindable var keeper = keeper
         let inputStatus = LockStatus(keeper: keeper)
         let outputStatus = LockStatus(keeper: keeper, direction: .output)
 
         VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .top, spacing: 6) {
-                statusCard(inputStatus)
-                if keeper.isOutputFeatureEnabled {
-                    statusCard(outputStatus)
-                }
-            }
-            .padding(.horizontal, 10)
-            .padding(.top, 10)
+            guardOverview(inputStatus: inputStatus, outputStatus: outputStatus)
+                .padding(.horizontal, 10)
+                .padding(.top, 10)
 
             if keeper.isLevelMeterEnabled {
                 InputLevelMeterView()
@@ -28,50 +22,12 @@ struct MenuBarContentView: View {
                     .padding(.top, 8)
             }
 
-            HStack(alignment: .center, spacing: 12) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("守护输入设备")
-                    Text(keeper.isEnabled ? String(localized: "自动保持锁定设备") : String(localized: "仅手动切换输入设备"))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .contentTransition(.opacity)
-                }
-                Spacer(minLength: 0)
-                Toggle("", isOn: $keeper.isEnabled)
-                    .labelsHidden()
-                    .toggleStyle(.switch)
-                    .controlSize(.small)
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .animation(.easeOut(duration: 0.2), value: keeper.isEnabled)
-
-            if keeper.isOutputFeatureEnabled {
-                HStack(alignment: .center, spacing: 12) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("守护输出设备")
-                        Text(keeper.isOutputEnabled ? String(localized: "自动保持锁定输出") : String(localized: "仅手动切换输出"))
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .contentTransition(.opacity)
-                    }
-                    Spacer(minLength: 0)
-                    Toggle("", isOn: $keeper.isOutputEnabled)
-                        .labelsHidden()
-                        .toggleStyle(.switch)
-                        .controlSize(.small)
-                }
-                .padding(.horizontal, 14)
-                .padding(.bottom, 10)
-                .animation(.easeOut(duration: 0.2), value: keeper.isOutputEnabled)
-            }
-
             Divider()
                 .padding(.horizontal, 10)
 
             HStack(alignment: .center, spacing: 12) {
                 Text("输入设备")
-                    .font(.caption.weight(.medium))
+                    .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
                 Spacer(minLength: 0)
                 Button {
@@ -84,7 +40,7 @@ struct MenuBarContentView: View {
                 .help("刷新设备列表")
             }
             .padding(.horizontal, 14)
-            .padding(.top, 10)
+            .padding(.top, 8)
             .padding(.bottom, 2)
 
             if keeper.devices.isEmpty {
@@ -98,12 +54,15 @@ struct MenuBarContentView: View {
                                 status: DeviceRowStatus(
                                     device: device,
                                     isPreferred: device.uid == keeper.preferredUID,
-                                    hasPreferredDevice: keeper.preferredUID != nil,
                                     isGuardEnabled: keeper.isEnabled
-                                )
-                            ) {
-                                keeper.selectPreferred(device)
-                            }
+                                ),
+                                action: {
+                                    keeper.switchInputDevice(device)
+                                },
+                                lockAction: {
+                                    keeper.toggleInputGuard(device)
+                                }
+                            )
                         }
                     }
                     .padding(.horizontal, 6)
@@ -119,12 +78,12 @@ struct MenuBarContentView: View {
 
                 HStack(alignment: .center, spacing: 12) {
                     Text("输出设备")
-                        .font(.caption.weight(.medium))
+                        .font(.caption.weight(.semibold))
                         .foregroundStyle(.secondary)
                     Spacer(minLength: 0)
                 }
                 .padding(.horizontal, 14)
-                .padding(.top, 10)
+                .padding(.top, 8)
                 .padding(.bottom, 2)
 
                 if keeper.outputDevices.isEmpty {
@@ -138,12 +97,15 @@ struct MenuBarContentView: View {
                                     status: DeviceRowStatus(
                                         device: device,
                                         isPreferred: device.uid == keeper.preferredOutputUID,
-                                        hasPreferredDevice: keeper.preferredOutputUID != nil,
                                         isGuardEnabled: keeper.isOutputEnabled
-                                    )
-                                ) {
-                                    keeper.selectPreferredOutput(device)
-                                }
+                                    ),
+                                    action: {
+                                        keeper.switchOutputDevice(device)
+                                    },
+                                    lockAction: {
+                                        keeper.toggleOutputGuard(device)
+                                    }
+                                )
                             }
                         }
                         .padding(.horizontal, 6)
@@ -187,6 +149,7 @@ struct MenuBarContentView: View {
             .padding(.vertical, 6)
         }
         .frame(width: 320)
+        .background(Color(nsColor: .windowBackgroundColor).opacity(0.94))
         .onAppear { refreshMenuDevices() }
         .onReceive(NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)) { _ in
             refreshMenuDevices()
@@ -195,38 +158,50 @@ struct MenuBarContentView: View {
 
     // MARK: - 子视图
 
-    /// 顶部半宽状态卡片：输入与输出并排显示。
-    private func statusCard(_ status: LockStatus) -> some View {
-        VStack(alignment: .leading, spacing: 5) {
-            HStack {
-                Image(systemName: status.symbol)
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(status.color)
-                    .frame(width: 26, height: 26)
-                    .background(status.color.opacity(0.14), in: RoundedRectangle(cornerRadius: 7, style: .continuous))
-                    .contentTransition(.symbolEffect(.replace))
-                Spacer(minLength: 4)
-                Text(status.kind)
-                    .font(.system(size: 9, weight: .medium))
-                    .foregroundStyle(.secondary)
-                    .padding(.horizontal, 5)
-                    .padding(.vertical, 1)
-                    .background(.quaternary, in: Capsule())
+    /// 顶部只保留方向图标、设备名和锁状态，详细说明放在悬停提示中。
+    private func guardOverview(inputStatus: LockStatus, outputStatus: LockStatus) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            overviewDeviceRow(
+                status: inputStatus,
+                direction: .input,
+                isGuarded: keeper.isEnabled && keeper.preferredUID != nil
+            )
+            if keeper.isOutputFeatureEnabled {
+                overviewDeviceRow(
+                    status: outputStatus,
+                    direction: .output,
+                    isGuarded: keeper.isOutputEnabled && keeper.preferredOutputUID != nil
+                )
             }
-
-            Text(status.deviceName)
-                .font(.caption.weight(.medium))
-                .lineLimit(1)
-                .truncationMode(.middle)
-            Text(status.detail)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(8)
-        .background(status.color.opacity(0.07), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
-        .animation(.easeOut(duration: 0.25), value: status.symbol)
+        .padding(.horizontal, 9)
+        .padding(.vertical, 6)
+        .background(Color.primary.opacity(0.045), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+    }
+
+    private func overviewDeviceRow(
+        status: LockStatus,
+        direction: AudioDevice.Direction,
+        isGuarded: Bool
+    ) -> some View {
+        HStack(spacing: 7) {
+            Image(systemName: direction == .input ? "mic.fill" : "speaker.wave.2.fill")
+                .font(.system(size: 10, weight: .medium))
+                .foregroundStyle(.secondary)
+                .frame(width: 14)
+            Text(status.deviceName)
+                .font(.system(size: 13, weight: .medium))
+                .lineLimit(1)
+                .truncationMode(.middle)
+            Spacer(minLength: 4)
+            Image(systemName: isGuarded ? "lock.fill" : "lock.open")
+                .font(.system(size: 9, weight: .semibold))
+                .foregroundStyle(isGuarded ? Color.accentColor : Color.secondary.opacity(0.65))
+                .contentTransition(.symbolEffect(.replace))
+                .help(status.detail)
+        }
+        .frame(height: 18)
     }
 
     private func emptyDeviceView(direction: AudioDevice.Direction) -> some View {
@@ -263,11 +238,11 @@ struct MenuBarContentView: View {
     // MARK: - 状态与操作
 
     private var inputDeviceListHeight: CGFloat {
-        min(CGFloat(keeper.devices.count) * 48 + 8, 160)
+        min(CGFloat(keeper.devices.count) * 42 + 8, 152)
     }
 
     private var outputDeviceListHeight: CGFloat {
-        min(CGFloat(keeper.outputDevices.count) * 48 + 8, 160)
+        min(CGFloat(keeper.outputDevices.count) * 42 + 8, 152)
     }
 
     private func openMainWindow() {

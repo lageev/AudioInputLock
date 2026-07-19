@@ -181,57 +181,98 @@ final class PreferredInputDeviceKeeper {
         outputDevices = isOutputFeatureEnabled ? service.getOutputDevices() : []
     }
 
-    /// 用户选择锁定设备：保存偏好并立即切换一次（守护开关是否开启不影响这一次切换）。
-    func selectPreferred(_ device: AudioDevice) {
-        // 已是锁定设备且正在使用：重复点击不做任何事，也不记日志。
-        guard device.uid != preferredUID || !device.isDefault else { return }
-
-        PreferredInputDeviceSettings.preferredUID = device.uid
-        PreferredInputDeviceSettings.preferredName = device.name
+    /// 用户点选设备行：解除其他设备的守护后，仅切换系统输入设备。
+    func switchInputDevice(_ device: AudioDevice) {
+        let releasesGuard = isEnabled && device.uid != preferredUID
+        guard releasesGuard || !device.isDefault else { return }
+        if releasesGuard {
+            isEnabled = false
+        }
 
         do {
-            try service.setDefaultInputDevice(device.id)
-            if isEnabled {
-                addLog(String(localized: "已选择锁定设备并切换：\(device.name)"))
-            } else {
+            if !device.isDefault {
+                try service.setDefaultInputDevice(device.id)
                 addLog(String(localized: "已切换输入设备：\(device.name)"))
             }
-            // 音量锁定跟随锁定设备：换设备后以新设备当前音量为基准。
-            if isVolumeLockEnabled {
-                lockedVolume = service.getInputVolume(device.id)
-            }
         } catch {
-            if isEnabled {
-                addLog(String(localized: "切换到锁定设备失败：\(device.name) error=\(String(describing: error))"))
-            } else {
-                addLog(String(localized: "切换输入设备失败：\(device.name) error=\(String(describing: error))"))
+            if releasesGuard {
+                isEnabled = true
             }
+            addLog(String(localized: "切换输入设备失败：\(device.name) error=\(String(describing: error))"))
         }
         refreshDevices()
     }
 
-    /// 用户选择锁定输出设备：保存偏好并立即切换一次。
-    func selectPreferredOutput(_ device: AudioDevice) {
-        guard isOutputFeatureEnabled else { return }
-        guard device.uid != preferredOutputUID || !device.isDefault else { return }
+    /// 用户点按设备行末尾的锁：锁定并守护该设备；再次点按则解除守护。
+    func toggleInputGuard(_ device: AudioDevice) {
+        if isEnabled, device.uid == preferredUID {
+            isEnabled = false
+            return
+        }
 
+        isEnabled = false
+        PreferredInputDeviceSettings.preferredUID = device.uid
+        PreferredInputDeviceSettings.preferredName = device.name
+
+        do {
+            if !device.isDefault {
+                try service.setDefaultInputDevice(device.id)
+            }
+            addLog(String(localized: "已选择锁定设备并切换：\(device.name)"))
+            if isVolumeLockEnabled {
+                lockedVolume = service.getInputVolume(device.id)
+            }
+        } catch {
+            addLog(String(localized: "切换到锁定设备失败：\(device.name) error=\(String(describing: error))"))
+        }
+        isEnabled = true
+        refreshDevices()
+    }
+
+    /// 用户点选设备行：解除其他设备的守护后，仅切换系统输出设备。
+    func switchOutputDevice(_ device: AudioDevice) {
+        guard isOutputFeatureEnabled else { return }
+        let releasesGuard = isOutputEnabled && device.uid != preferredOutputUID
+        guard releasesGuard || !device.isDefault else { return }
+        if releasesGuard {
+            isOutputEnabled = false
+        }
+
+        do {
+            if !device.isDefault {
+                try service.setDefaultOutputDevice(device.id)
+                addLog(String(localized: "已切换输出设备：\(device.name)"))
+            }
+        } catch {
+            if releasesGuard {
+                isOutputEnabled = true
+            }
+            addLog(String(localized: "切换输出设备失败：\(device.name) error=\(String(describing: error))"))
+        }
+        refreshDevices()
+    }
+
+    /// 用户点按设备行末尾的锁：锁定并守护该输出设备；再次点按则解除守护。
+    func toggleOutputGuard(_ device: AudioDevice) {
+        guard isOutputFeatureEnabled else { return }
+        if isOutputEnabled, device.uid == preferredOutputUID {
+            isOutputEnabled = false
+            return
+        }
+
+        isOutputEnabled = false
         PreferredOutputDeviceSettings.preferredUID = device.uid
         PreferredOutputDeviceSettings.preferredName = device.name
 
         do {
-            try service.setDefaultOutputDevice(device.id)
-            if isOutputEnabled {
-                addLog(String(localized: "已选择锁定输出设备并切换：\(device.name)"))
-            } else {
-                addLog(String(localized: "已切换输出设备：\(device.name)"))
+            if !device.isDefault {
+                try service.setDefaultOutputDevice(device.id)
             }
+            addLog(String(localized: "已选择锁定输出设备并切换：\(device.name)"))
         } catch {
-            if isOutputEnabled {
-                addLog(String(localized: "切换到锁定输出设备失败：\(device.name) error=\(String(describing: error))"))
-            } else {
-                addLog(String(localized: "切换输出设备失败：\(device.name) error=\(String(describing: error))"))
-            }
+            addLog(String(localized: "切换到锁定输出设备失败：\(device.name) error=\(String(describing: error))"))
         }
+        isOutputEnabled = true
         refreshDevices()
     }
 

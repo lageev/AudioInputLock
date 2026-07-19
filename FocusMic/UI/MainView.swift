@@ -70,13 +70,16 @@ struct MainView: View {
                             status: DeviceRowStatus(
                                 device: device,
                                 isPreferred: device.uid == keeper.preferredUID,
-                                hasPreferredDevice: keeper.preferredUID != nil,
                                 isGuardEnabled: keeper.isEnabled
                             ),
-                            density: .detailed
-                        ) {
-                            keeper.selectPreferred(device)
-                        }
+                            density: .detailed,
+                            action: {
+                                keeper.switchInputDevice(device)
+                            },
+                            lockAction: {
+                                keeper.toggleInputGuard(device)
+                            }
+                        )
                     }
                 }
                 Button("刷新设备列表", systemImage: "arrow.clockwise") {
@@ -84,12 +87,7 @@ struct MainView: View {
                 }
             }
 
-            Section("守护") {
-                Toggle(isOn: $keeper.isEnabled) {
-                    Text("守护输入设备")
-                    Text("只要锁定设备在线，系统输入会自动保持为该设备；被切走后自动切回。")
-                }
-
+            Section("输入音量") {
                 Toggle(isOn: $keeper.isVolumeLockEnabled) {
                     Text("锁定输入音量")
                     Text("有些应用会偷偷改麦克风增益；开启后音量被改动时自动恢复。")
@@ -132,7 +130,6 @@ struct MainView: View {
     // MARK: - 输出页
 
     private var outputTab: some View {
-        @Bindable var keeper = keeper
         let outputStatus = LockStatus(keeper: keeper, direction: .output)
 
         return Form {
@@ -161,24 +158,20 @@ struct MainView: View {
                             status: DeviceRowStatus(
                                 device: device,
                                 isPreferred: device.uid == keeper.preferredOutputUID,
-                                hasPreferredDevice: keeper.preferredOutputUID != nil,
                                 isGuardEnabled: keeper.isOutputEnabled
                             ),
-                            density: .detailed
-                        ) {
-                            keeper.selectPreferredOutput(device)
-                        }
+                            density: .detailed,
+                            action: {
+                                keeper.switchOutputDevice(device)
+                            },
+                            lockAction: {
+                                keeper.toggleOutputGuard(device)
+                            }
+                        )
                     }
                 }
                 Button("刷新设备列表", systemImage: "arrow.clockwise") {
                     keeper.refreshDevices()
-                }
-            }
-
-            Section("守护") {
-                Toggle(isOn: $keeper.isOutputEnabled) {
-                    Text("守护输出设备")
-                    Text("只要锁定设备在线，系统输出会自动保持为该设备；被切走后自动切回。")
                 }
             }
         }

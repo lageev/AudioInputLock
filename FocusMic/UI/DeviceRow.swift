@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// 单个音频设备行：类型图标 + 名称 + 信息徽标，右侧为当前设备动画与锁定徽章。
+/// 单个音频设备行：主体用于切换设备，行末独立锁按钮用于开启或解除守护。
 ///
 /// 两种信息密度：菜单栏用 `.compact`（传输类型 + 采样率 + 电量），
 /// 主窗口用 `.detailed`（追加位深、通道与输入音量），UID 放在名称的悬停提示里。
@@ -14,87 +14,88 @@ struct DeviceRow: View {
     let status: DeviceRowStatus
     var density: Density = .compact
     let action: () -> Void
+    let lockAction: () -> Void
 
     @State private var isHovering = false
+    @State private var isLockHovering = false
 
     var body: some View {
-        Button(action: action) {
-            HStack(spacing: 10) {
-                Image(systemName: deviceSymbol)
-                    .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(status.isPreferred ? status.tint : Color.secondary)
-                    .frame(width: 28, height: 28)
-                    .background(
-                        (status.isPreferred ? status.tint : Color.secondary).opacity(0.12),
-                        in: RoundedRectangle(cornerRadius: 7, style: .continuous)
-                    )
-                    .overlay(alignment: .topTrailing) {
-                        if device.isRunningSomewhere {
-                            Circle()
-                                .fill(.green)
-                                .frame(width: 7, height: 7)
-                                .offset(x: 2, y: -2)
-                                .help("有应用正在使用此设备")
+        HStack(spacing: 4) {
+            Button(action: action) {
+                HStack(spacing: 10) {
+                    Image(systemName: deviceSymbol)
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundStyle(status.isGuarded ? status.tint : Color.secondary)
+                        .frame(width: 26, height: 26)
+                        .background(
+                            (status.isGuarded ? status.tint : Color.secondary).opacity(0.08),
+                            in: RoundedRectangle(cornerRadius: 6, style: .continuous)
+                        )
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        HStack(spacing: 4) {
+                            Text(device.name)
+                                .font(.system(size: 13, weight: status.isGuarded ? .medium : .regular))
+                                .lineLimit(1)
+                                .help(device.uid)
+                            if device.isRunningSomewhere {
+                                Image(systemName: "waveform")
+                                    .font(.system(size: 8, weight: .semibold))
+                                    .foregroundStyle(.green)
+                                    .help("有应用正在使用此设备")
+                                    .accessibilityLabel("设备使用中")
+                            }
+                        }
+                        HStack(spacing: 4) {
+                            ForEach(badges) { badge in
+                                InfoBadge(badge: badge)
+                            }
                         }
                     }
 
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(device.name)
-                        .fontWeight(status.isPreferred ? .medium : .regular)
-                        .lineLimit(1)
-                        .help(device.uid)
-                    HStack(spacing: 4) {
-                        ForEach(badges) { badge in
-                            InfoBadge(badge: badge)
-                        }
+                    Spacer(minLength: 0)
+
+                    if device.isDefault {
+                        Image(systemName: device.direction == .input ? "waveform" : "speaker.wave.2.fill")
+                            .frame(width: statusAccessoryHeight, height: statusAccessoryHeight)
+                            .foregroundStyle(.secondary)
+                            .symbolEffect(.variableColor.iterative, options: .repeating)
+                            .help(status.help(for: device.direction))
+                    } else if isHovering, !isLockHovering {
+                        Text("点击切换")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .frame(height: statusAccessoryHeight)
+                            .transition(.opacity)
                     }
                 }
-
-                Spacer(minLength: 0)
-
-                if let label = status.label {
-                    HStack(spacing: 4) {
-                        if let symbol = status.badgeSymbol {
-                            Image(systemName: symbol)
-                                .imageScale(.small)
-                                .symbolEffect(.variableColor.iterative, options: .repeating)
-                        }
-                        Text(label)
-                    }
-                    .font(.caption.weight(.medium))
-                    .foregroundStyle(.white)
-                    .lineLimit(1)
-                    .padding(.horizontal, 8)
-                    .frame(height: statusAccessoryHeight)
-                    .background(status.tint, in: Capsule())
-                    .help(status.help(for: device.direction))
-                } else if status.showsCurrentDeviceSymbol {
-                    Image(systemName: device.direction == .input ? "waveform" : "speaker.wave.2.fill")
-                        .frame(width: statusAccessoryHeight, height: statusAccessoryHeight)
-                        .foregroundStyle(status.tint)
-                        .symbolEffect(.variableColor.iterative, options: .repeating)
-                        .help(status.help(for: device.direction))
-                } else if isHovering {
-                    Text(status.hoverLabel(for: device.direction))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .frame(height: statusAccessoryHeight)
-                        .transition(.opacity)
-                }
+                .contentShape(Rectangle())
             }
-            .padding(.horizontal, 8)
-            .padding(.vertical, 6)
-            .contentShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .background(
-                rowBackgroundColor,
-                in: RoundedRectangle(cornerRadius: 8, style: .continuous)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .stroke(rowBorderColor, lineWidth: status.usesStateBackground ? 1 : 0)
-            )
+            .buttonStyle(.plain)
+
+            Button(action: lockAction) {
+                Image(systemName: status.isGuarded ? "lock.fill" : "lock.open")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(status.isGuarded ? Color.accentColor : Color.secondary)
+                    .frame(width: 26, height: 26)
+                    .background(
+                        lockBackgroundColor,
+                        in: RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    )
+                    .contentTransition(.symbolEffect(.replace))
+            }
+            .buttonStyle(.plain)
+            .help(status.isGuarded ? String(localized: "解除设备守护") : String(localized: "守护此设备"))
+            .accessibilityLabel(status.isGuarded ? String(localized: "解除设备守护") : String(localized: "守护此设备"))
+            .onHover { isLockHovering = $0 }
         }
-        .buttonStyle(.plain)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .contentShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .background(
+            rowBackgroundColor,
+            in: RoundedRectangle(cornerRadius: 8, style: .continuous)
+        )
         .onHover { isHovering = $0 }
         .animation(.spring(duration: 0.25), value: status)
         .animation(.easeOut(duration: 0.15), value: isHovering)
@@ -162,14 +163,16 @@ struct DeviceRow: View {
 
     private var rowBackgroundColor: Color {
         if status.usesStateBackground {
-            return status.tint.opacity(isHovering ? 0.16 : 0.10)
+            return status.tint.opacity(isHovering ? 0.11 : 0.065)
         }
         return Color.primary.opacity(isHovering ? 0.06 : 0)
     }
 
-    private var rowBorderColor: Color {
-        guard status.usesStateBackground else { return .clear }
-        return status.tint.opacity(isHovering ? 0.28 : 0.18)
+    private var lockBackgroundColor: Color {
+        if status.isGuarded {
+            return Color.accentColor.opacity(isLockHovering ? 0.18 : 0.11)
+        }
+        return Color.primary.opacity(isLockHovering ? 0.08 : 0)
     }
 }
 
@@ -195,9 +198,9 @@ private struct InfoBadge: View {
         }
         .font(.system(size: 9, weight: .medium).monospacedDigit())
         .foregroundStyle(badge.tint)
-        .padding(.horizontal, 5)
-        .padding(.vertical, 1.5)
-        .background(badge.tint.opacity(0.12), in: Capsule())
+        .padding(.horizontal, 4)
+        .padding(.vertical, 1)
+        .background(badge.tint.opacity(0.07), in: Capsule())
         .lineLimit(1)
         .fixedSize()
         .help(badge.help ?? badge.text)
@@ -207,70 +210,28 @@ private struct InfoBadge: View {
 /// 设备列表中单行的右侧状态。菜单栏和主窗口共用这一套判断，避免文案不一致。
 enum DeviceRowStatus: Equatable {
     case idle
-    case idleSwitch
     case currentInput
     case locked
     case selected
-    case switched
-    case preempted
-    case unattendedTransfer
 
     init(
         device: AudioDevice,
         isPreferred: Bool,
-        hasPreferredDevice: Bool,
         isGuardEnabled: Bool
     ) {
-        if isGuardEnabled {
-            if isPreferred {
-                self = device.isDefault ? .locked : .selected
-            } else {
-                self = device.isDefault ? .currentInput : .idle
-            }
-            return
-        }
-
-        if isPreferred {
-            self = device.isDefault ? .switched : .preempted
-        } else if hasPreferredDevice, device.isDefault {
-            self = .unattendedTransfer
+        if isGuardEnabled, isPreferred {
+            self = device.isDefault ? .locked : .selected
         } else {
-            self = device.isDefault ? .currentInput : .idleSwitch
+            self = device.isDefault ? .currentInput : .idle
         }
     }
 
-    var isPreferred: Bool {
+    var isGuarded: Bool {
         switch self {
-        case .locked, .selected, .switched, .preempted:
+        case .locked, .selected:
             true
-        case .idle, .idleSwitch, .currentInput, .unattendedTransfer:
+        case .idle, .currentInput:
             false
-        }
-    }
-
-    var label: String? {
-        switch self {
-        case .locked:
-            String(localized: "已锁定")
-        case .selected:
-            String(localized: "已选择")
-        case .switched:
-            String(localized: "已切换")
-        case .preempted:
-            String(localized: "被抢占")
-        case .unattendedTransfer:
-            String(localized: "未守护自动转移")
-        case .idle, .idleSwitch, .currentInput:
-            nil
-        }
-    }
-
-    var badgeSymbol: String? {
-        switch self {
-        case .switched, .unattendedTransfer:
-            "waveform"
-        case .locked, .selected, .preempted, .idle, .idleSwitch, .currentInput:
-            nil
         }
     }
 
@@ -278,28 +239,15 @@ enum DeviceRowStatus: Equatable {
         switch self {
         case .locked:
             .accentColor
-        case .switched, .preempted, .selected:
+        case .selected:
             .warmAccent
-        case .unattendedTransfer:
-            .red
-        case .currentInput:
-            .secondary
-        case .idle, .idleSwitch:
+        case .currentInput, .idle:
             .secondary
         }
-    }
-
-    var showsCurrentDeviceSymbol: Bool {
-        self == .currentInput
     }
 
     var usesStateBackground: Bool {
-        switch self {
-        case .locked, .selected, .switched, .preempted, .unattendedTransfer:
-            true
-        case .idle, .idleSwitch, .currentInput:
-            false
-        }
+        isGuarded
     }
 
     func help(for direction: AudioDevice.Direction) -> String {
@@ -311,29 +259,10 @@ enum DeviceRowStatus: Equatable {
             String(localized: "当前系统\(deviceKind)设备，守护中")
         case .selected:
             String(localized: "锁定设备已选择，守护会自动切回")
-        case .switched:
-            String(localized: "已手动切换为当前系统\(deviceKind)设备，未开启守护")
-        case .preempted:
-            String(localized: "已选择的设备被其他默认\(deviceKind)设备抢占")
-        case .unattendedTransfer:
-            String(localized: "关闭守护时系统自动转移到此\(deviceKind)设备")
         case .currentInput:
             String(localized: "当前系统\(deviceKind)设备")
         case .idle:
-            String(localized: "点击锁定此\(deviceKind)设备")
-        case .idleSwitch:
             String(localized: "点击切换到此\(deviceKind)设备")
-        }
-    }
-
-    func hoverLabel(for direction: AudioDevice.Direction) -> String {
-        switch self {
-        case .idle:
-            String(localized: "点击锁定")
-        case .idleSwitch:
-            String(localized: "点击切换")
-        case .currentInput, .locked, .selected, .switched, .preempted, .unattendedTransfer:
-            help(for: direction)
         }
     }
 }

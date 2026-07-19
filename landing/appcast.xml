@@ -12,6 +12,18 @@
     <description>FocusMic 更新源</description>
     <language>zh-CN</language>
 <item>
+  <title>0.0.4</title>
+  <pubDate>Sun, 19 Jul 2026 11:28:49 +0800</pubDate>
+  <sparkle:version>14</sparkle:version>
+  <sparkle:shortVersionString>0.0.4</sparkle:shortVersionString>
+  <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
+  <enclosure
+    url="https://github.com/lageev/FocusMic/releases/download/v0.0.4/FocusMic-0.0.4.zip"
+    sparkle:edSignature="WJZfy8q22tgDGeODN1f3Pz+f0lm84JIruxyhLkOH2RdCAflXgnopZKeABEOB0zKNflgMU3GgLj/g0BiQuVvOAA=="
+    length="1616853"
+    type="application/octet-stream"/>
+</item>
+<item>
   <title>0.0.3</title>
   <pubDate>Thu, 09 Jul 2026 08:21:18 +0800</pubDate>
   <sparkle:version>13</sparkle:version>

@@ -13,6 +13,25 @@
     <language>zh-CN</language>
 <item>
   <title>0.0.4</title>
+  <pubDate>Sun, 19 Jul 2026 21:01:55 +0800</pubDate>
+  <sparkle:version>16</sparkle:version>
+  <sparkle:shortVersionString>0.0.4</sparkle:shortVersionString>
+  <description sparkle:format="markdown"><![CDATA[
+### 关键更新
+
+- 新增输出设备选择与守护，可与输入设备独立启用。
+- 支持输入、输出设备被切换后自动恢复。
+- 优化菜单栏与主窗口的双设备状态和切换体验。
+  ]]></description>
+  <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
+  <enclosure
+    url="https://github.com/lageev/FocusMic/releases/download/v0.0.4/FocusMic-0.0.4.zip"
+    sparkle:edSignature="u+mHIUfN7XZxLHomuAFJSWttRAF/ThiAx8WCkuTA6v3oo/MnOmvKeECalqTFPaBt1nrScNuDHMNoJPXKFwIBCg=="
+    length="1614303"
+    type="application/octet-stream"/>
+</item>
+<item>
+  <title>0.0.4</title>
   <pubDate>Sun, 19 Jul 2026 11:49:04 +0800</pubDate>
   <sparkle:version>15</sparkle:version>
   <sparkle:shortVersionString>0.0.4</sparkle:shortVersionString>

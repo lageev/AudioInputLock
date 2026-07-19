@@ -1,0 +1,3136 @@
+{
+  "sourceLanguage" : "zh-Hans",
+  "strings" : {
+    "" : {
+
+    },
+    "%lld%%" : {
+
+    },
+    "Sparkle 公钥格式无效" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid Sparkle public key format"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparkle 公開鍵の形式が無効です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparkle 공개 키 형식이 잘못됨"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparkle 公鑰格式無效"
+          }
+        }
+      }
+    },
+    "Sparkle 启动失败：%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to start Sparkle: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparkle の起動に失敗しました：%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparkle 시작 실패: %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparkle 啟動失敗：%@"
+          }
+        }
+      }
+    },
+    "Sparkle 更新器未初始化" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparkle updater not initialized"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparkle アップデーターが初期化されていません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparkle 업데이터가 초기화되지 않음"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparkle 更新器未初始化"
+          }
+        }
+      }
+    },
+    "主窗口" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Main Window"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メインウインドウ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메인 윈도우"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主視窗"
+          }
+        }
+      }
+    },
+    "仅手动切换输入设备" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manual input switching only"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力デバイスは手動切り替えのみ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력 장치 수동 전환만"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅手動切換輸入裝置"
+          }
+        }
+      }
+    },
+    "仅手动切换输出" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Manual output switching only" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "出力デバイスは手動切り替えのみ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "출력 장치 수동 전환만 사용" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "僅手動切換輸出" } }
+      }
+    },
+    "关于" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "情報"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정보"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關於"
+          }
+        }
+      }
+    },
+    "关于 %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ について"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 정보"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關於 %@"
+          }
+        }
+      }
+    },
+    "关闭守护时系统自动转移到此%@设备" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "With guard off, the system automatically moved to this %1$@ device" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ガードがオフの間にシステムがこの%1$@デバイスへ自動的に切り替わりました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "보호가 꺼진 동안 시스템이 이 %1$@ 장치로 자동 전환됨" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "關閉守護時系統自動轉移到此%1$@裝置" } }
+      }
+    },
+    "关闭守护时系统自动转移到此输入设备" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System auto-moved to this input while guard was off"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ガードがオフの間にシステムがこの入力デバイスへ自動移行しました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보호 기능이 꺼진 동안 시스템이 이 입력 장치로 자동 이동함"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關閉守護時系統自動轉移到此輸入裝置"
+          }
+        }
+      }
+    },
+    "内置" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Built-in"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "内蔵"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "내장"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "內建"
+          }
+        }
+      }
+    },
+    "最新 %lld / %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latest %lld / %lld"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最新 %lld / %lld"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최신 %lld / %lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最新 %lld / %lld"
+          }
+        }
+      }
+    },
+    "切回锁定设备失败：%@ error=%@。reason=%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to switch back to locked device: %1$@ error=%2$@. reason=%3$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロックデバイスへの切り戻しに失敗しました：%1$@ error=%2$@。reason=%3$@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠금 장치로 되돌리기 실패: %1$@ error=%2$@. reason=%3$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切回鎖定裝置失敗：%1$@ error=%2$@。reason=%3$@"
+          }
+        }
+      }
+    },
+    "切回锁定输出设备失败：%@ error=%@。reason=%@" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Failed to switch back to locked output device: %1$@ error=%2$@. reason=%3$@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ロックした出力デバイスへの切り戻しに失敗しました：%1$@ error=%2$@。reason=%3$@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "잠근 출력 장치로 되돌리기 실패: %1$@ error=%2$@. reason=%3$@" } },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "切回锁定输出设备失败：%1$@ error=%2$@。reason=%3$@"
+          }
+        },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "切回鎖定輸出裝置失敗：%1$@ error=%2$@。reason=%3$@" } }
+      }
+    },
+    "切换到锁定设备失败：%@ error=%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to switch to locked device: %1$@ error=%2$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロックデバイスへの切り替えに失敗しました：%1$@ error=%2$@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠금 장치로 전환 실패: %1$@ error=%2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切換到鎖定裝置失敗：%1$@ error=%2$@"
+          }
+        }
+      }
+    },
+    "切换到锁定输出设备失败：%@ error=%@" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Failed to switch to locked output device: %1$@ error=%2$@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ロックした出力デバイスへの切り替えに失敗しました：%1$@ error=%2$@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "잠근 출력 장치로 전환 실패: %1$@ error=%2$@" } },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "切换到锁定输出设备失败：%1$@ error=%2$@"
+          }
+        },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "切換到鎖定輸出裝置失敗：%1$@ error=%2$@" } }
+      }
+    },
+    "切换输入设备失败：%@ error=%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to switch input device: %1$@ error=%2$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力デバイスの切り替えに失敗しました：%1$@ error=%2$@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력 장치 전환 실패: %1$@ error=%2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切換輸入裝置失敗：%1$@ error=%2$@"
+          }
+        }
+      }
+    },
+    "切换输出设备失败：%@ error=%@" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Failed to switch output device: %1$@ error=%2$@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "出力デバイスの切り替えに失敗しました：%1$@ error=%2$@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "출력 장치 전환 실패: %1$@ error=%2$@" } },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "切换输出设备失败：%1$@ error=%2$@"
+          }
+        },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "切換輸出裝置失敗：%1$@ error=%2$@" } }
+      }
+    },
+    "刷新设备列表" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refresh Device List"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デバイスリストを更新"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "장치 목록 새로 고침"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新整理裝置列表"
+          }
+        }
+      }
+    },
+    "功能" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Features" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "機能" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "기능" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "功能" } }
+      }
+    },
+    "发布前需要替换 Sparkle 公钥占位符" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replace the Sparkle public key placeholder before release"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "リリース前に Sparkle 公開鍵のプレースホルダーを置き換えてください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "릴리스 전에 Sparkle 공개 키 자리표시자를 교체하세요"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "發佈前需要替換 Sparkle 公鑰佔位符"
+          }
+        }
+      }
+    },
+    "发现新版本 %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New version %@ available"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新しいバージョン %@ が見つかりました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 버전 %@ 발견"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "發現新版本 %@"
+          }
+        }
+      }
+    },
+    "只要锁定设备在线，系统输入会自动保持为该设备；被切走后自动切回。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As long as the locked device is online, the system input stays on it and switches back automatically if changed."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロックしたデバイスがオンラインの間、システム入力を自動的に維持し、切り替えられた場合は自動で戻します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠근 장치가 온라인이면 시스템 입력을 해당 장치로 유지하고, 변경되면 자동으로 되돌립니다."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只要鎖定裝置在線，系統輸入會自動保持為該裝置；被切走後自動切回。"
+          }
+        }
+      }
+    },
+    "只要锁定设备在线，系统输出会自动保持为该设备；被切走后自动切回。" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "While the locked device is online, system output stays on it and switches back automatically if changed." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ロックしたデバイスがオンラインの間、システム出力を維持し、変更された場合は自動で戻します。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "잠근 장치가 온라인이면 시스템 출력을 해당 장치로 유지하고, 변경되면 자동으로 되돌립니다." } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "只要鎖定裝置在線，系統輸出會自動保持為該裝置；被切走後自動切回。" } }
+      }
+    },
+    "启用输出设备功能" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enable Output Device Features" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "出力デバイス機能を有効にする" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "출력 장치 기능 활성화" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "啟用輸出裝置功能" } }
+      }
+    },
+    "在设备列表中点选一个设备即可锁定" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click a device in the list to lock it"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "リストのデバイスをクリックしてロックします"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "목록에서 장치를 클릭하여 잠그세요"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在裝置列表中點選一個裝置即可鎖定"
+          }
+        }
+      }
+    },
+    "守护" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guard"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ガード"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보호"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "守護"
+          }
+        }
+      }
+    },
+    "守护输入设备" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guard Input Device"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力デバイスを保護"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력 장치 보호"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "守護輸入裝置"
+          }
+        }
+      }
+    },
+    "守护输出设备" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Guard Output Device" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "出力デバイスをガード" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "출력 장치 보호" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "守護輸出裝置" } }
+      }
+    },
+    "官网" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Website"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "公式サイト"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "웹사이트"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "官網"
+          }
+        }
+      }
+    },
+    "已切回锁定设备：%@。reason=%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Switched back to locked device: %1$@. reason=%2$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロックデバイスに切り戻しました：%1$@。reason=%2$@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠금 장치로 되돌림: %1$@. reason=%2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已切回鎖定裝置：%1$@。reason=%2$@"
+          }
+        }
+      }
+    },
+    "已切回锁定输出设备：%@。reason=%@" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Switched back to locked output device: %1$@. reason=%2$@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ロックした出力デバイスに切り戻しました：%1$@。reason=%2$@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "잠근 출력 장치로 되돌림: %1$@. reason=%2$@" } },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "已切回锁定输出设备：%1$@。reason=%2$@"
+          }
+        },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已切回鎖定輸出裝置：%1$@。reason=%2$@" } }
+      }
+    },
+    "已切换" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Switched"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切り替え済み"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전환됨"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已切換"
+          }
+        }
+      }
+    },
+    "已切换 · 未守护" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Switched · Guard off" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "切り替え済み · ガードオフ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "전환됨 · 보호 꺼짐" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已切換 · 未守護" } }
+      }
+    },
+    "已切换，未开启守护" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Switched, guard is off"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切り替え済み、ガードはオフ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전환됨, 보호 기능 꺼짐"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已切換，未開啟守護"
+          }
+        }
+      }
+    },
+    "已切换输入设备：%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input device switched: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力デバイスを切り替えました：%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력 장치 전환됨: %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已切換輸入裝置：%@"
+          }
+        }
+      }
+    },
+    "已切换输出设备：%@" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Output device switched: %1$@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "出力デバイスを切り替えました：%1$@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "출력 장치 전환됨: %1$@" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已切換輸出裝置：%1$@" } }
+      }
+    },
+    "已恢复输入音量：%@ %lld%% → %lld%%。reason=%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input volume restored: %1$@ %2$lld%% → %3$lld%%. reason=%4$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力音量を復元しました：%1$@ %2$lld%% → %3$lld%%。reason=%4$@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력 음량 복원됨: %1$@ %2$lld%% → %3$lld%%. reason=%4$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已恢復輸入音量：%1$@ %2$lld%% → %3$lld%%。reason=%4$@"
+          }
+        }
+      }
+    },
+    "已手动切换为当前系统%@设备，未开启守护" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Manually switched to the current system %1$@ device; guard is off" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "現在のシステム%1$@デバイスへ手動で切り替え済み、ガードはオフ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "현재 시스템 %1$@ 장치로 수동 전환됨, 보호 꺼짐" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已手動切換為目前系統%1$@裝置，未開啟守護" } }
+      }
+    },
+    "已手动切换为当前系统输入，未开启守护" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manually switched to current system input; guard is off"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手動で現在のシステム入力に切り替えました。ガードはオフです"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 시스템 입력으로 수동 전환됨. 보호 기능 꺼짐"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已手動切換為目前系統輸入，未開啟守護"
+          }
+        }
+      }
+    },
+    "已选择" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selected"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択済み"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택됨"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已選擇"
+          }
+        }
+      }
+    },
+    "已选择，即将切回" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selected, switching back soon"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択済み、まもなく切り戻します"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택됨, 곧 되돌립니다"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已選擇，即將切回"
+          }
+        }
+      }
+    },
+    "已选择的设备被其他默认%@设备抢占" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The selected device was preempted by another default %1$@ device" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "選択したデバイスが別のデフォルト%1$@デバイスに変更されました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "선택한 장치가 다른 기본 %1$@ 장치로 변경됨" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已選擇的裝置被其他預設%1$@裝置搶佔" } }
+      }
+    },
+    "已选择的设备被其他默认输入抢占" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The selected device was preempted by another default input"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択したデバイスは別のデフォルト入力に奪われました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택한 장치가 다른 기본 입력에 선점됨"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已選擇的裝置被其他預設輸入搶佔"
+          }
+        }
+      }
+    },
+    "已选择锁定设备并切换：%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locked device selected and switched: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロックデバイスを選択して切り替えました：%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠금 장치를 선택하고 전환함: %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已選擇鎖定裝置並切換：%@"
+          }
+        }
+      }
+    },
+    "已选择锁定输出设备并切换：%@" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Locked output device selected and switched: %1$@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ロックする出力デバイスを選択して切り替えました：%1$@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "잠글 출력 장치를 선택하고 전환함: %1$@" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已選擇鎖定輸出裝置並切換：%1$@" } }
+      }
+    },
+    "已锁定" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locked"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロック中"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠김"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已鎖定"
+          }
+        }
+      }
+    },
+    "已锁定 · 守护中" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Locked · Guarding" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ロック済み · ガード中" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "잠김 · 보호 중" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已鎖定 · 守護中" } }
+      }
+    },
+    "已锁定，守护中" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locked, guarding"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロック済み、保護中"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠김, 보호 중"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已鎖定，守護中"
+          }
+        }
+      }
+    },
+    "开机自动启动" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Launch at Login"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン時に起動"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그인 시 시작"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登入時自動啟動"
+          }
+        }
+      }
+    },
+    "当前 %lld 条，本地最多保留 50 条" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld entries; up to 50 kept locally"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在 %lld 件、ローカルには最大 50 件保存"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 %lld개, 로컬에 최대 50개 보관"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前 %lld 條，本地最多保留 50 條"
+          }
+        }
+      }
+    },
+    "当前已是最新版本" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're on the latest version"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すでに最新バージョンです"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미 최신 버전입니다"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前已是最新版本"
+          }
+        }
+      }
+    },
+    "当前版本高于更新源中的最新版本" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current version is newer than the latest in the feed"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在のバージョンはフィードの最新版より新しいです"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 버전이 피드의 최신 버전보다 높습니다"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前版本高於更新源中的最新版本"
+          }
+        }
+      }
+    },
+    "当前系统%@设备" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Current system %1$@ device" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "現在のシステム%1$@デバイス" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "현재 시스템 %1$@ 장치" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "目前系統%1$@裝置" } }
+      }
+    },
+    "当前系统%@设备，守护中" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Current system %1$@ device, guarding" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "現在のシステム%1$@デバイス、ガード中" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "현재 시스템 %1$@ 장치, 보호 중" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "目前系統%1$@裝置，守護中" } }
+      }
+    },
+    "当前系统输入" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current system input"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在のシステム入力"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 시스템 입력"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前系統輸入"
+          }
+        }
+      }
+    },
+    "当前系统输入，守护中" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current system input, guarding"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在のシステム入力、保護中"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 시스템 입력, 보호 중"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前系統輸入，守護中"
+          }
+        }
+      }
+    },
+    "恢复输入音量失败：%@ error=%@。reason=%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to restore input volume: %1$@ error=%2$@. reason=%3$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力音量の復元に失敗しました：%1$@ error=%2$@。reason=%3$@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력 음량 복원 실패: %1$@ error=%2$@. reason=%3$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢復輸入音量失敗：%1$@ error=%2$@。reason=%3$@"
+          }
+        }
+      }
+    },
+    "打开完整活动日志" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open the full activity log"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完全なアクティビティログを開く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전체 활동 로그 열기"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟完整活動日誌"
+          }
+        }
+      }
+    },
+    "打赏" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donate"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "寄付"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "후원"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打賞"
+          }
+        }
+      }
+    },
+    "日志" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logs"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日誌"
+          }
+        }
+      }
+    },
+    "显示实时输入电平" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Live Input Level"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "リアルタイム入力レベルを表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "실시간 입력 레벨 표시"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "顯示即時輸入電平"
+          }
+        }
+      }
+    },
+    "显示输出设备列表，并允许切换和守护系统默认输出设备。" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Show output devices and allow switching and guarding the system default output." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "出力デバイス一覧を表示し、システムのデフォルト出力の切り替えとガードを有効にします。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "출력 장치 목록을 표시하고 시스템 기본 출력의 전환 및 보호를 허용합니다." } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "顯示輸出裝置列表，並允許切換和守護系統預設輸出裝置。" } }
+      }
+    },
+    "暂无活动" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No activity yet"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アクティビティはありません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "활동 없음"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無活動"
+          }
+        }
+      }
+    },
+    "暂时不能检查更新" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can't check for updates right now"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在アップデートを確認できません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금은 업데이트를 확인할 수 없음"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫時不能檢查更新"
+          }
+        }
+      }
+    },
+    "更多作品" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More Apps"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "その他の作品"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "더 많은 작품"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多作品"
+          }
+        }
+      }
+    },
+    "更新" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Updates"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデート"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新"
+          }
+        }
+      }
+    },
+    "更新源 URL 缺失或不是 HTTPS 地址" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update feed URL is missing or not HTTPS"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデートフィードの URL がないか HTTPS ではありません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트 피드 URL이 없거나 HTTPS가 아님"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新源 URL 缺失或不是 HTTPS 位址"
+          }
+        }
+      }
+    },
+    "更新由 App Store 管理" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Updates are managed by the App Store"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデートは App Store が管理します"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트는 App Store에서 관리합니다"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新由 App Store 管理"
+          }
+        }
+      }
+    },
+    "有些应用会偷偷改麦克风增益；开启后音量被改动时自动恢复。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Some apps silently change the microphone gain; when enabled, the volume is restored automatically if changed."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一部のアプリはマイクゲインを勝手に変更します。オンにすると、音量が変更された場合に自動で復元します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일부 앱은 마이크 게인을 몰래 변경합니다. 켜면 음량이 변경될 때 자동으로 복원합니다."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有些應用會偷偷改麥克風增益；開啟後音量被改動時自動恢復。"
+          }
+        }
+      }
+    },
+    "有应用正在使用此设备" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An app is using this device"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このデバイスを使用中のアプリがあります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 장치를 사용 중인 앱이 있습니다"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有應用正在使用此裝置"
+          }
+        }
+      }
+    },
+    "有新版本，但当前系统版本过低" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A new version is available, but your macOS is too old"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新しいバージョンがありますが、システムのバージョンが古すぎます"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 버전이 있지만 시스템 버전이 너무 낮습니다"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有新版本，但目前系統版本過低"
+          }
+        }
+      }
+    },
+    "有新版本，但当前系统版本过高" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A new version is available, but your macOS is too new"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新しいバージョンがありますが、システムのバージョンが新しすぎます"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 버전이 있지만 시스템 버전이 너무 높습니다"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有新版本，但目前系統版本過高"
+          }
+        }
+      }
+    },
+    "有新版本，但当前设备硬件不支持" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A new version is available, but this hardware isn't supported"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新しいバージョンがありますが、このハードウェアではサポートされていません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 버전이 있지만 이 하드웨어는 지원되지 않습니다"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有新版本，但目前裝置硬體不支援"
+          }
+        }
+      }
+    },
+    "服务条款" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of Service"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "利用規約"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서비스 약관"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服務條款"
+          }
+        }
+      }
+    },
+    "未发现可用更新" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No update available"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "利用可能なアップデートはありません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용 가능한 업데이트 없음"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未發現可用更新"
+          }
+        }
+      }
+    },
+    "未守护自动转移" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto-moved (unguarded)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保護なしで自動移行"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보호 없이 자동 이동"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未守護自動轉移"
+          }
+        }
+      }
+    },
+    "未检测到输入设备" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No input devices detected"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力デバイスが見つかりません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력 장치가 감지되지 않음"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未偵測到輸入裝置"
+          }
+        }
+      }
+    },
+    "未检测到输出设备" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No output devices detected" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "出力デバイスが見つかりません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "출력 장치가 감지되지 않음" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "未偵測到輸出裝置" } }
+      }
+    },
+    "未选择设备" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No device selected" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "デバイス未選択" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "선택된 장치 없음" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "未選擇裝置" } }
+      }
+    },
+    "未选择锁定设备" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No locked device selected"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロックするデバイスが未選択"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠금 장치가 선택되지 않음"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選擇鎖定裝置"
+          }
+        }
+      }
+    },
+    "本地实时采样计算响度，不录制、不保存任何音频；首次开启需要麦克风权限。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loudness is computed from local real-time sampling; no audio is recorded or saved. Microphone permission is required on first use."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ローカルでリアルタイムにサンプリングして音量を計算します。録音や保存は行いません。初回はマイクの許可が必要です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로컬에서 실시간 샘플링으로 음량을 계산하며, 오디오를 녹음하거나 저장하지 않습니다. 처음 켤 때 마이크 권한이 필요합니다."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本地即時取樣計算響度，不錄製、不儲存任何音訊；首次開啟需要麥克風權限。"
+          }
+        }
+      }
+    },
+    "查看全部日志" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View All Logs"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべてのログを表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전체 로그 보기"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢視全部日誌"
+          }
+        }
+      }
+    },
+    "检查是否有新版本" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check for a new version"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新しいバージョンを確認"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 버전 확인"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查是否有新版本"
+          }
+        }
+      }
+    },
+    "检查更新…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check for Updates…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデートを確認…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트 확인…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查更新…"
+          }
+        }
+      }
+    },
+    "检查更新不可用" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update check unavailable"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデート確認は利用できません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트 확인 불가"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查更新不可用"
+          }
+        }
+      }
+    },
+    "检查更新不可用：%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update check unavailable: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデート確認は利用できません：%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트 확인 불가: %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查更新不可用：%@"
+          }
+        }
+      }
+    },
+    "检查更新失败：%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update check failed: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデートの確認に失敗しました：%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트 확인 실패: %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查更新失敗：%@"
+          }
+        }
+      }
+    },
+    "正在检查更新…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Checking for updates…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデートを確認中…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트 확인 중…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在檢查更新…"
+          }
+        }
+      }
+    },
+    "活动日志" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activity Log"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アクティビティログ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "활동 로그"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活動日誌"
+          }
+        }
+      }
+    },
+    "点击切换" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click to switch"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "クリックで切り替え"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클릭하여 전환"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點按切換"
+          }
+        }
+      }
+    },
+    "点击切换到此%@设备" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Click to switch to this %1$@ device" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "クリックしてこの%1$@デバイスに切り替え" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "클릭하여 이 %1$@ 장치로 전환" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "點按切換到此%1$@裝置" } }
+      }
+    },
+    "点击切换到此输入设备" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click to switch to this input device"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "クリックしてこの入力デバイスに切り替え"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클릭하여 이 입력 장치로 전환"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點按切換到此輸入裝置"
+          }
+        }
+      }
+    },
+    "点击锁定" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click to lock"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "クリックでロック"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클릭하여 잠금"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點按鎖定"
+          }
+        }
+      }
+    },
+    "点击锁定此%@设备" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Click to lock this %1$@ device" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "クリックしてこの%1$@デバイスをロック" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "클릭하여 이 %1$@ 장치 잠금" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "點按鎖定此%1$@裝置" } }
+      }
+    },
+    "点击锁定此输入设备" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click to lock this input device"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "クリックしてこの入力デバイスをロック"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클릭하여 이 입력 장치 잠금"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點按鎖定此輸入裝置"
+          }
+        }
+      }
+    },
+    "点选设备即可锁定" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Select a device to lock" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "デバイスを選択してロック" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "잠글 장치를 선택하세요" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "點選裝置即可鎖定" } }
+      }
+    },
+    "版本 %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バージョン %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "버전 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本 %@"
+          }
+        }
+      }
+    },
+    "状态" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Status"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "状態"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "상태"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "狀態"
+          }
+        }
+      }
+    },
+    "离线 · 重连后恢复" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Offline · Restore on reconnect" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "オフライン · 再接続時に復元" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "오프라인 · 재연결 시 복원" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "離線 · 重連後恢復" } }
+      }
+    },
+    "等待自动切回" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Waiting to switch back" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "自動切り戻しを待機中" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "자동 전환 대기 중" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "等待自動切回" } }
+      }
+    },
+    "缺少 Sparkle 公钥" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missing Sparkle public key"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparkle 公開鍵がありません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparkle 공개 키 없음"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "缺少 Sparkle 公鑰"
+          }
+        }
+      }
+    },
+    "聚合设备" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggregate"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "集約デバイス"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "집계 장치"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "聚合裝置"
+          }
+        }
+      }
+    },
+    "自动保持锁定设备" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically keeps the locked device"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロックしたデバイスを自動的に維持"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠근 장치를 자동으로 유지"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動保持鎖定裝置"
+          }
+        }
+      }
+    },
+    "自动保持锁定输出" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Keep locked output automatically" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ロックした出力を自動維持" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "잠근 출력 자동 유지" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "自動保持鎖定輸出" } }
+      }
+    },
+    "蓝牙" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bluetooth"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bluetooth"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "블루투스"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藍牙"
+          }
+        }
+      }
+    },
+    "虚拟设备" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Virtual"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仮想デバイス"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "가상 장치"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "虛擬裝置"
+          }
+        }
+      }
+    },
+    "被抢占" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preempted"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "横取りされました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선점됨"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "被搶佔"
+          }
+        }
+      }
+    },
+    "被抢占 · 未守护" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Preempted · Guard off" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "変更済み · ガードオフ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "선점됨 · 보호 꺼짐" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "被搶佔 · 未守護" } }
+      }
+    },
+    "被抢占，未开启守护" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preempted, guard is off"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "奪われました、ガードはオフ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선점됨, 보호 기능 꺼짐"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "被搶佔，未開啟守護"
+          }
+        }
+      }
+    },
+    "设备" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devices"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デバイス"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "장치"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "裝置"
+          }
+        }
+      }
+    },
+    "设备切换或守护动作会显示在这里。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device switches and guard actions will appear here."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デバイスの切り替えやガードの動作がここに表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "장치 전환 및 보호 동작이 여기에 표시됩니다."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "裝置切換或守護動作會顯示在這裡。"
+          }
+        }
+      }
+    },
+    "设备电量 %lld%%" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device battery %lld%%"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デバイスのバッテリー %lld%%"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "장치 배터리 %lld%%"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "裝置電量 %lld%%"
+          }
+        }
+      }
+    },
+    "设备离线" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device offline"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デバイスはオフライン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "장치 오프라인"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "裝置離線"
+          }
+        }
+      }
+    },
+    "设备离线，重新接入后自动锁定" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device offline; it will be locked automatically when reconnected"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デバイスはオフラインです。再接続時に自動でロックします"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "장치 오프라인. 다시 연결되면 자동으로 잠급니다"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "裝置離線，重新接入後自動鎖定"
+          }
+        }
+      }
+    },
+    "设置" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定"
+          }
+        }
+      }
+    },
+    "设置开机启动失败：%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to set launch at login: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン時起動の設定に失敗しました：%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그인 시 시작 설정 실패: %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定登入時啟動失敗：%@"
+          }
+        }
+      }
+    },
+    "输入" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Input" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "入力" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "입력" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "輸入" } }
+      }
+    },
+    "输入电平" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input Level"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力レベル"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력 레벨"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入電平"
+          }
+        }
+      }
+    },
+    "输入设备" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input Devices"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力デバイス"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력 장치"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入裝置"
+          }
+        }
+      }
+    },
+    "输出" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Output" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "出力" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "출력" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "輸出" } }
+      }
+    },
+    "输出设备" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Output Devices" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "出力デバイス" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "출력 장치" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "輸出裝置" } }
+      }
+    },
+    "连续互通" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuity"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連係"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "연속성"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接續互通"
+          }
+        }
+      }
+    },
+    "退出" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quit"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "終了"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "종료"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結束"
+          }
+        }
+      }
+    },
+    "通用" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一般"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일반"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一般"
+          }
+        }
+      }
+    },
+    "锁定设备" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locked device"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロックしたデバイス"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠금 장치"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎖定裝置"
+          }
+        }
+      }
+    },
+    "锁定设备不可用，暂不切换。reason=%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locked device unavailable; not switching. reason=%@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロックデバイスが利用できないため切り替えません。reason=%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠금 장치를 사용할 수 없어 전환하지 않음. reason=%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎖定裝置不可用，暫不切換。reason=%@"
+          }
+        }
+      }
+    },
+    "锁定设备已选择，守护会自动切回" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locked device selected; guard will switch back automatically"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロックデバイスを選択済み。ガードが自動で切り戻します"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠금 장치가 선택됨. 보호 기능이 자동으로 되돌립니다"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎖定裝置已選擇，守護會自動切回"
+          }
+        }
+      }
+    },
+    "锁定输入音量" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lock Input Volume"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力音量をロック"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력 음량 잠금"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎖定輸入音量"
+          }
+        }
+      }
+    },
+    "锁定输出设备不可用，暂不切换。reason=%@" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Locked output device unavailable; not switching. reason=%1$@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ロックした出力デバイスが利用できないため切り替えません。reason=%1$@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "잠근 출력 장치를 사용할 수 없어 전환하지 않음. reason=%1$@" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "鎖定輸出裝置不可用，暫不切換。reason=%1$@" } }
+      }
+    },
+    "隐私政策" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プライバシーポリシー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "개인정보 처리방침"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隱私政策"
+          }
+        }
+      }
+    },
+    "雷雳" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thunderbolt"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thunderbolt"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thunderbolt"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "雷靂"
+          }
+        }
+      }
+    },
+    "需要麦克风权限才能显示电平" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Microphone permission is required to show the level"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "レベル表示にはマイクの許可が必要です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "레벨을 표시하려면 마이크 권한이 필요합니다"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要麥克風權限才能顯示電平"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

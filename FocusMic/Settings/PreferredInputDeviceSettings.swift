@@ -87,4 +87,10 @@ enum PreferredOutputDeviceSettings {
         }
         set { UserDefaults.standard.set(newValue, forKey: featureEnabledKey) }
     }
+
+    static func clearGuardSettings() {
+        preferredUID = nil
+        preferredName = nil
+        isEnabled = false
+    }
 }

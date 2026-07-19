@@ -66,6 +66,8 @@ final class PreferredInputDeviceKeeper {
             } else {
                 pendingOutputEnforce?.cancel()
                 removeDefaultOutputDeviceListener()
+                isOutputEnabled = false
+                PreferredOutputDeviceSettings.clearGuardSettings()
                 outputDevices = []
             }
         }

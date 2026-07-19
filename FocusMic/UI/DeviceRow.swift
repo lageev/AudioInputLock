@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// 单个输入设备行：类型图标 + 名称 + 信息徽标，右侧为使用中的波形动画与锁定徽章，点击即设为锁定设备。
+/// 单个音频设备行：类型图标 + 名称 + 信息徽标，右侧为当前设备动画与锁定徽章。
 ///
 /// 两种信息密度：菜单栏用 `.compact`（传输类型 + 采样率 + 电量），
 /// 主窗口用 `.detailed`（追加位深、通道与输入音量），UID 放在名称的悬停提示里。
@@ -10,7 +10,7 @@ struct DeviceRow: View {
         case detailed
     }
 
-    let device: AudioInputDevice
+    let device: AudioDevice
     let status: DeviceRowStatus
     var density: Density = .compact
     let action: () -> Void
@@ -67,15 +67,15 @@ struct DeviceRow: View {
                     .padding(.horizontal, 8)
                     .frame(height: statusAccessoryHeight)
                     .background(status.tint, in: Capsule())
-                    .help(status.help)
-                } else if status.showsCurrentInputSymbol {
-                    Image(systemName: "waveform")
+                    .help(status.help(for: device.direction))
+                } else if status.showsCurrentDeviceSymbol {
+                    Image(systemName: device.direction == .input ? "waveform" : "speaker.wave.2.fill")
                         .frame(width: statusAccessoryHeight, height: statusAccessoryHeight)
                         .foregroundStyle(status.tint)
                         .symbolEffect(.variableColor.iterative, options: .repeating)
-                        .help(status.help)
+                        .help(status.help(for: device.direction))
                 } else if isHovering {
-                    Text(status.hoverLabel)
+                    Text(status.hoverLabel(for: device.direction))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .frame(height: statusAccessoryHeight)
@@ -113,8 +113,8 @@ struct DeviceRow: View {
             if let bitDepth = device.bitDepthText {
                 result.append(DeviceInfoBadge(id: "depth", text: bitDepth))
             }
-            result.append(DeviceInfoBadge(id: "channels", text: "\(device.inputChannelCount)ch"))
-            if let volume = device.inputVolume {
+            result.append(DeviceInfoBadge(id: "channels", text: "\(device.channelCount)ch"))
+            if let volume = device.volume {
                 result.append(DeviceInfoBadge(
                     id: "volume",
                     text: "\(Int(volume * 100))%",
@@ -122,7 +122,7 @@ struct DeviceRow: View {
                 ))
             }
         } else if result.isEmpty {
-            result.append(DeviceInfoBadge(id: "channels", text: "\(device.inputChannelCount)ch"))
+            result.append(DeviceInfoBadge(id: "channels", text: "\(device.channelCount)ch"))
         }
         if let battery = device.batteryPercent {
             result.append(DeviceInfoBadge(
@@ -155,7 +155,7 @@ struct DeviceRow: View {
         if name.contains("iphone") || name.contains("ipad") { return "iphone" }
         if name.contains("built-in") || name.contains("内置") || name.contains("macbook") { return "laptopcomputer" }
         if name.contains("usb") { return "cable.connector" }
-        return device.transport.symbol ?? "mic.fill"
+        return device.transport.symbol ?? (device.direction == .input ? "mic.fill" : "speaker.wave.2.fill")
     }
 
     private var statusAccessoryHeight: CGFloat { 22 }
@@ -216,26 +216,26 @@ enum DeviceRowStatus: Equatable {
     case unattendedTransfer
 
     init(
-        device: AudioInputDevice,
+        device: AudioDevice,
         isPreferred: Bool,
         hasPreferredDevice: Bool,
         isGuardEnabled: Bool
     ) {
         if isGuardEnabled {
             if isPreferred {
-                self = device.isDefaultInput ? .locked : .selected
+                self = device.isDefault ? .locked : .selected
             } else {
-                self = device.isDefaultInput ? .currentInput : .idle
+                self = device.isDefault ? .currentInput : .idle
             }
             return
         }
 
         if isPreferred {
-            self = device.isDefaultInput ? .switched : .preempted
-        } else if hasPreferredDevice, device.isDefaultInput {
+            self = device.isDefault ? .switched : .preempted
+        } else if hasPreferredDevice, device.isDefault {
             self = .unattendedTransfer
         } else {
-            self = device.isDefaultInput ? .currentInput : .idleSwitch
+            self = device.isDefault ? .currentInput : .idleSwitch
         }
     }
 
@@ -289,7 +289,7 @@ enum DeviceRowStatus: Equatable {
         }
     }
 
-    var showsCurrentInputSymbol: Bool {
+    var showsCurrentDeviceSymbol: Bool {
         self == .currentInput
     }
 
@@ -302,35 +302,38 @@ enum DeviceRowStatus: Equatable {
         }
     }
 
-    var help: String {
-        switch self {
+    func help(for direction: AudioDevice.Direction) -> String {
+        let deviceKind = direction == .input
+            ? String(localized: "输入")
+            : String(localized: "输出")
+        return switch self {
         case .locked:
-            String(localized: "当前系统输入，守护中")
+            String(localized: "当前系统\(deviceKind)设备，守护中")
         case .selected:
             String(localized: "锁定设备已选择，守护会自动切回")
         case .switched:
-            String(localized: "已手动切换为当前系统输入，未开启守护")
+            String(localized: "已手动切换为当前系统\(deviceKind)设备，未开启守护")
         case .preempted:
-            String(localized: "已选择的设备被其他默认输入抢占")
+            String(localized: "已选择的设备被其他默认\(deviceKind)设备抢占")
         case .unattendedTransfer:
-            String(localized: "关闭守护时系统自动转移到此输入设备")
+            String(localized: "关闭守护时系统自动转移到此\(deviceKind)设备")
         case .currentInput:
-            String(localized: "当前系统输入")
+            String(localized: "当前系统\(deviceKind)设备")
         case .idle:
-            String(localized: "点击锁定此输入设备")
+            String(localized: "点击锁定此\(deviceKind)设备")
         case .idleSwitch:
-            String(localized: "点击切换到此输入设备")
+            String(localized: "点击切换到此\(deviceKind)设备")
         }
     }
 
-    var hoverLabel: String {
+    func hoverLabel(for direction: AudioDevice.Direction) -> String {
         switch self {
         case .idle:
             String(localized: "点击锁定")
         case .idleSwitch:
             String(localized: "点击切换")
         case .currentInput, .locked, .selected, .switched, .preempted, .unattendedTransfer:
-            help
+            help(for: direction)
         }
     }
 }

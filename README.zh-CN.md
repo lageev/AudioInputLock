@@ -2,9 +2,9 @@
 
 [English](README.md) | [官网](https://focusmic.yayalu.top/) | [最新版本](https://github.com/lageev/FocusMic/releases/latest)
 
-从菜单栏锁定 macOS 默认麦克风。
+从菜单栏锁定 macOS 默认麦克风和输出设备。
 
-FocusMic 是一款开源的 macOS 小工具，用来把系统默认音频输入固定在你选定的麦克风上。如果 macOS、蓝牙耳机、USB 声卡或其他应用把输入设备切走，FocusMic 可以自动切回来。
+FocusMic 是一款开源的 macOS 小工具，用来把系统默认音频输入和输出设备固定在你选定的设备上。如果 macOS、蓝牙耳机、USB 声卡或其他应用把设备切走，FocusMic 可以自动切回来。
 
 ![FocusMic 官网首屏截图](docs/assets/focusmic-first-screen-zh-cn.png)
 
@@ -22,19 +22,19 @@ brew install --cask lageev/tap/focusmic
 
 1. 打开 FocusMic。
 2. 点击菜单栏图标。
-3. 选择想要固定的输入设备。
-4. 打开 **守护输入设备**。
+3. 选择想要固定的输入设备和/或输出设备。
+4. 打开对应的 **守护输入设备** 或 **守护输出设备**。
 
-只要选定设备在线，FocusMic 就会把它保持为系统默认输入。设备断开时，FocusMic 会等待它重新连接后再恢复。
+只要选定设备在线，FocusMic 就会把它保持为对应的系统默认输入或输出设备。设备断开时，FocusMic 会等待它重新连接后再恢复。
 
 ## 功能
 
 - 菜单栏选择设备、开关守护。
-- 默认输入被切走后自动恢复。
+- 默认输入或输出设备被切走后自动恢复，两套守护可独立开关。
 - 可选锁定选定设备的输入音量。
 - 可选实时输入电平，本地计算。
 - 展示设备信息：传输类型、采样率、位深、通道数、音量、使用中状态。
-- 支持 USB、蓝牙、内置等 Core Audio 输入设备的热插拔。
+- 支持 USB、蓝牙、内置等 Core Audio 输入与输出设备的热插拔。
 - 最近活动日志。
 - 开机自启动。
 - GitHub/Homebrew 直发版通过 Sparkle 更新；App Store 版由 App Store 更新。

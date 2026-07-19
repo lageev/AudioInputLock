@@ -2,12 +2,12 @@ import CoreAudio
 import Foundation
 import Observation
 
-/// 首选输入设备守护器，同时作为 SwiftUI 的可观察状态源。
+/// 首选输入/输出设备守护器，同时作为 SwiftUI 的可观察状态源。
 ///
 /// 职责：
-/// - 枚举/刷新输入设备列表；
-/// - 监听设备插拔与系统默认输入变化；
-/// - 在守护开启且目标设备可用时，把系统默认输入切回目标设备；
+/// - 枚举/刷新输入与输出设备列表；
+/// - 监听设备插拔与系统默认输入/输出设备变化；
+/// - 在对应守护开启且目标设备可用时，把系统默认设备切回目标设备；
 /// - 防抖，避免短时间内重复切换。
 @MainActor
 @Observable
@@ -29,7 +29,8 @@ final class PreferredInputDeviceKeeper {
 
     // MARK: - UI 可观察状态
 
-    private(set) var devices: [AudioInputDevice] = []
+    private(set) var devices: [AudioDevice] = []
+    private(set) var outputDevices: [AudioDevice] = []
     private(set) var logs: [LogEntry] = []
 
     /// 是否启用守护。切换后立即持久化，并在开启时尝试切回目标设备。
@@ -38,6 +39,35 @@ final class PreferredInputDeviceKeeper {
             PreferredInputDeviceSettings.isEnabled = isEnabled
             guard isStarted, isEnabled else { return }
             scheduleEnforce(reason: "enabled", delay: 0)
+        }
+    }
+
+    /// 是否启用输出设备守护。与输入设备守护独立开关。
+    var isOutputEnabled: Bool = PreferredOutputDeviceSettings.isEnabled {
+        didSet {
+            PreferredOutputDeviceSettings.isEnabled = isOutputEnabled
+            guard isStarted, isOutputFeatureEnabled, isOutputEnabled else { return }
+            scheduleOutputEnforce(reason: "enabled", delay: 0)
+        }
+    }
+
+    /// 是否启用输出设备相关功能。关闭后暂停枚举、监听和自动回切。
+    var isOutputFeatureEnabled: Bool = PreferredOutputDeviceSettings.isFeatureEnabled {
+        didSet {
+            PreferredOutputDeviceSettings.isFeatureEnabled = isOutputFeatureEnabled
+            guard isStarted else { return }
+
+            if isOutputFeatureEnabled {
+                addDefaultOutputDeviceListener()
+                refreshOutputDevices()
+                if isOutputEnabled {
+                    scheduleOutputEnforce(reason: "feature-enabled", delay: 0)
+                }
+            } else {
+                pendingOutputEnforce?.cancel()
+                removeDefaultOutputDeviceListener()
+                outputDevices = []
+            }
         }
     }
 
@@ -64,6 +94,7 @@ final class PreferredInputDeviceKeeper {
     }
 
     var preferredUID: String? { PreferredInputDeviceSettings.preferredUID }
+    var preferredOutputUID: String? { PreferredOutputDeviceSettings.preferredUID }
 
     /// 目标设备当前是否在线可用。
     var isPreferredAvailable: Bool {
@@ -71,8 +102,18 @@ final class PreferredInputDeviceKeeper {
         return findPreferred(uid: uid, name: PreferredInputDeviceSettings.preferredName) != nil
     }
 
-    var currentDefaultDevice: AudioInputDevice? {
-        devices.first { $0.isDefaultInput }
+    var isPreferredOutputAvailable: Bool {
+        guard isOutputFeatureEnabled else { return false }
+        guard let uid = preferredOutputUID else { return false }
+        return findPreferredOutput(uid: uid, name: PreferredOutputDeviceSettings.preferredName) != nil
+    }
+
+    var currentDefaultDevice: AudioDevice? {
+        devices.first { $0.isDefault }
+    }
+
+    var currentDefaultOutputDevice: AudioDevice? {
+        outputDevices.first { $0.isDefault }
     }
 
     // MARK: - 内部状态
@@ -84,11 +125,14 @@ final class PreferredInputDeviceKeeper {
 
     private var deviceListListener: AudioObjectPropertyListenerBlock?
     private var defaultInputListener: AudioObjectPropertyListenerBlock?
+    private var defaultOutputListener: AudioObjectPropertyListenerBlock?
     private var volumeListener: AudioObjectPropertyListenerBlock?
     private var volumeListenerDeviceID: AudioObjectID?
     private var pendingEnforce: DispatchWorkItem?
+    private var pendingOutputEnforce: DispatchWorkItem?
     private var isStarted = false
     private var isEnforcing = false
+    private var isEnforcingOutput = false
     private var isEnforcingVolume = false
 
     private init() {
@@ -103,9 +147,15 @@ final class PreferredInputDeviceKeeper {
         isStarted = true
         addDeviceListListener()
         addDefaultInputDeviceListener()
+        if isOutputFeatureEnabled {
+            addDefaultOutputDeviceListener()
+        }
         refreshDevices()
         if isEnabled {
             scheduleEnforce(reason: "start", delay: 0)
+        }
+        if isOutputFeatureEnabled, isOutputEnabled {
+            scheduleOutputEnforce(reason: "start", delay: 0)
         }
     }
 
@@ -113,6 +163,7 @@ final class PreferredInputDeviceKeeper {
         guard isStarted else { return }
         isStarted = false
         pendingEnforce?.cancel()
+        pendingOutputEnforce?.cancel()
         removeListeners()
     }
 
@@ -120,13 +171,18 @@ final class PreferredInputDeviceKeeper {
 
     func refreshDevices() {
         devices = service.getInputDevices()
+        refreshOutputDevices()
         updateVolumeListener()
     }
 
+    private func refreshOutputDevices() {
+        outputDevices = isOutputFeatureEnabled ? service.getOutputDevices() : []
+    }
+
     /// 用户选择锁定设备：保存偏好并立即切换一次（守护开关是否开启不影响这一次切换）。
-    func selectPreferred(_ device: AudioInputDevice) {
+    func selectPreferred(_ device: AudioDevice) {
         // 已是锁定设备且正在使用：重复点击不做任何事，也不记日志。
-        guard device.uid != preferredUID || !device.isDefaultInput else { return }
+        guard device.uid != preferredUID || !device.isDefault else { return }
 
         PreferredInputDeviceSettings.preferredUID = device.uid
         PreferredInputDeviceSettings.preferredName = device.name
@@ -147,6 +203,31 @@ final class PreferredInputDeviceKeeper {
                 addLog(String(localized: "切换到锁定设备失败：\(device.name) error=\(String(describing: error))"))
             } else {
                 addLog(String(localized: "切换输入设备失败：\(device.name) error=\(String(describing: error))"))
+            }
+        }
+        refreshDevices()
+    }
+
+    /// 用户选择锁定输出设备：保存偏好并立即切换一次。
+    func selectPreferredOutput(_ device: AudioDevice) {
+        guard isOutputFeatureEnabled else { return }
+        guard device.uid != preferredOutputUID || !device.isDefault else { return }
+
+        PreferredOutputDeviceSettings.preferredUID = device.uid
+        PreferredOutputDeviceSettings.preferredName = device.name
+
+        do {
+            try service.setDefaultOutputDevice(device.id)
+            if isOutputEnabled {
+                addLog(String(localized: "已选择锁定输出设备并切换：\(device.name)"))
+            } else {
+                addLog(String(localized: "已切换输出设备：\(device.name)"))
+            }
+        } catch {
+            if isOutputEnabled {
+                addLog(String(localized: "切换到锁定输出设备失败：\(device.name) error=\(String(describing: error))"))
+            } else {
+                addLog(String(localized: "切换输出设备失败：\(device.name) error=\(String(describing: error))"))
             }
         }
         refreshDevices()
@@ -176,7 +257,7 @@ final class PreferredInputDeviceKeeper {
             return
         }
         // 目标已经是默认输入：直接返回，避免因自身设置回调造成的循环。
-        guard !target.isDefaultInput else { return }
+        guard !target.isDefault else { return }
 
         do {
             try service.setDefaultInputDevice(target.id)
@@ -188,8 +269,40 @@ final class PreferredInputDeviceKeeper {
         }
     }
 
+    private func scheduleOutputEnforce(reason: String, delay: TimeInterval = 0.25) {
+        pendingOutputEnforce?.cancel()
+        let work = DispatchWorkItem { [weak self] in
+            MainActor.assumeIsolated { self?.enforceOutput(reason: reason) }
+        }
+        pendingOutputEnforce = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: work)
+    }
+
+    private func enforceOutput(reason: String) {
+        guard isStarted, isOutputFeatureEnabled, isOutputEnabled, !isEnforcingOutput else { return }
+        isEnforcingOutput = true
+        defer { isEnforcingOutput = false }
+
+        refreshDevices()
+
+        guard let uid = preferredOutputUID else { return }
+        guard let target = findPreferredOutput(uid: uid, name: PreferredOutputDeviceSettings.preferredName) else {
+            addLog(String(localized: "锁定输出设备不可用，暂不切换。reason=\(reason)"))
+            return
+        }
+        guard !target.isDefault else { return }
+
+        do {
+            try service.setDefaultOutputDevice(target.id)
+            addLog(String(localized: "已切回锁定输出设备：\(target.name)。reason=\(reason)"))
+            refreshDevices()
+        } catch {
+            addLog(String(localized: "切回锁定输出设备失败：\(target.name) error=\(String(describing: error))。reason=\(reason)"))
+        }
+    }
+
     /// 优先 UID 精确匹配，UID 变化时回退到名称匹配。
-    private func findPreferred(uid: String, name: String?) -> AudioInputDevice? {
+    private func findPreferred(uid: String, name: String?) -> AudioDevice? {
         if let device = devices.first(where: { $0.uid == uid }) {
             return device
         }
@@ -199,9 +312,19 @@ final class PreferredInputDeviceKeeper {
         return nil
     }
 
-    private func preferredDevice() -> AudioInputDevice? {
+    private func preferredDevice() -> AudioDevice? {
         guard let uid = preferredUID else { return nil }
         return findPreferred(uid: uid, name: PreferredInputDeviceSettings.preferredName)
+    }
+
+    private func findPreferredOutput(uid: String, name: String?) -> AudioDevice? {
+        if let device = outputDevices.first(where: { $0.uid == uid }) {
+            return device
+        }
+        if let name, let device = outputDevices.first(where: { $0.name == name }) {
+            return device
+        }
+        return nil
     }
 
     // MARK: - 输入音量锁定
@@ -239,6 +362,9 @@ final class PreferredInputDeviceKeeper {
         deviceListListener = addListener(on: systemObject, address: globalAddress(kAudioHardwarePropertyDevices)) { [weak self] in
             self?.refreshDevices()
             self?.scheduleEnforce(reason: "device-list-changed", delay: 0.3)
+            if self?.isOutputFeatureEnabled == true {
+                self?.scheduleOutputEnforce(reason: "device-list-changed", delay: 0.3)
+            }
         }
     }
 
@@ -247,6 +373,19 @@ final class PreferredInputDeviceKeeper {
             self?.refreshDevices()
             self?.scheduleEnforce(reason: "default-input-changed", delay: 0.15)
         }
+    }
+
+    private func addDefaultOutputDeviceListener() {
+        guard isOutputFeatureEnabled, defaultOutputListener == nil else { return }
+        defaultOutputListener = addListener(on: systemObject, address: globalAddress(kAudioHardwarePropertyDefaultOutputDevice)) { [weak self] in
+            self?.refreshDevices()
+            self?.scheduleOutputEnforce(reason: "default-output-changed", delay: 0.15)
+        }
+    }
+
+    private func removeDefaultOutputDeviceListener() {
+        removeListener(defaultOutputListener, on: systemObject, address: globalAddress(kAudioHardwarePropertyDefaultOutputDevice))
+        defaultOutputListener = nil
     }
 
     /// 让音量监听始终跟随当前锁定设备：设备变化时先移除旧监听再挂到新设备上。
@@ -304,6 +443,7 @@ final class PreferredInputDeviceKeeper {
     private func removeListeners() {
         removeListener(deviceListListener, on: systemObject, address: globalAddress(kAudioHardwarePropertyDevices))
         removeListener(defaultInputListener, on: systemObject, address: globalAddress(kAudioHardwarePropertyDefaultInputDevice))
+        removeDefaultOutputDeviceListener()
         deviceListListener = nil
         defaultInputListener = nil
         removeVolumeListener()

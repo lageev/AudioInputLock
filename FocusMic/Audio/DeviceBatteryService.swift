@@ -16,7 +16,7 @@ final class DeviceBatteryService {
 
     private init() {}
 
-    func battery(uid: String, name: String, transport: AudioInputDevice.TransportType) -> Int? {
+    func battery(uid: String, name: String, transport: AudioDevice.TransportType) -> Int? {
         switch transport {
         case .bluetooth:
             bluetoothBattery(uid: uid, name: name) ?? battery(for: name, in: hidAndPowerSourceLevels())

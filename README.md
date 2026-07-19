@@ -2,9 +2,9 @@
 
 [简体中文](README.zh-CN.md) | [Website](https://focusmic.yayalu.top/) | [Releases](https://github.com/lageev/FocusMic/releases/latest)
 
-Lock your macOS input microphone from the menu bar.
+Lock your macOS input microphone and output device from the menu bar.
 
-FocusMic is a small open-source macOS utility that keeps the system default audio input on the microphone you choose. If macOS, a Bluetooth headset, a USB interface, or another app changes the default input, FocusMic can switch it back automatically.
+FocusMic is a small open-source macOS utility that keeps the system default audio input and output on the devices you choose. If macOS, a Bluetooth headset, a USB interface, or another app changes either default device, FocusMic can switch it back automatically.
 
 ![FocusMic official first screen](docs/assets/focusmic-first-screen-en.png)
 
@@ -22,19 +22,19 @@ Runtime requirement: macOS 15.0 or later.
 
 1. Open FocusMic.
 2. Click the menu bar icon.
-3. Choose the input device you want to keep.
-4. Turn on **Guard input device**.
+3. Choose the input and/or output device you want to keep.
+4. Turn on the corresponding **Guard input device** or **Guard output device** switch.
 
-When the chosen device is online, FocusMic keeps it as the system default input. If the device disconnects, FocusMic waits and restores it when it comes back.
+When a chosen device is online, FocusMic keeps it as the corresponding system default input or output. If it disconnects, FocusMic waits and restores it when it comes back.
 
 ## Features
 
 - Menu bar device picker and guard switch.
-- Automatic restore when the default input changes.
+- Independent input and output guards with automatic restore when either default device changes.
 - Optional input volume lock for the selected device.
 - Optional live input level meter, calculated locally.
 - Device details: transport type, sample rate, bit depth, channels, volume, and in-use state.
-- Hot-plug support for USB, Bluetooth, built-in, and other Core Audio input devices.
+- Hot-plug support for USB, Bluetooth, built-in, and other Core Audio input/output devices.
 - Recent activity log.
 - Launch at login.
 - Direct-download updates via Sparkle. App Store builds are updated by the App Store.

@@ -9,12 +9,18 @@ struct MenuBarContentView: View {
 
     var body: some View {
         @Bindable var keeper = keeper
-        let status = LockStatus(keeper: keeper)
+        let inputStatus = LockStatus(keeper: keeper)
+        let outputStatus = LockStatus(keeper: keeper, direction: .output)
 
         VStack(alignment: .leading, spacing: 0) {
-            statusCard(status)
-                .padding(.horizontal, 10)
-                .padding(.top, 10)
+            HStack(alignment: .top, spacing: 6) {
+                statusCard(inputStatus)
+                if keeper.isOutputFeatureEnabled {
+                    statusCard(outputStatus)
+                }
+            }
+            .padding(.horizontal, 10)
+            .padding(.top, 10)
 
             if keeper.isLevelMeterEnabled {
                 InputLevelMeterView()
@@ -40,6 +46,26 @@ struct MenuBarContentView: View {
             .padding(.vertical, 10)
             .animation(.easeOut(duration: 0.2), value: keeper.isEnabled)
 
+            if keeper.isOutputFeatureEnabled {
+                HStack(alignment: .center, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("守护输出设备")
+                        Text(keeper.isOutputEnabled ? String(localized: "自动保持锁定输出") : String(localized: "仅手动切换输出"))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .contentTransition(.opacity)
+                    }
+                    Spacer(minLength: 0)
+                    Toggle("", isOn: $keeper.isOutputEnabled)
+                        .labelsHidden()
+                        .toggleStyle(.switch)
+                        .controlSize(.small)
+                }
+                .padding(.horizontal, 14)
+                .padding(.bottom, 10)
+                .animation(.easeOut(duration: 0.2), value: keeper.isOutputEnabled)
+            }
+
             Divider()
                 .padding(.horizontal, 10)
 
@@ -62,7 +88,7 @@ struct MenuBarContentView: View {
             .padding(.bottom, 2)
 
             if keeper.devices.isEmpty {
-                emptyDeviceView
+                emptyDeviceView(direction: .input)
             } else {
                 ScrollView {
                     VStack(spacing: 1) {
@@ -83,8 +109,49 @@ struct MenuBarContentView: View {
                     .padding(.horizontal, 6)
                     .padding(.vertical, 4)
                 }
-                .frame(height: deviceListHeight)
+                .frame(height: inputDeviceListHeight)
                 .animation(.spring(duration: 0.3), value: keeper.devices)
+            }
+
+            if keeper.isOutputFeatureEnabled {
+                Divider()
+                    .padding(.horizontal, 10)
+
+                HStack(alignment: .center, spacing: 12) {
+                    Text("输出设备")
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(.secondary)
+                    Spacer(minLength: 0)
+                }
+                .padding(.horizontal, 14)
+                .padding(.top, 10)
+                .padding(.bottom, 2)
+
+                if keeper.outputDevices.isEmpty {
+                    emptyDeviceView(direction: .output)
+                } else {
+                    ScrollView {
+                        VStack(spacing: 1) {
+                            ForEach(keeper.outputDevices) { device in
+                                DeviceRow(
+                                    device: device,
+                                    status: DeviceRowStatus(
+                                        device: device,
+                                        isPreferred: device.uid == keeper.preferredOutputUID,
+                                        hasPreferredDevice: keeper.preferredOutputUID != nil,
+                                        isGuardEnabled: keeper.isOutputEnabled
+                                    )
+                                ) {
+                                    keeper.selectPreferredOutput(device)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 4)
+                    }
+                    .frame(height: outputDeviceListHeight)
+                    .animation(.spring(duration: 0.3), value: keeper.outputDevices)
+                }
             }
 
             Divider()
@@ -128,39 +195,46 @@ struct MenuBarContentView: View {
 
     // MARK: - 子视图
 
-    /// 顶部状态卡片：图标 + 设备名 + 一句话状态说明。
+    /// 顶部半宽状态卡片：输入与输出并排显示。
     private func statusCard(_ status: LockStatus) -> some View {
-        HStack(spacing: 10) {
-            Image(systemName: status.symbol)
-                .font(.system(size: 15, weight: .semibold))
-                .foregroundStyle(status.color)
-                .frame(width: 34, height: 34)
-                .background(status.color.opacity(0.14), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
-                .contentTransition(.symbolEffect(.replace))
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(status.deviceName)
-                    .fontWeight(.medium)
-                    .lineLimit(1)
-                    .truncationMode(.middle)
-                Text(status.detail)
-                    .font(.caption)
+        VStack(alignment: .leading, spacing: 5) {
+            HStack {
+                Image(systemName: status.symbol)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(status.color)
+                    .frame(width: 26, height: 26)
+                    .background(status.color.opacity(0.14), in: RoundedRectangle(cornerRadius: 7, style: .continuous))
+                    .contentTransition(.symbolEffect(.replace))
+                Spacer(minLength: 4)
+                Text(status.kind)
+                    .font(.system(size: 9, weight: .medium))
                     .foregroundStyle(.secondary)
-                    .lineLimit(1)
+                    .padding(.horizontal, 5)
+                    .padding(.vertical, 1)
+                    .background(.quaternary, in: Capsule())
             }
-            Spacer(minLength: 0)
+
+            Text(status.deviceName)
+                .font(.caption.weight(.medium))
+                .lineLimit(1)
+                .truncationMode(.middle)
+            Text(status.detail)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
         }
-        .padding(10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(8)
         .background(status.color.opacity(0.07), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
         .animation(.easeOut(duration: 0.25), value: status.symbol)
     }
 
-    private var emptyDeviceView: some View {
+    private func emptyDeviceView(direction: AudioDevice.Direction) -> some View {
         VStack(spacing: 6) {
-            Image(systemName: "mic.slash")
+            Image(systemName: direction == .input ? "mic.slash" : "speaker.slash")
                 .font(.title3)
                 .foregroundStyle(.tertiary)
-            Text("未检测到输入设备")
+            Text(direction == .input ? "未检测到输入设备" : "未检测到输出设备")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -188,8 +262,12 @@ struct MenuBarContentView: View {
 
     // MARK: - 状态与操作
 
-    private var deviceListHeight: CGFloat {
-        min(CGFloat(keeper.devices.count) * 48 + 8, 240)
+    private var inputDeviceListHeight: CGFloat {
+        min(CGFloat(keeper.devices.count) * 48 + 8, 160)
+    }
+
+    private var outputDeviceListHeight: CGFloat {
+        min(CGFloat(keeper.outputDevices.count) * 48 + 8, 160)
     }
 
     private func openMainWindow() {

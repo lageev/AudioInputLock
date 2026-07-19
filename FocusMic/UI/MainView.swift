@@ -1,8 +1,7 @@
 import AppKit
 import SwiftUI
 
-/// 主界面：多标签页排版，分为「状态 / 日志 / 设置 / 关于」四页；
-/// 状态页把状态卡、设备列表与守护开关放在一起，选设备和开守护不用切页。
+/// 主界面：输入与输出设备各自使用独立标签页，另有日志、设置和关于页。
 struct MainView: View {
     @Environment(PreferredInputDeviceKeeper.self) private var keeper
     @Environment(\.openWindow) private var openWindow
@@ -14,8 +13,13 @@ struct MainView: View {
 
     var body: some View {
         TabView {
-            Tab("状态", systemImage: "lock.shield") {
-                statusTab
+            Tab("输入", systemImage: "mic") {
+                inputTab
+            }
+            if keeper.isOutputFeatureEnabled {
+                Tab("输出", systemImage: "speaker.wave.2") {
+                    outputTab
+                }
             }
             Tab("日志", systemImage: "list.bullet.rectangle") {
                 logsTab
@@ -34,35 +38,15 @@ struct MainView: View {
         }
     }
 
-    // MARK: - 状态页
+    // MARK: - 输入页
 
-    private var statusTab: some View {
+    private var inputTab: some View {
         @Bindable var keeper = keeper
-        let status = LockStatus(keeper: keeper)
+        let inputStatus = LockStatus(keeper: keeper)
 
         return Form {
             Section {
-                HStack(spacing: 12) {
-                    Image(systemName: status.symbol)
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(status.color)
-                        .frame(width: 40, height: 40)
-                        .background(status.color.opacity(0.14), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
-                        .contentTransition(.symbolEffect(.replace))
-
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(status.deviceName)
-                            .font(.headline)
-                            .lineLimit(1)
-                            .truncationMode(.middle)
-                        Text(status.detail)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    Spacer(minLength: 0)
-                }
-                .padding(.vertical, 4)
-                .animation(.easeOut(duration: 0.25), value: status.symbol)
+                lockStatusRow(inputStatus)
             }
 
             Section("输入设备") {
@@ -145,6 +129,94 @@ struct MainView: View {
         .formStyle(.grouped)
     }
 
+    // MARK: - 输出页
+
+    private var outputTab: some View {
+        @Bindable var keeper = keeper
+        let outputStatus = LockStatus(keeper: keeper, direction: .output)
+
+        return Form {
+            Section {
+                lockStatusRow(outputStatus)
+            }
+
+            Section("输出设备") {
+                if keeper.outputDevices.isEmpty {
+                    HStack {
+                        Spacer()
+                        VStack(spacing: 6) {
+                            Image(systemName: "speaker.slash")
+                                .font(.title2)
+                                .foregroundStyle(.tertiary)
+                            Text("未检测到输出设备")
+                                .foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                    }
+                    .padding(.vertical, 12)
+                } else {
+                    ForEach(keeper.outputDevices) { device in
+                        DeviceRow(
+                            device: device,
+                            status: DeviceRowStatus(
+                                device: device,
+                                isPreferred: device.uid == keeper.preferredOutputUID,
+                                hasPreferredDevice: keeper.preferredOutputUID != nil,
+                                isGuardEnabled: keeper.isOutputEnabled
+                            ),
+                            density: .detailed
+                        ) {
+                            keeper.selectPreferredOutput(device)
+                        }
+                    }
+                }
+                Button("刷新设备列表", systemImage: "arrow.clockwise") {
+                    keeper.refreshDevices()
+                }
+            }
+
+            Section("守护") {
+                Toggle(isOn: $keeper.isOutputEnabled) {
+                    Text("守护输出设备")
+                    Text("只要锁定设备在线，系统输出会自动保持为该设备；被切走后自动切回。")
+                }
+            }
+        }
+        .formStyle(.grouped)
+    }
+
+    private func lockStatusRow(_ status: LockStatus) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: status.symbol)
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(status.color)
+                .frame(width: 40, height: 40)
+                .background(status.color.opacity(0.14), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .contentTransition(.symbolEffect(.replace))
+
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 6) {
+                    Text(status.deviceName)
+                        .font(.headline)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                    Text(status.kind)
+                        .font(.caption2.weight(.medium))
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 5)
+                        .padding(.vertical, 1)
+                        .background(.quaternary, in: Capsule())
+                }
+                Text(status.detail)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(.vertical, 4)
+        .animation(.easeOut(duration: 0.25), value: status.symbol)
+    }
+
     // MARK: - 日志页
 
     private var logsTab: some View {
@@ -199,7 +271,9 @@ struct MainView: View {
     // MARK: - 设置页
 
     private var settingsTab: some View {
-        Form {
+        @Bindable var keeper = keeper
+
+        return Form {
             Section("通用") {
                 Toggle("开机自动启动", isOn: $launchAtLogin)
                     .onChange(of: launchAtLogin) { _, newValue in
@@ -209,6 +283,13 @@ struct MainView: View {
                     Label(loginError, systemImage: "exclamationmark.triangle.fill")
                         .font(.caption)
                         .foregroundStyle(.red)
+                }
+            }
+
+            Section("功能") {
+                Toggle(isOn: $keeper.isOutputFeatureEnabled) {
+                    Text("启用输出设备功能")
+                    Text("显示输出设备列表，并允许切换和守护系统默认输出设备。")
                 }
             }
 

@@ -11,48 +11,60 @@ extension Color {
 struct LockStatus {
     let symbol: String
     let color: Color
+    let kind: String
     let deviceName: String
     let detail: String
 
-    init(keeper: PreferredInputDeviceKeeper) {
-        guard let uid = keeper.preferredUID else {
-            symbol = "mic.badge.plus"
+    init(
+        keeper: PreferredInputDeviceKeeper,
+        direction: AudioDevice.Direction = .input
+    ) {
+        let isInput = direction == .input
+        kind = isInput ? String(localized: "输入") : String(localized: "输出")
+        let preferredUID = isInput ? keeper.preferredUID : keeper.preferredOutputUID
+        let preferredName = isInput
+            ? PreferredInputDeviceSettings.preferredName
+            : PreferredOutputDeviceSettings.preferredName
+        let devices = isInput ? keeper.devices : keeper.outputDevices
+        let isEnabled = isInput ? keeper.isEnabled : keeper.isOutputEnabled
+
+        guard let uid = preferredUID else {
+            symbol = isInput ? "mic.badge.plus" : "speaker.badge.plus"
             color = .secondary
-            deviceName = String(localized: "未选择锁定设备")
-            detail = String(localized: "在设备列表中点选一个设备即可锁定")
+            deviceName = String(localized: "未选择设备")
+            detail = String(localized: "点选设备即可锁定")
             return
         }
 
-        let savedName = PreferredInputDeviceSettings.preferredName
-        let device = keeper.devices.first { $0.uid == uid }
-            ?? savedName.flatMap { name in keeper.devices.first { $0.name == name } }
-        deviceName = device?.name ?? savedName ?? String(localized: "锁定设备")
+        let device = devices.first { $0.uid == uid }
+            ?? preferredName.flatMap { name in devices.first { $0.name == name } }
+        deviceName = device?.name ?? preferredName ?? String(localized: "锁定设备")
 
         guard let device else {
-            symbol = "mic.slash.fill"
+            symbol = isInput ? "mic.slash.fill" : "speaker.slash.fill"
             color = .warmAccent
-            detail = keeper.isEnabled
-                ? String(localized: "设备离线，重新接入后自动锁定")
+            detail = isEnabled
+                ? String(localized: "离线 · 重连后恢复")
                 : String(localized: "设备离线")
             return
         }
 
-        if device.isDefaultInput {
-            if keeper.isEnabled {
+        if device.isDefault {
+            if isEnabled {
                 symbol = "lock.fill"
                 color = .accentColor
-                detail = String(localized: "已锁定，守护中")
+                detail = String(localized: "已锁定 · 守护中")
             } else {
-                symbol = "mic.fill"
+                symbol = isInput ? "mic.fill" : "speaker.wave.2.fill"
                 color = .warmAccent
-                detail = String(localized: "已切换，未开启守护")
+                detail = String(localized: "已切换 · 未守护")
             }
         } else {
             symbol = "arrow.triangle.2.circlepath"
             color = .warmAccent
-            detail = keeper.isEnabled
-                ? String(localized: "已选择，即将切回")
-                : String(localized: "被抢占，未开启守护")
+            detail = isEnabled
+                ? String(localized: "等待自动切回")
+                : String(localized: "被抢占 · 未守护")
         }
     }
 }

@@ -34,7 +34,9 @@ struct FocusMicApp: App {
 
     /// 守护可用时完整显示；关闭或目标离线时降低不透明度。
     private var menuBarIconOpacity: Double {
-        keeper.isEnabled && keeper.isPreferredAvailable ? 1 : 0.45
+        let inputGuardActive = keeper.isEnabled && keeper.isPreferredAvailable
+        let outputGuardActive = keeper.isOutputEnabled && keeper.isPreferredOutputAvailable
+        return inputGuardActive || outputGuardActive ? 1 : 0.45
     }
 }
 

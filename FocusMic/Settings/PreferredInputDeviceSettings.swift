@@ -55,3 +55,36 @@ enum PreferredInputDeviceSettings {
         set { UserDefaults.standard.set(newValue, forKey: levelMeterEnabledKey) }
     }
 }
+
+/// 首选输出设备的持久化配置。与输入守护完全独立。
+enum PreferredOutputDeviceSettings {
+    private static let preferredUIDKey = "preferredOutputDeviceUID"
+    private static let preferredNameKey = "preferredOutputDeviceName"
+    private static let enabledKey = "keepPreferredOutputEnabled"
+    private static let featureEnabledKey = "outputDeviceFeatureEnabled"
+
+    static var preferredUID: String? {
+        get { UserDefaults.standard.string(forKey: preferredUIDKey) }
+        set { UserDefaults.standard.set(newValue, forKey: preferredUIDKey) }
+    }
+
+    static var preferredName: String? {
+        get { UserDefaults.standard.string(forKey: preferredNameKey) }
+        set { UserDefaults.standard.set(newValue, forKey: preferredNameKey) }
+    }
+
+    static var isEnabled: Bool {
+        get { UserDefaults.standard.bool(forKey: enabledKey) }
+        set { UserDefaults.standard.set(newValue, forKey: enabledKey) }
+    }
+
+    /// 是否启用输出设备相关功能。新安装与升级用户默认开启。
+    static var isFeatureEnabled: Bool {
+        get {
+            UserDefaults.standard.object(forKey: featureEnabledKey) == nil
+                ? true
+                : UserDefaults.standard.bool(forKey: featureEnabledKey)
+        }
+        set { UserDefaults.standard.set(newValue, forKey: featureEnabledKey) }
+    }
+}

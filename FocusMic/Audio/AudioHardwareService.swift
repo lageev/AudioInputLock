@@ -1,6 +1,6 @@
 import CoreAudio
 
-/// 对 Core Audio 硬件属性读写的封装：枚举设备、读取名称/UID/通道数、读写系统默认输入设备。
+/// 对 Core Audio 硬件属性读写的封装：枚举设备、读取名称/UID/通道数、读写系统默认输入/输出设备。
 final class AudioHardwareService {
 
     static let shared = AudioHardwareService()
@@ -44,32 +44,45 @@ final class AudioHardwareService {
         return deviceIDs
     }
 
-    /// 只返回具备输入通道的设备，并标注当前默认输入。
-    func getInputDevices() -> [AudioInputDevice] {
-        let defaultInputID = getDefaultInputDeviceID()
+    func getInputDevices() -> [AudioDevice] {
+        getDevices(direction: .input)
+    }
+
+    func getOutputDevices() -> [AudioDevice] {
+        getDevices(direction: .output)
+    }
+
+    /// 只返回指定方向具备通道的设备，并标注该方向的当前系统默认设备。
+    private func getDevices(direction: AudioDevice.Direction) -> [AudioDevice] {
+        let scope: AudioObjectPropertyScope = direction == .input
+            ? kAudioDevicePropertyScopeInput
+            : kAudioDevicePropertyScopeOutput
+        let defaultID = direction == .input ? getDefaultInputDeviceID() : getDefaultOutputDeviceID()
         guard let allDeviceIDs = try? getAllAudioDeviceIDs() else { return [] }
 
         return allDeviceIDs.compactMap { deviceID in
-            let channelCount = getInputChannelCount(deviceID)
+            let channelCount = getChannelCount(deviceID, scope: scope)
             guard channelCount > 0, let uid = getDeviceUID(deviceID) else { return nil }
             // AVAudioEngine 等会在进程内创建跟随默认输入的私有聚合设备
             //（CADefaultDeviceAggregate-*），系统设置里不可见，这里也不展示。
             guard !isPrivateAggregate(deviceID) else { return nil }
 
-            let name = getDeviceName(deviceID) ?? "Unknown Input Device"
-            let transport = AudioInputDevice.TransportType(rawValue: getTransportType(deviceID))
+            let name = getDeviceName(deviceID)
+                ?? (direction == .input ? "Unknown Input Device" : "Unknown Output Device")
+            let transport = AudioDevice.TransportType(rawValue: getTransportType(deviceID))
 
-            return AudioInputDevice(
+            return AudioDevice(
                 id: deviceID,
                 uid: uid,
                 name: name,
-                inputChannelCount: channelCount,
-                isDefaultInput: defaultInputID == deviceID,
+                direction: direction,
+                channelCount: channelCount,
+                isDefault: defaultID == deviceID,
                 transport: transport,
                 sampleRate: getNominalSampleRate(deviceID),
-                bitDepth: getInputBitDepth(deviceID),
+                bitDepth: getBitDepth(deviceID, scope: scope),
                 isRunningSomewhere: isRunningSomewhere(deviceID),
-                inputVolume: getInputVolume(deviceID),
+                volume: direction == .input ? getInputVolume(deviceID) : nil,
                 batteryPercent: DeviceBatteryService.shared.battery(uid: uid, name: name, transport: transport)
             )
         }
@@ -96,7 +109,18 @@ final class AudioHardwareService {
     }
 
     func getInputChannelCount(_ deviceID: AudioObjectID) -> UInt32 {
-        var address = self.address(kAudioDevicePropertyStreamConfiguration, scope: kAudioDevicePropertyScopeInput)
+        getChannelCount(deviceID, scope: kAudioDevicePropertyScopeInput)
+    }
+
+    func getOutputChannelCount(_ deviceID: AudioObjectID) -> UInt32 {
+        getChannelCount(deviceID, scope: kAudioDevicePropertyScopeOutput)
+    }
+
+    private func getChannelCount(
+        _ deviceID: AudioObjectID,
+        scope: AudioObjectPropertyScope
+    ) -> UInt32 {
+        var address = self.address(kAudioDevicePropertyStreamConfiguration, scope: scope)
 
         var dataSize: UInt32 = 0
         guard AudioObjectGetPropertyDataSize(deviceID, &address, 0, nil, &dataSize) == noErr,
@@ -146,7 +170,19 @@ final class AudioHardwareService {
 
     /// 第一条输入流的物理格式位深（bit），读取失败返回 0。
     func getInputBitDepth(_ deviceID: AudioObjectID) -> UInt32 {
-        var address = self.address(kAudioDevicePropertyStreams, scope: kAudioDevicePropertyScopeInput)
+        getBitDepth(deviceID, scope: kAudioDevicePropertyScopeInput)
+    }
+
+    /// 第一条输出流的物理格式位深（bit），读取失败返回 0。
+    func getOutputBitDepth(_ deviceID: AudioObjectID) -> UInt32 {
+        getBitDepth(deviceID, scope: kAudioDevicePropertyScopeOutput)
+    }
+
+    private func getBitDepth(
+        _ deviceID: AudioObjectID,
+        scope: AudioObjectPropertyScope
+    ) -> UInt32 {
+        var address = self.address(kAudioDevicePropertyStreams, scope: scope)
         var dataSize: UInt32 = 0
         guard AudioObjectGetPropertyDataSize(deviceID, &address, 0, nil, &dataSize) == noErr,
               dataSize > 0 else {
@@ -275,6 +311,31 @@ final class AudioHardwareService {
     @discardableResult
     func setDefaultInputDevice(_ deviceID: AudioObjectID) throws -> Bool {
         var address = self.address(kAudioHardwarePropertyDefaultInputDevice)
+        var targetDeviceID = deviceID
+        let dataSize = UInt32(MemoryLayout<AudioObjectID>.size)
+
+        let status = AudioObjectSetPropertyData(systemObject, &address, 0, nil, dataSize, &targetDeviceID)
+        guard status == noErr else {
+            throw AudioHardwareError.setPropertyDataFailed(selector: address.mSelector, status: status)
+        }
+        return true
+    }
+
+    // MARK: - 默认输出设备
+
+    func getDefaultOutputDeviceID() -> AudioObjectID? {
+        var address = self.address(kAudioHardwarePropertyDefaultOutputDevice)
+        var deviceID = AudioObjectID(0)
+        var dataSize = UInt32(MemoryLayout<AudioObjectID>.size)
+
+        let status = AudioObjectGetPropertyData(systemObject, &address, 0, nil, &dataSize, &deviceID)
+        guard status == noErr, deviceID != 0 else { return nil }
+        return deviceID
+    }
+
+    @discardableResult
+    func setDefaultOutputDevice(_ deviceID: AudioObjectID) throws -> Bool {
+        var address = self.address(kAudioHardwarePropertyDefaultOutputDevice)
         var targetDeviceID = deviceID
         let dataSize = UInt32(MemoryLayout<AudioObjectID>.size)
 

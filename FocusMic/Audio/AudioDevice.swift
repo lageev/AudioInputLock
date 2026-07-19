@@ -1,16 +1,22 @@
 import CoreAudio
 import Foundation
 
-/// 输入设备信息模型。
+/// 音频输入与输出设备信息模型。
 ///
 /// `id` 是 Core Audio 运行时对象 ID，插拔或重启后可能变化；
 /// 需要持久化时应使用稳定的 `uid`。
-struct AudioInputDevice: Identifiable, Equatable {
+struct AudioDevice: Identifiable, Equatable {
+    enum Direction: Equatable {
+        case input
+        case output
+    }
+
     let id: AudioObjectID
     let uid: String
     let name: String
-    let inputChannelCount: UInt32
-    let isDefaultInput: Bool
+    let direction: Direction
+    let channelCount: UInt32
+    let isDefault: Bool
     let transport: TransportType
     /// 标称采样率（Hz），读取失败时为 0。
     let sampleRate: Double
@@ -18,8 +24,8 @@ struct AudioInputDevice: Identifiable, Equatable {
     let bitDepth: UInt32
     /// 是否有进程正在使用该设备。
     let isRunningSomewhere: Bool
-    /// 输入音量（0.0-1.0），设备不支持音量控制时为 nil。
-    let inputVolume: Float?
+    /// 音量（0.0-1.0），设备不支持音量控制或未读取时为 nil。
+    let volume: Float?
     /// 电量百分比（0-100），仅部分蓝牙 / USB 无线设备能读到，读不到为 nil。
     let batteryPercent: Int?
 
@@ -34,7 +40,7 @@ struct AudioInputDevice: Identifiable, Equatable {
     }
 }
 
-extension AudioInputDevice {
+extension AudioDevice {
     /// 设备传输类型（kAudioDevicePropertyTransportType）。
     enum TransportType: Equatable {
         case builtIn
